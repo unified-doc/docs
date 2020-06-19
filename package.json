@@ -1,0 +1,90 @@
+{
+  "private": true,
+  "name": "docs",
+  "license": "MIT",
+  "homepage": "https://github.com/unified-doc/docs",
+  "repository": "unified-doc/docs",
+  "bugs": "https://github.com/unified-doc/docs/issues",
+  "author": "Chris Zhou <chrisrzhou@pm.me> (https://chrisrzhou.io)",
+  "keywords": [
+    "unified",
+    "doc",
+    "docs",
+    "docz",
+    "documentation",
+    "document",
+    "file",
+    "content",
+    "unist",
+    "hast",
+    "parse",
+    "html",
+    "markdown",
+    "text",
+    "compile",
+    "export",
+    "annotate",
+    "highlight",
+    "nlp",
+    "search"
+  ],
+  "scripts": {
+    "bootstrap": "npm install",
+    "build": "docz build",
+    "clean": "rm -rf .docz",
+    "docs": "docz dev",
+    "lint": "xo --fix; tsc"
+  },
+  "dependencies": {
+    "docz": "^2.3.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-spring": "^8.0.27",
+    "rehype-react": "^6.0.0",
+    "theme-ui": "^0.3.1",
+    "unified-doc": "^0.1.11-beta.0",
+    "uuid": "^8.1.0"
+  },
+  "devDependencies": {
+    "eslint-config-xo-react": "^0.23.0",
+    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-react-hooks": "^4.0.4",
+    "husky": "^4.2.5",
+    "typescript": "^3.9.5",
+    "xo": "^0.32.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run lint; npm run clean; npm run build"
+    }
+  },
+  "prettier": {
+    "bracketSpacing": true,
+    "jsxBracketSameLine": true,
+    "trailingComma": "all",
+    "useTabs": false
+  },
+  "xo": {
+    "extends": [
+      "xo-react"
+    ],
+    "prettier": true,
+    "rules": {
+      "capitalized-comments": "off",
+      "import/extensions": "off",
+      "import/no-anonymous-default-export": "off",
+      "import/no-unassigned-import": "off",
+      "no-unused-vars": [
+        "error",
+        {
+          "argsIgnorePattern": "^_"
+        }
+      ],
+      "no-warning-comments": "off",
+      "import/no-webpack-loader-syntax": "off",
+      "padding-line-between-statements": "off",
+      "react/function-component-definition": "off",
+      "react/prop-types": "off"
+    }
+  }
+}
