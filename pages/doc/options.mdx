@@ -4,4 +4,411 @@ name: Options
 route: /doc/options
 ---
 
+import { Playground } from 'docz';
+import { createElement, useState } from 'react';
+import rehype2react from 'rehype-react';
+import toc from 'rehype-toc';
+import unifiedDoc from 'unified-doc';
+
+import { Button, FlexLayout, Input } from '~/ui';
+
 # Options
+
+A `doc` can be configured with the following options:
+
+```ts
+interface Options {
+  content?: string | Buffer;
+  filename: string;
+  compiler?: Compiler;
+  annotations?: Annotation[];
+  annotationCallbacks?: AnnotationCallbacks;
+  plugins?: Plugin | Plugin[];
+  sanitizeSchema?: SanitizeSchema;
+  searchOptions?: SearchOptions;
+  searchAlgorithm?: SearchAlgorithm;
+}
+```
+
+## `content`
+A `doc` manages `content` that should be provided to it as a `string` or `Buffer`.  The following are valid forms of `content`;
+
+```js
+const stringContent = 'some string';
+const bufferContent = Buffer.from('some string');
+const contentFromFile = await someBlob.text()
+```
+
+## `filename`
+`filename` is an important option to inform the `doc` how the provided source `content` should be parsed.  The following provides a quick overview on the behaviors between `filename` and `content`.
+
+```js
+// source content should be parsed as a markdown file
+let content = '# Heading 1\n> some blockquote content with **strong content**';
+let filename = 'doc.md';
+let expected = '<blockquote><strong>some</strong> markdown content</blockquote>'
+
+// source content should be parsed as a txt file
+let content = '# Heading 1\n> some blockquote content with **strong content**';
+let filename = 'doc.txt';
+let expected = '# Heading 1\n> some blockquote content with **strong content**';  // content is just text
+
+// source content should be parsed as a html file
+let content = '# Heading 1\n> some blockquote content with **strong content**';
+let filename = 'doc.html';
+let expected = '<div># Heading 1\n> some blockquote content with **strong content**</div>';  // source content does not contain valid HTML elements, so it is simply processed as a text node in the output HTML.
+```
+
+Use the following interactive code Playground to edit the `filename` extension and `content` to explore the behavior interactively.
+
+<Playground>
+  {() => {
+    /** ====== START EDIT ======  **/
+    const filename = 'doc.md'; // try: 'doc.txt', 'doc.html'
+    /** ====== END EDIT ======  **/
+    const content = '# Heading 1\n> some blockquote content with **strong content**';
+    const doc = unifiedDoc({
+      compiler: [rehype2react, { createElement }],
+      content,
+      filename
+    });
+    return doc.compile().result;
+  }}
+</Playground>
+
+## `compiler`
+
+A `compiler` allows processing the source `content` into output contents consumable by renderers.  The default `compiler` is a string `compiler` returning stringified HTML, but you can provide a custom `compiler` (e.g. `rehype-react`) as demonstrated in the following example.
+
+<Playground>
+  {() => {
+    /** ====== START EDIT ======  **/
+    const content = '# Heading 1\n> some blockquote content with **strong content**';
+    /** ====== END EDIT ======  **/
+    const filename = 'doc.md';
+    const defaultCompilerDoc = unifiedDoc({
+      content,
+      filename,
+    })
+    const reactCompilerDoc = unifiedDoc({
+      compiler: [rehype2react, { createElement }],
+      content,
+      filename,
+    })
+    return (
+      <div>
+        <h4>Default string compiler</h4>
+        <pre>{defaultCompilerDoc.compile().contents}</pre>
+        <h4>React compiler</h4>
+        {reactCompilerDoc.compile().result}
+      </div>
+    );
+  }}
+</Playground>
+
+## `annotations`
+
+```ts
+ interface Annotation {
+  id: string;
+  start: number;
+  end: number;
+  classNames?: string[];
+  data?: Record<string, any>;
+  style?: Record<string, any>;
+}
+```
+
+Annotations allow marking sections of the `doc` content with `<mark />` nodes. This is specified by the `start` and `end` offset of an annotation (relative to the `text` content of the `doc`).  Custom `classNames` and `styles` can be provided to customize annotations.  Overlapping annotations are also supported.
+
+The following example highlight the behaviors mentioned above, and also provide `string()` and `text()` representation of the `doc`'s source `content` to help visualize how annotation offsets are processed against the `text()` representation of the `doc`'s source `content`.
+
+<Playground>
+  {() => {
+    /** ====== START EDIT ======  **/
+    const annotations = [
+      { id: 'a', start: 0, end: 15 },
+      {
+        id: 'b',
+        start: 8,
+        end: 26,
+        style: { background: 'red', color: 'white' },
+      },
+      { id: 'c', start: 40, end: 55 },
+    ];
+    /** ====== END EDIT ======  **/
+    const content = '# Heading 1\n> some blockquote content with **strong content**';
+    const filename = 'doc.md';
+    const doc = unifiedDoc({
+      annotations,
+      compiler: [rehype2react, { createElement }],
+      content,
+      filename
+    });
+    return (
+      <div>
+        <h4>Compiled</h4>
+        {doc.compile().result}
+        <h4>Text</h4>
+        <pre>{doc.text()}</pre>
+        <h4>String</h4>
+        <pre>{doc.string()}</pre>
+      </div>
+    );
+  }}
+</Playground>
+
+## `annotationCallbacks`
+
+```ts
+interface AnnotationCallbacks {
+  onClick?: AnnotationCallback;
+  onMouseEnter?: AnnotationCallback;
+  onMouseOut?: AnnotationCallback;
+}
+
+type AnnotationCallback = (
+  annotation: Annotation,
+  event?: MouseEvent,
+) => void;
+```
+
+Interactive annotations form an important feature in building annotated document applications.  `onClick`, `onMouseEnter`, `onMouseOut` behaviors can be configured with `annotationCallbacks`.
+
+<Playground>
+  {() => {
+    /** ====== START EDIT ======  **/
+    const annotations = [
+      { id: 'a', start: 0, end: 15 },
+      {
+        id: 'b',
+        start: 8,
+        end: 26,
+        style: { background: 'red', color: 'white' },
+      },
+      { id: 'c', start: 40, end: 55 },
+    ];
+    const annotationCallbacks = {
+      onClick: (annotation, event) => {
+        event.stopPropagation();
+        alert(`click on annotation "${JSON.stringify(annotation, null, 2)}"`);
+      },
+      onMouseEnter: (annotation, event) => {
+        event.stopPropagation();
+        console.log(`mouseenter on annotation "${annotation.id}"`);
+      },
+    };
+    /** ====== END EDIT ======  **/
+    const content = '# Heading 1\n> some blockquote content with **strong content**';
+    const filename = 'doc.md';
+    const doc = unifiedDoc({
+      annotations,
+      annotationCallbacks,
+      compiler: [rehype2react, { createElement }],
+      content,
+      filename
+    });
+    return doc.compile().result;
+  }}
+</Playground>
+
+## `plugins`
+
+Valid [rehype][rehype] plugins can be provided to the `doc` to enhance features.  The following example shows how to apply a `toc` plugin to the `doc`:
+
+<Playground>
+  {() => {
+    /** ====== START EDIT ======  **/
+    const plugins = [toc]; // try '[]'
+    /** ====== END EDIT ======  **/
+    const content = '# Heading 1\n> some blockquote content with **strong content**';
+    const filename = 'doc.md';
+    const doc = unifiedDoc({
+      compiler: [rehype2react, { createElement }],
+      content,
+      filename,
+      plugins,
+    });
+    return doc.compile().result;
+  }}
+</Playground>
+
+## `sanitizeSchema`
+By default, the `doc` will be safely sanitized.  You can supply a custom sanitize schema for defining custom sanitization rules.  For more details, please refer to the [`hast-util-sanitize`][hast-util-sanitize] package for more details.
+
+<Playground>
+  {() => {
+    /** ====== START EDIT ======  **/
+    // set to "{}" to use default/safe sanitization rules
+    const sanitizeSchema = {
+      attributes: { '*': ['style'] },
+    };
+    /** ====== END EDIT ======  **/
+    const content = '<h1 style="background: red; color: white; font-family: impact;">Heading 1 with inline style</h1>'
+    const filename = 'doc.html';
+    const doc = unifiedDoc({
+      compiler: [rehype2react, { createElement }],
+      content,
+      filename,
+      sanitizeSchema,
+    });
+    return doc.compile().result;
+  }}
+</Playground>
+
+## `searchOptions`
+
+```ts
+interface SearchOptions {
+  snippetOffsetPadding?: number;
+}
+```
+
+A `doc` supports a unified interface for searching (more details on this is covered in the [API](./api) section).  The `searchOptions` provides a common set of configurable options for any `searchAlgorithm` attached to the `doc`.
+
+<Playground>
+  {() => {
+    /** ====== START EDIT ======  **/
+    const searchOptions = {
+      snippetOffsetPadding: 10,  // configure this
+    };
+    /** ====== END EDIT ======  **/
+    const [query, setQuery] = useState('');
+    const [results, setResults] = useState([]);
+    function search(e) {
+      const query = e.target.value;
+      const results = doc.search(query);
+      setQuery(query);
+      setResults(results);
+    }
+    function clear() {
+      setQuery('');
+      setResults([]);
+    }
+    const content = '# Heading 1\n> some blockquote content with **strong content**';
+    const filename = 'doc.md';
+    const doc = unifiedDoc({
+      compiler: [rehype2react, { createElement }],
+      content,
+      filename,
+      searchOptions,
+    });
+    return (
+      <FlexLayout flexDirection="column" space={2}>
+        <h4>Compiled</h4>
+        {doc.compile().result}
+        <h4>Search</h4>
+        <Input value={query} onChange={search} />
+        {results.map((result, i) => {
+          const [left, matched, right] = result.snippet;
+          return (
+            <div key={i.toString()}>
+              {left}
+              <strong>{matched}</strong>
+              {right}
+            </div>
+          );
+        })}
+        {results.length > 0 && (
+          <Button variant="secondary" onClick={clear}>
+            Clear
+          </Button>
+        )}
+      </FlexLayout>
+    );
+  }}
+</Playground>
+
+## `searchAlgorithm`
+
+```ts
+type SearchAlgorithm = (
+  content: string,
+  query: string,
+  options?: Record<string, any>,
+) => SearchResult[];
+
+interface SearchResult {
+  start: number;
+  end: number;
+  value: string;
+}
+```
+
+A custom `searchAlgorithm` implemented by the interface above can be attached to a `doc`.  A `searchAlogrithm` simply needs to decide how a provided `query` against some `content` returns `searchResult` entries containing the `start` and `end` text offset and matched values.  The `doc` will enhance the results of the `searchAlgorithm` with unified features (e.g. creating snippet).
+
+The following example demonstrates a custom `searchAlgorithm` that pads the matched content with `'==='` strings (not a useful algorithm, but included here to demonstrate the `searchAlgorithm` option behaviors).
+
+<Playground>
+  {() => {
+    /** ====== START EDIT ======  **/
+    function paddedSearchAlgorithm(content, query) {
+      const searchInputRegExp = new RegExp(query, 'gi');
+      const searchResults = [];
+      let match;
+      if (query) {
+        while ((match = searchInputRegExp.exec(content)) !== null) {
+          const start = match.index;
+          const end = searchInputRegExp.lastIndex;
+          let value = content.slice(start, end);
+          if (value) {
+            value = `=== ${value} ===`;
+          }
+          searchResults.push({ start, end, value });
+        }
+      }
+      return searchResults;
+    }
+    /** ====== END EDIT ======  **/
+    const [query, setQuery] = useState('');
+    const [results, setResults] = useState([]);
+    function search(e) {
+      const query = e.target.value;
+      const results = doc.search(query);
+      setQuery(query);
+      setResults(results);
+    }
+    function clear() {
+      setQuery('');
+      setResults([]);
+    }
+    const content = '# Heading 1\n> some blockquote content with **strong content**';
+    const filename = 'doc.md';
+    const searchOptions = { snippetOffsetPadding: 5 }
+    const doc = unifiedDoc({
+      compiler: [rehype2react, { createElement }],
+      content,
+      filename,
+      searchAlgorithm: paddedSearchAlgorithm,
+      searchOptions,
+    });
+    return (
+      <FlexLayout flexDirection="column" space={2}>
+        <h4>Compiled</h4>
+        {doc.compile().result}
+        <h4>Search</h4>
+        <Input value={query} onChange={search} />
+        {results.map((result, i) => {
+          const { snippet, value } = result;
+          const [left, _matched, right] = snippet;
+          return (
+            <div key={i.toString()}>
+              {left}
+              <strong>{value}</strong>
+              {right}
+            </div>
+          );
+        })}
+        {results.length > 0 && (
+          <Button variant="secondary" onClick={clear}>
+            Clear
+          </Button>
+        )}
+      </FlexLayout>
+    );
+  }}
+</Playground>
+
+<!-- Links -->
+[hast-util-sanitize]: https://github.com/syntax-tree/hast-util-sanitize
+[rehype]: https://github.com/rehypejs/rehype

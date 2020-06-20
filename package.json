@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "docs",
-  "description": "unified document APIs",
+  "description": "progressive docs for unified-doc",
   "license": "MIT",
   "homepage": "https://github.com/unified-doc/docs",
   "repository": "unified-doc/unified-doc",
@@ -42,8 +42,9 @@
     "react-dom": "^16.13.1",
     "react-refresh": "^0.8.3",
     "rehype-react": "^6.0.0",
+    "rehype-toc": "^3.0.1",
     "theme-ui": "^0.3.1",
-    "unified-doc": "^0.1.11-beta.0",
+    "unified-doc": "^0.1.12-beta.0",
     "uuid": "^8.1.0"
   },
   "devDependencies": {

@@ -1,7 +1,12 @@
 # 📄 docs
-docs for [**unified-doc**][unified-doc]
+progressive docs for [**unified-doc**][unified-doc]
+
+View the docs at: https://unified-doc.netlify.app/
 
 ## Development
+Docs are:
+- progressively developed and built with `docz`.
+- softly-typed with `typescript` using `checkJs`.
 
 ```sh
 # install dependencies

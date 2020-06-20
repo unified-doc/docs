@@ -19,6 +19,24 @@ const doc = unifiedDoc({
 });
 ```
 
+## Options
+
+A `doc` is configurable with the following options:
+
+```ts
+interface Options {
+  filename: string;
+  annotations?: Annotation[];
+  annotationCallbacks?: AnnotationCallbacks;
+  compiler?: Compiler;
+  content?: string | Buffer;
+  plugins?: Plugin | Plugin[];
+  sanitizeSchema?: SanitizeSchema;
+  searchAlgorithm?: SearchAlgorithm;
+  searchOptions?: SearchOptions;
+}
+```
+
 ## Attributes
 A `doc` has the following attributes:
 
@@ -48,24 +66,6 @@ Returns the string representation of the source content e.g. `'> **some** markdo
 
 ### `doc.text()`
 Returns the text content of the source content e.g. `'some markdown content'`.
-
-## Options
-
-A `doc` is configurable with the following options:
-
-```ts
-interface Options {
-  filename: string;
-  annotations?: Annotation[];
-  annotationCallbacks?: AnnotationCallbacks;
-  compiler?: Compiler;
-  content?: string | Buffer;
-  plugins?: Plugin | Plugin[];
-  sanitizeSchema?: SanitizeSchema;
-  searchAlgorithm?: SearchAlgorithm;
-  searchOptions?: SearchOptions;
-}
-```
 
 <!-- Links -->
 [hast]: https://github.com/syntax-tree/hast
