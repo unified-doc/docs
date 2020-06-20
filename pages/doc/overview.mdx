@@ -1,0 +1,71 @@
+---
+menu: doc
+name: Overview
+route: /doc
+---
+
+# `doc`
+A `doc` represents an instance of `unified-doc` with useful attributes and APIs to manage `content`.
+
+This section provides a quick overview of a `doc`.  More details are provided in subsequent sections that include code Playgrounds to interact and preview code changes.
+
+## Initialize
+Simply provide the `content` and `filename` fields to initialize a `doc` instance.
+
+```js
+const doc = unifiedDoc({
+  content: '> **some** markdown content',
+  filename: 'doc.md',
+});
+```
+
+## Attributes
+A `doc` has the following attributes:
+
+### `doc.filename`
+Filename provided during initialization.
+
+### `doc.content`
+Source content provided during initialization.
+
+## API
+A `doc` provides the following useful API methods:
+
+### `doc.compile()`
+Returns the compiled contents of a `doc` that is used by renderers to render the `doc`.
+
+### `doc.file(extension?: string)`
+Returns file data for a supported file extension, allowing convenient conversions of content formats.
+
+### `doc.parse()`
+Returns the [hast][hast] representation of the source content.
+
+### `doc.search(query: string, options?: Record<string, any>)`
+Provides a unified interface to easily search the `doc`'s `text` content and return search results/snippets.
+
+### `doc.string()`
+Returns the string representation of the source content e.g. `'> **some** markdown content'`.
+
+### `doc.text()`
+Returns the text content of the source content e.g. `'some markdown content'`.
+
+## Options
+
+A `doc` is configurable with the following options:
+
+```ts
+interface Options {
+  filename: string;
+  annotations?: Annotation[];
+  annotationCallbacks?: AnnotationCallbacks;
+  compiler?: Compiler;
+  content?: string | Buffer;
+  plugins?: Plugin | Plugin[];
+  sanitizeSchema?: SanitizeSchema;
+  searchAlgorithm?: SearchAlgorithm;
+  searchOptions?: SearchOptions;
+}
+```
+
+<!-- Links -->
+[hast]: https://github.com/syntax-tree/hast

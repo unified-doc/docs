@@ -1,14 +1,19 @@
 export default {
   dest: 'dist',
   ignore: ['readme.md', 'todos.md'],
-  menu: ['Home', 'Doc', 'Demos', 'Packages'],
+  menu: [
+    'Home',
+    { name: 'doc', menu: ['Overview', 'Attributes', 'API', 'Options'] },
+    { name: 'Demos', menu: ['Overview'] },
+    'Packages',
+  ],
   public: 'public',
   title: 'unified-doc',
   themeConfig: getThemeConfig(),
   typescript: true,
 };
 
-// abstracting this in a method since docz doesn't support importing modules in doczrc.js
+// organizing this in a method instead of a module because doczrc.js does not support importing from modules
 function getThemeConfig() {
   const button = {
     borderColor: 'primary',
@@ -55,6 +60,11 @@ function getThemeConfig() {
   };
 
   return {
+    fonts: {
+      body: 'Inter',
+      heading: 'Inter',
+      monospace: 'courier',
+    },
     buttons,
     text,
     styles: {
