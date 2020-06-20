@@ -1,9 +1,10 @@
 {
   "private": true,
   "name": "docs",
+  "description": "unified document APIs",
   "license": "MIT",
   "homepage": "https://github.com/unified-doc/docs",
-  "repository": "unified-doc/docs",
+  "repository": "unified-doc/unified-doc",
   "bugs": "https://github.com/unified-doc/docs/issues",
   "author": "Chris Zhou <chrisrzhou@pm.me> (https://chrisrzhou.io)",
   "keywords": [

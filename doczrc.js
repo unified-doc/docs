@@ -1,6 +1,6 @@
 export default {
   dest: 'dist',
-  ignore: ['readme.md'],
+  ignore: ['readme.md', 'todos.md'],
   menu: ['Home', 'Doc', 'Demos', 'Packages'],
   public: 'public',
   title: 'unified-doc',
@@ -51,7 +51,6 @@ function getThemeConfig() {
     code: {
       fontFamily: 'monospace',
       fontWeight: 'bold',
-      textDecoration: 'underline',
     },
   };
 

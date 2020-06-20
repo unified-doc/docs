@@ -4,3 +4,35 @@ route: /packages
 ---
 
 # Packages
+The following packages are used in the `unified-doc` ecosystem.
+
+## API
+Core unified document APIs.
+- [`unified-doc`][unified-doc]
+
+## Parsers
+Parsers parse source content into [hast][hast] trees.  The following parsers are integrated in `unified-doc`.
+- [`unified-doc-parse-text`][unified-doc-parse-text]
+
+## Search Algorithms
+Search algorithms return search results for a query when searching against a document's text content.
+- [`unified-doc-search-regexp`][unified-doc-search-regexp]
+
+## Hast Utils
+`hast` utilities operate on and transform `hast` trees.
+- [`unified-doc-util-annotate`][unified-doc-util-annotate]
+- [`unified-doc-util-text-offsets`][unified-doc-util-text-offsets]
+
+## Wrappers
+Wrappers implementing `unified-doc` APIs in other ecosystems.
+- [`unified-doc-react`][unified-doc-react]
+
+<!-- Links -->
+[hast]: https://github.com/syntax-tree/hast
+[unified-doc]: https://github.com/unified-doc/unified-doc/tree/master/packages/unified-doc
+[unified-doc-parse-text]: https://github.com/unified-doc/unified-doc/tree/master/packages/unified-doc-parse-text
+[unified-doc-react]: https://github.com/unified-doc/unified-doc-react
+[unified-doc-search-regexp]: https://github.com/unified-doc/unified-doc/tree/master/packages/unified-doc-search-regexp
+[unified-doc-util-annotate]: https://github.com/unified-doc/unified-doc/tree/master/packages/unified-doc-util-annotate
+[unified-doc-util-text-offsets]: https://github.com/unified-doc/unified-doc/tree/master/packages/unified-doc-util-text-offsets
+
