@@ -9,7 +9,7 @@ export default function FlexLayout({
   flexWrap = undefined,
   justifyContent = undefined,
   space = 0,
-  sx = undefined,
+  sx = {},
   ...rest
 }) {
   const marginDirection = flexDirection === 'column' ? 'mb' : 'mr';

@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { readme as initialFile } from '~/files';
 import { Button, FlexLayout, Input } from '~/ui';
 
-import './home.css';
+import './doc.css';
 
 const viewOptions = {
   HTML: 'html',
