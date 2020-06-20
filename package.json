@@ -44,7 +44,7 @@
     "rehype-react": "^6.0.0",
     "rehype-toc": "^3.0.1",
     "theme-ui": "^0.3.1",
-    "unified-doc": "^0.1.12-beta.0",
+    "unified-doc": "^0.1.13-beta.0",
     "uuid": "^8.1.0"
   },
   "devDependencies": {
