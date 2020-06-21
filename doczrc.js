@@ -3,9 +3,14 @@ export default {
   ignore: ['readme.md', 'todos.md'],
   menu: [
     'Home',
-    { name: 'doc', menu: ['Overview', 'Attributes', 'API', 'Options'] },
     { name: 'Demos', menu: ['Overview'] },
+    { name: 'Doc API', menu: ['Overview', 'Attributes', 'Methods', 'Options'] },
+    'DOM API',
+    'CLI API',
+    'Wrappers',
     'Packages',
+    'Spec',
+    'Roadmap',
   ],
   public: 'public',
   title: 'unified-doc',
@@ -41,6 +46,31 @@ function getThemeConfig() {
     },
   };
 
+  const fonts = {
+    body: 'Inter',
+    heading: 'Inter',
+    monospace: 'courier',
+  };
+
+  const h = {
+    mb: 4,
+    position: 'relative',
+    '::after': {
+      content: '""',
+      borderBottomColor: 'muted',
+      borderBottomStyle: 'solid',
+      borderBottomWidth: '1px',
+      bottom: '-10px',
+      position: 'absolute',
+      left: 0,
+      right: 0,
+    },
+  };
+
+  const colors = {
+    muted: 'rgba(128, 128, 128, 0.7)',
+  };
+
   const text = {
     muted: {
       color: 'muted',
@@ -57,15 +87,14 @@ function getThemeConfig() {
       fontFamily: 'monospace',
       fontWeight: 'bold',
     },
+    h1: h,
+    h2: h,
   };
 
   return {
-    fonts: {
-      body: 'Inter',
-      heading: 'Inter',
-      monospace: 'courier',
-    },
     buttons,
+    colors,
+    fonts,
     text,
     styles: {
       root,
