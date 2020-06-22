@@ -5,12 +5,12 @@ route: /doc/
 ---
 
 # Doc API
-A `doc` represents an instance of `unified-doc` with useful attributes and methods to manage `content`.
+A `doc` represents an instance of `unified-doc` with methods to manage `content`.
 
-This section provides a quick overview of a `doc`.  More details are provided in subsequent sections that include code Playgrounds to interact and preview code changes.
+This section provides a quick overview of a `doc`.  More details are provided in later sections with interactive code playgrounds to test and preview live code changes.
 
 ## Initialize
-Simply provide the `content` and `filename` fields to initialize a `doc` instance.
+Simply provide the `content` and `filename` options to initialize a `doc` instance.
 
 ```js
 const doc = unifiedDoc({
@@ -25,11 +25,11 @@ A `doc` is configurable with the following options:
 
 ```ts
 interface Options {
+  content: string;
   filename: string;
   annotations?: Annotation[];
   annotationCallbacks?: AnnotationCallbacks;
   compiler?: Compiler;
-  content?: string;
   plugins?: Plugin | Plugin[];
   sanitizeSchema?: SanitizeSchema;
   searchAlgorithm?: SearchAlgorithm;
@@ -40,23 +40,23 @@ interface Options {
 ## Methods
 A `doc` provides the following useful methods to manage `content`:
 
-### `doc.compile()`
+### `doc.compile(): VFile`
 Returns the compiled contents of a `doc` that is used by renderers to render the `doc`.
 
-### `doc.file(extension?: string)`
+### `doc.file(extension?: string): FileData`
 Returns file data for a supported file extension, allowing convenient conversions of content formats.
 
-### `doc.parse()`
+### `doc.parse(): Hast`
 Returns the [hast][hast] representation of the source content.
 
-### `doc.search(query: string, options?: Record<string, any>)`
-Provides a unified interface to easily search the `doc`'s `text` content and return search results/snippets.
+### `doc.search(query: string, options?: object): SearchResultSnippet[]`
+Provides a unified interface to easily search the `doc`'s `text` content and return search result snippets.
 
-### `doc.string()`
-Returns the string representation of the source content e.g. `'> **some** markdown content'`.
+### `doc.string(): string`
+Returns the string representation of the source content.
 
-### `doc.text()`
-Returns the text content of the source content e.g. `'some markdown content'`.
+### `doc.text(): string`
+Returns the text content of the source content.
 
 <!-- Links -->
 [hast]: https://github.com/syntax-tree/hast

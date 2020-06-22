@@ -123,7 +123,7 @@ const expectedTextSegments = [
 Compiles `content` into output results that is stored on a [`vfile`][vfile].  Renderers can use the compiled results to render the document.  Compiled results are defined and configured by assigning a specific `compiler` to the `doc`.  More details on [`compilers`](#compiler) is provided in a later section.
 
 ### `doc.file(extension?: string): FileData`
-Supports easy ways to convert between file formats by providing a supported `extension` argument (e.g. `.html`, `.txt`).  File data for the provided extension is returned.  The formal spec for `FileData` is provided below.
+Supports easy ways to convert between file formats by providing a supported `extension` argument (e.g. source file, `.html`, `.txt`, `.uni`).  File data for the provided extension is returned.  The formal spec for `FileData` is provided below.
 
 ```ts
 interface FileData {
@@ -153,9 +153,9 @@ console.log(doc.file('.html')); // outputs html file
   // stem: 'doc',
   // type: 'text/html',
 // }
-console.log(doc.file('.txt')); // outputs txt file
+console.log(doc.file('.txt')); // outputs txt file with only text content
 // {
-  // content: '> **some** markdown content',
+  // content: 'some markdown content',
   // extension: '.txt',
   // name: 'doc.txt',
   // stem: 'doc',

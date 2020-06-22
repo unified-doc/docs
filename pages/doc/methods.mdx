@@ -4,6 +4,178 @@ name: Methods
 route: /doc/methods/
 ---
 
+import { Playground } from 'docz';
+import { createElement, useState } from 'react';
+import rehype2react from 'rehype-react';
+import unifiedDoc from 'unified-doc';
+
+import { Button, FlexLayout, Input } from '~/ui';
+
+export const doc = unifiedDoc({
+  compiler: [rehype2react, { createElement }],
+  content: '# Heading 1\n> some blockquote content with **strong content**',
+  filename: 'doc.md',
+  searchOptions: { snippetOffsetPadding: 5 },
+});
+
 # Methods
 
-The following covers core `doc` methods with interactive code playgrounds.
+This section goes over `doc` methods with interactive code playgrounds.  All examples assume a `doc` instance initialized with the following options:
+
+```js
+const doc = unifiedDoc({
+  compiler: [rehype2react, { createElement }],
+  content: '# Heading 1\n> some blockquote content with **strong content**',
+  filename: 'doc.md',
+  searchOptions: { snippetOffsetPadding: 5 },
+});
+```
+
+## `compile()`
+
+```ts
+function compile(): VFile;
+```
+
+Returns compiled output results that is stored on a [`vfile`][vfile].  Renderers can use the compiled results to render the document.  Compiled results are defined and configured by assigning a specific `compiler` to the `doc`.
+
+<Playground>
+  <div>
+    {doc.compile().result}
+  </div>
+</Playground>
+
+## `file()`
+
+```ts
+function file(extension?: string): FileData;
+
+interface FileData {
+  content: string;
+  extension: string;
+  name: string;
+  stem: string;
+  type: string;
+}
+```
+
+Returns file data for supported extensions (e.g. `.html`, `.txt`).  If an extension is not provided, the source file is returned.
+
+### Source file
+<Playground>
+  <pre>{JSON.stringify(doc.file(), null, 2)}</pre>
+</Playground>
+
+### `.html` file
+<Playground>
+  <pre>{JSON.stringify(doc.file('.html'), null, 2)}</pre>
+</Playground>
+
+### `.txt` file
+<Playground>
+  <pre>{JSON.stringify(doc.file('.txt'), null, 2)}</pre>
+</Playground>
+
+### `.uni` file
+<Playground>
+  <pre>{JSON.stringify(doc.file('.uni'), null, 2)}</pre>
+</Playground>
+
+## `parse()`
+
+```ts
+function parse(): Hast;
+```
+
+Returns the [`hast`][hast] representation of the tree.  The tree is useful for transformations with `hast` utilities.
+
+<Playground>
+  <pre>{JSON.stringify(doc.parse(), null, 2)}</pre>
+</Playground>
+
+## `search()`
+
+```ts
+function search(
+  query: string,
+  options?: Record<string, any>,
+): SearchResultSnippet[];
+
+interface SearchResultSnippet extends SearchResult {
+  snippet: [string, string, string];
+}
+
+interface SearchResult {
+  start: number;
+  end: number;
+  value: string;
+}
+```
+Searches on the `text` content of a `doc` when a `query` string and configurable `options` is provided.  Returns `SearchResultSnippet`.  This method supports a simple and robust way to search on a `doc` irregardless of its underlying `mimeType`. Custom `searchAlgorithm` with the same unified interface can be easily integrated
+
+<Playground>
+  {() => {
+    const [query, setQuery] = useState('');
+    const [results, setResults] = useState([]);
+    function search(e) {
+      const query = e.target.value;
+      const results = doc.search(query);
+      setQuery(query);
+      setResults(results);
+    }
+    function clear() {
+      setQuery('');
+      setResults([]);
+    }
+    return (
+      <FlexLayout flexDirection="column" space={2}>
+        {doc.compile().result}
+        <h4>Search</h4>
+        <Input value={query} onChange={search} />
+        {results.map((result, i) => {
+          const [left, matched, right] = result.snippet;
+          return (
+            <div key={i.toString()}>
+              {left}
+              <strong>{matched}</strong>
+              {right}
+            </div>
+          );
+        })}
+        {results.length > 0 && (
+          <Button variant="secondary" onClick={clear}>
+            Clear
+          </Button>
+        )}
+      </FlexLayout>
+    )
+  }}
+</Playground>
+
+## `string()`
+
+```ts
+function string(): string;
+```
+
+Returns the string representation of the source document content.
+
+<Playground>
+  <pre>{doc.string()}</pre>
+</Playground>
+
+## `text()`
+
+```ts
+function text(): string;
+```
+
+The `text` content of a `doc` is obtained by extracting values of all `text` nodes in the `hast` representation of the source `content`.  The `text` content is free of markup and metadata, and supports many important `doc` features (annotations and searching).
+
+<Playground>
+  <pre>{doc.text()}</pre>
+</Playground>
+
+<!-- Links -->
+[hast]: https://github.com/syntax-tree/hast
+[vfile]: https://github.com/vfile/vfile

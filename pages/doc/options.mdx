@@ -18,7 +18,7 @@ A `doc` can be configured with the following options:
 
 ```ts
 interface Options {
-  content?: string;
+  content: string;
   filename: string;
   compiler?: Compiler;
   annotations?: Annotation[];
@@ -31,7 +31,7 @@ interface Options {
 ```
 
 ## `content`
-A `doc` manages `content` that should be provided to it as a `string`.  The following are valid forms of `content`;
+Refers to the source data of a `doc` provided as a string.  The following are common ways to set `content` on a `doc`.
 
 ```js
 const stringContent = 'some string';
@@ -39,26 +39,27 @@ const contentFromFile = await someBlob.text();
 ```
 
 ## `filename`
-`filename` is an important option to inform the `doc` how the provided source `content` should be parsed.  The following provides a quick overview on the behaviors between `filename` and `content`.
+A `doc` is usually associated with a `file` that stores `content`.  The `doc` will use the `filename` to infer the `mimeType` for the associated `content`, which determines how this `content` should be parsed.  If a `mimeType` cannot be inferred, we set it to `text/plain` as a default value.  The following shows the behaviors between `filename`, inferred `mimeTypes` and parsed `content` behaviors:
 
 ```js
 // source content should be parsed as a markdown file
 let content = '# Heading 1\n> some blockquote content with **strong content**';
 let filename = 'doc.md';
+let mimeType = 'text/markdown';
 let expected = '<blockquote><strong>some</strong> markdown content</blockquote>'
 
 // source content should be parsed as a txt file
 let content = '# Heading 1\n> some blockquote content with **strong content**';
 let filename = 'doc.txt';
-let expected = '# Heading 1\n> some blockquote content with **strong content**';  // content is just text
+let mimeType = 'text/plain';
+let expected = '# Heading 1\n> some blockquote content with **strong content**';
 
 // source content should be parsed as a html file
 let content = '# Heading 1\n> some blockquote content with **strong content**';
 let filename = 'doc.html';
-let expected = '<div># Heading 1\n> some blockquote content with **strong content**</div>';  // source content does not contain valid HTML elements, so it is simply processed as a text node in the output HTML.
+let mimeType = 'text/html';
+let expected = '<div># Heading 1\n> some blockquote content with **strong content**</div>';
 ```
-
-Use the following interactive code Playground to edit the `filename` extension and `content` to explore the behavior interactively.
 
 <Playground>
   {() => {
@@ -77,7 +78,7 @@ Use the following interactive code Playground to edit the `filename` extension a
 
 ## `compiler`
 
-A `compiler` allows processing the source `content` into output contents consumable by renderers.  The default `compiler` is a string `compiler` returning stringified HTML, but you can provide a custom `compiler` (e.g. `rehype-react`) as demonstrated in the following example.
+A `compiler` compiles the source `content` into output results, usable by renderers to render a `doc`.  The default `compiler` is a string `compiler` returning HTML, but you can provide a custom `compiler` (e.g. `rehype-react`) as demonstrated in the following example.
 
 <Playground>
   {() => {
@@ -85,11 +86,11 @@ A `compiler` allows processing the source `content` into output contents consuma
     const content = '# Heading 1\n> some blockquote content with **strong content**';
     /** ====== END EDIT ======  **/
     const filename = 'doc.md';
-    const defaultCompilerDoc = unifiedDoc({
+    const defaultCompiledDoc = unifiedDoc({
       content,
       filename,
     })
-    const reactCompilerDoc = unifiedDoc({
+    const reactCompiledDoc = unifiedDoc({
       compiler: [rehype2react, { createElement }],
       content,
       filename,
@@ -97,9 +98,9 @@ A `compiler` allows processing the source `content` into output contents consuma
     return (
       <div>
         <h4>Default string compiler</h4>
-        <pre>{defaultCompilerDoc.compile().contents}</pre>
+        <pre>{defaultCompiledDoc.compile().contents}</pre>
         <h4>React compiler</h4>
-        {reactCompilerDoc.compile().result}
+        {reactCompiledDoc.compile().result}
       </div>
     );
   }}
@@ -118,9 +119,9 @@ A `compiler` allows processing the source `content` into output contents consuma
 }
 ```
 
-Annotations allow marking sections of the `doc` content with `<mark />` nodes. This is specified by the `start` and `end` offset of an annotation (relative to the `text` content of the `doc`).  Custom `classNames` and `styles` can be provided to customize annotations.  Overlapping annotations are also supported.
+Annotations describe how `text` content in a `doc` should be marked.  This is achieved by specifying  the `start` and `end` offset of the annotation relative to the `text` content.  Custom `classNames` and `styles` can be provided to customize annotations.  Overlapping annotations are also supported.
 
-The following example highlight the behaviors mentioned above, and also provide `string()` and `text()` representation of the `doc`'s source `content` to help visualize how annotation offsets are processed against the `text()` representation of the `doc`'s source `content`.
+The following example demonstrates core features of annotations.  The `string()` and `text()` representation of the `doc` is provided to help visualize how annotations are processed against the `text` content of the `doc`.
 
 <Playground>
   {() => {
@@ -131,7 +132,7 @@ The following example highlight the behaviors mentioned above, and also provide 
         id: 'b',
         start: 8,
         end: 26,
-        style: { background: 'red', color: 'white' },
+        style: { background: 'blue', color: 'white' },
       },
       { id: 'c', start: 40, end: 55 },
     ];
@@ -183,7 +184,7 @@ Interactive annotations form an important feature in building annotated document
         id: 'b',
         start: 8,
         end: 26,
-        style: { background: 'red', color: 'white' },
+        style: { background: 'blue', color: 'white' },
       },
       { id: 'c', start: 40, end: 55 },
     ];
@@ -213,7 +214,7 @@ Interactive annotations form an important feature in building annotated document
 
 ## `plugins`
 
-Valid [rehype][rehype] plugins can be provided to the `doc` to enhance features.  The following example shows how to apply a `toc` plugin to the `doc`:
+Valid [rehype][rehype] plugins can be provided to a `doc` to enhance features.  The following example shows how to apply a `toc` plugin:
 
 <Playground>
   {() => {
@@ -233,7 +234,7 @@ Valid [rehype][rehype] plugins can be provided to the `doc` to enhance features.
 </Playground>
 
 ## `sanitizeSchema`
-By default, the `doc` will be safely sanitized.  You can supply a custom sanitize schema for defining custom sanitization rules.  For more details, please refer to the [`hast-util-sanitize`][hast-util-sanitize] package for more details.
+By default, a `doc` will be safely sanitized.  You can supply a custom schema to specify custom sanitization rules before plugins are applied.  Please see the [`hast-util-sanitize`][hast-util-sanitize] package for more details
 
 <Playground>
   {() => {
@@ -263,7 +264,7 @@ interface SearchOptions {
 }
 ```
 
-A `doc` supports a unified interface for searching (more details on this is covered in the [API](./api) section).  The `searchOptions` provides a common set of configurable options for any `searchAlgorithm` attached to the `doc`.
+A `doc` supports a unified interface for searching (more details on this is covered in the [Methods](../methods) section).  The `searchOptions` provides a set of configurable options for any `searchAlgorithm` attached to the `doc`.
 
 <Playground>
   {() => {
@@ -294,7 +295,6 @@ A `doc` supports a unified interface for searching (more details on this is cove
     });
     return (
       <FlexLayout flexDirection="column" space={2}>
-        <h4>Compiled</h4>
         {doc.compile().result}
         <h4>Search</h4>
         <Input value={query} onChange={search} />
@@ -334,9 +334,9 @@ interface SearchResult {
 }
 ```
 
-A custom `searchAlgorithm` implemented by the interface above can be attached to a `doc`.  A `searchAlogrithm` simply needs to decide how a provided `query` against some `content` returns `searchResult` entries containing the `start` and `end` text offset and matched values.  The `doc` will enhance the results of the `searchAlgorithm` with unified features (e.g. creating snippet).
+A `searchAlgorithm` implements the behaviors of searching a `doc`. A `searchAlgorithm` implementation simply needs to return `SearchResults` containing text offsets relative to the `text` content of a `doc` when a `query` string is provided.  The `doc` will apply unified search features (e.g. snippets) on top of this algorithm.
 
-The following example demonstrates a custom `searchAlgorithm` that pads the matched content with `'==='` strings (not a useful algorithm, but included here to demonstrate the `searchAlgorithm` option behaviors).
+The following example demonstrates a custom `searchAlgorithm` that pads the matched content with `'==='` strings.
 
 <Playground>
   {() => {
@@ -383,7 +383,6 @@ The following example demonstrates a custom `searchAlgorithm` that pads the matc
     });
     return (
       <FlexLayout flexDirection="column" space={2}>
-        <h4>Compiled</h4>
         {doc.compile().result}
         <h4>Search</h4>
         <Input value={query} onChange={search} />

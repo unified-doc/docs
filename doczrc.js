@@ -8,6 +8,7 @@ export default {
     'DOM API',
     'CLI API',
     'Wrappers',
+    'Recipes',
     'Packages',
     'Spec',
     'Roadmap',
