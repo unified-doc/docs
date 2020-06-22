@@ -1,12 +1,12 @@
-import aliceContent from 'raw-loader!./alice-in-wonderland.html';
-import readmeContent from 'raw-loader!./readme.txt'; // docz mutates .md files, so naming this with a .txt extension
+import aliceContent from 'raw-loader!./alice-in-wonderland';
+import htmlIpsumContent from 'raw-loader!./html-ipsum';
 
 export const alice = {
   content: aliceContent,
-  name: 'alice-in-wonderland.html',
+  filename: 'alice-in-wonderland.html',
 };
 
-export const readme = {
-  content: readmeContent,
-  name: 'readme.md',
+export const htmlIpsum = {
+  content: htmlIpsumContent,
+  filename: 'html-ipsum.html',
 };

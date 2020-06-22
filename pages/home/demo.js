@@ -3,7 +3,7 @@ import rehype2react from 'rehype-react';
 import unifiedDoc from 'unified-doc';
 import { v4 as uuidv4 } from 'uuid';
 
-import { readme as initialFile } from '~/files';
+import { htmlIpsum as initialFile } from '~/files';
 import { Button, FlexLayout, Input } from '~/ui';
 
 import './doc.css';
@@ -16,7 +16,7 @@ const viewOptions = {
 };
 
 export default function Home() {
-  const [fileData, setFileData] = useState(initialFile);
+  const [file, setFile] = useState(initialFile);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [selectedViewOption, setSelectedViewOption] = useState(
@@ -30,15 +30,15 @@ export default function Home() {
   const doc = unifiedDoc({
     annotations,
     compiler: [rehype2react, { createElement }],
-    filename: fileData.name,
-    content: fileData.content,
+    filename: file.filename,
+    content: file.content,
     searchOptions: { snippetOffsetPadding: 10 },
   });
 
   async function handleUploadFile(event) {
     const file = event.target.files[0];
     const content = await file.text();
-    setFileData({ name: file.name, content });
+    setFile({ filename: file.filename, content });
   }
 
   function handleClearSearch() {
@@ -79,7 +79,7 @@ export default function Home() {
   }
 
   return (
-    <FlexLayout flexDirection="column" space={4}>
+    <FlexLayout alignItems="flex-start" flexDirection="column" space={4}>
       <div>
         Render, search, annotate, transform, and output files for any document
         with supported content types.

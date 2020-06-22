@@ -3,8 +3,33 @@ name: Wrappers
 route: /wrappers/
 ---
 
+import { Playground } from 'docz';
+import { Doc } from 'unified-doc-react';
+
 # Wrappers
 
-Wrappers implement `unified-doc` APIs in another ecosystem.
+Wrappers implement and expose `unified-doc` APIs in other ecosystems.
 
 ## `unified-doc-react`
+
+<Playground>
+  <Doc
+    options={{
+      annotations: [
+        { id: 'a', start: 0, end: 5 },
+        { id: 'b', start: 18, end: 29, style: { background: 'blue', color: 'white' } },
+        { id: 'c', start: 57, end: 68, style: { background: 'blue', color: 'white' } },
+        { id: 'd', start: 69, end: 80, style: { background: 'blue', color: 'white' } },
+        {id: 'e', start: 81, end: 86 },
+      ],
+      annotationCallbacks: {
+        onMouseEnter: (annotation, event) => {
+          event.stopPropagation();
+          console.log(`mouseenter on ${JSON.stringify(annotation, null, 2)}`);
+        }
+      },
+      content: '[`react`](https://github.com/facebook/react) wrapper for `unified-doc`\n\nGithub: https://github.com/unified-doc/unified-doc-react',
+      filename: 'doc.md',
+    }}
+  />
+</Playground>

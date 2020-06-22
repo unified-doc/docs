@@ -4,7 +4,7 @@ export default {
   menu: [
     'Home',
     { name: 'Demos', menu: ['Overview'] },
-    { name: 'Doc API', menu: ['Overview', 'Attributes', 'Methods', 'Options'] },
+    { name: 'Doc API', menu: ['Overview', 'Methods', 'Options'] },
     'DOM API',
     'CLI API',
     'Wrappers',

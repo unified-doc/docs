@@ -44,15 +44,16 @@ function Slide({ slide }) {
   }
 
   const { isCentered = true, title, render } = slide;
+  const style = isCentered ? styles.center : styles.stretch;
 
   return (
     <FlexLayout
       alignItems={isCentered ? 'center' : 'flex-start'}
       flexDirection="column"
       justifyContent={isCentered ? 'center' : 'flex-start'}
-      space={2}
+      space={4}
       sx={{
-        ...styles.stretch,
+        ...style,
         animation: `${styles.keyframes.fade} 1s ease`,
       }}>
       {title && <h1>{title}</h1>}
@@ -108,7 +109,7 @@ export default function Slides({ initialSlideNumber = 0, slides = [] }) {
     <FlexLayout
       flexDirection="column"
       space={4}
-      sx={styles.center}
+      sx={styles.stretch}
       onClick={nextSlide}
       onContextMenu={event => {
         event.preventDefault();

@@ -18,7 +18,7 @@ A `doc` can be configured with the following options:
 
 ```ts
 interface Options {
-  content?: string | Buffer;
+  content?: string;
   filename: string;
   compiler?: Compiler;
   annotations?: Annotation[];
@@ -31,12 +31,11 @@ interface Options {
 ```
 
 ## `content`
-A `doc` manages `content` that should be provided to it as a `string` or `Buffer`.  The following are valid forms of `content`;
+A `doc` manages `content` that should be provided to it as a `string`.  The following are valid forms of `content`;
 
 ```js
 const stringContent = 'some string';
-const bufferContent = Buffer.from('some string');
-const contentFromFile = await someBlob.text()
+const contentFromFile = await someBlob.text();
 ```
 
 ## `filename`

@@ -4,7 +4,7 @@ name: Overview
 route: /doc/
 ---
 
-# Overview
+# Doc API
 A `doc` represents an instance of `unified-doc` with useful attributes and methods to manage `content`.
 
 This section provides a quick overview of a `doc`.  More details are provided in subsequent sections that include code Playgrounds to interact and preview code changes.
@@ -29,22 +29,13 @@ interface Options {
   annotations?: Annotation[];
   annotationCallbacks?: AnnotationCallbacks;
   compiler?: Compiler;
-  content?: string | Buffer;
+  content?: string;
   plugins?: Plugin | Plugin[];
   sanitizeSchema?: SanitizeSchema;
   searchAlgorithm?: SearchAlgorithm;
   searchOptions?: SearchOptions;
 }
 ```
-
-## Attributes
-A `doc` has the following attributes:
-
-### `doc.filename`
-Filename provided during initialization.
-
-### `doc.content`
-Source content provided during initialization.
 
 ## Methods
 A `doc` provides the following useful methods to manage `content`:
