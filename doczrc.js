@@ -52,8 +52,8 @@ function getThemeConfig() {
   };
 
   const fonts = {
-    body: 'Inter',
-    heading: 'Inter',
+    body: 'Inter, sans-serif',
+    heading: 'Inter, sans-serif',
     monospace: 'courier',
   };
 

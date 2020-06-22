@@ -207,11 +207,12 @@ console.log(doc2.text()); // 'some markdown content';
 ```
 
 ### `doc.search(query: string, options?: object): SearchResultSnippet[]`
-Searches on the `text` content of a `doc` when a `query` string and configurable `options` is provided.  Returns `SearchResultSnippet`.  This method supports a simple and robust way to search on a `doc` irregardless of its underlying `mimeType`. Custom `searchAlgorithm` with the same unified interface can be easily integrated.
+Searches on the `text` content of a `doc` when a `query` string and configurable `options` is provided.  Returns `SearchResultSnippet`.  This method supports a simple and robust way to search on a `doc` irregardless of its underlying `mimeType`. Custom `searchAlgorithm` with the same unified interface using a shared `searchOptions` can be easily integrated.
 
 ```js
 const content = '> **some** markdown content';
-const searchOptions = { snippetOffsetPadding: 10 }
+const searchOptions = { minMatchCharLength: 2, snippetOffsetPadding: 10 }
+
 doc.search('some|content', { enableRegexp: true });
 // [
   // { start: 0, end: 5, value: 'some', snippet: ['', 'some', ' markdown c']},

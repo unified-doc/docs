@@ -75,7 +75,9 @@ export default function DiffDemo() {
       <Card sx={{ flex: '1 1 auto' }}>
         <FlexLayout flexDirection="column">
           <h4>Diff</h4>
-          <Box as="prep" sx={{ whiteSpace: 'pre-line' }}>{result}</Box>
+          <Box as="prep" sx={{ whiteSpace: 'pre-line' }}>
+            {result}
+          </Box>
         </FlexLayout>
       </Card>
     </FlexLayout>

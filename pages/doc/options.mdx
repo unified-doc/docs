@@ -260,6 +260,7 @@ By default, a `doc` will be safely sanitized.  You can supply a custom schema to
 
 ```ts
 interface SearchOptions {
+  minMatchCharLength?: number;
   snippetOffsetPadding?: number;
 }
 ```
@@ -270,7 +271,8 @@ A `doc` supports a unified interface for searching (more details on this is cove
   {() => {
     /** ====== START EDIT ======  **/
     const searchOptions = {
-      snippetOffsetPadding: 10,  // configure this
+      minMatchCharLength: 3,
+      snippetOffsetPadding: 10,
     };
     /** ====== END EDIT ======  **/
     const [query, setQuery] = useState('');

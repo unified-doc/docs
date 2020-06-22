@@ -39,14 +39,15 @@
   "dependencies": {
     "diff": "^4.0.2",
     "docz": "^2.3.1",
+    "lodash": "^4.17.15",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-refresh": "^0.8.3",
     "rehype-react": "^6.0.0",
     "rehype-toc": "^3.0.1",
     "theme-ui": "^0.3.1",
-    "unified-doc": "^0.1.13-beta.0",
-    "unified-doc-react": "^0.1.10-beta.0",
+    "unified-doc": "^0.1.14-beta.0",
+    "unified-doc-react": "^0.1.11-beta.0",
     "uuid": "^8.1.0"
   },
   "devDependencies": {

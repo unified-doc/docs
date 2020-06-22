@@ -46,7 +46,7 @@ export default function Home() {
   }
 
   function search(value) {
-    const results = doc.search(value, { minMatchCharLength: 3 });
+    const results = doc.search(value);
     setQuery(value);
     setResults(results.map(result => ({ ...result, id: uuidv4() })));
   }
