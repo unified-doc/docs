@@ -9,7 +9,7 @@ import { createElement, useState } from 'react';
 import rehype2react from 'rehype-react';
 import unifiedDoc from 'unified-doc';
 
-import { Button, FlexLayout, Input } from '~/ui';
+import { Button, FlexLayout, TextInput } from '~/ui';
 
 export const doc = unifiedDoc({
   compiler: [rehype2react, { createElement }],
@@ -59,7 +59,7 @@ interface FileData {
 }
 ```
 
-Returns file data for supported extensions (e.g. `.html`, `.txt`).  If an extension is not provided, the source file is returned.
+Returns file data for supported extensions (e.g. `.html`, `.txt`, `.uni`).  If an extension is not provided, the source file is returned.
 
 ### Source file
 <Playground>
@@ -117,10 +117,9 @@ Searches on the `text` content of a `doc` when a `query` string and configurable
   {() => {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
-    function search(e) {
-      const query = e.target.value;
-      const results = doc.search(query);
-      setQuery(query);
+    function search(value) {
+      const results = doc.search(value);
+      setQuery(value);
       setResults(results);
     }
     function clear() {
@@ -130,8 +129,13 @@ Searches on the `text` content of a `doc` when a `query` string and configurable
     return (
       <FlexLayout flexDirection="column" space={2}>
         {doc.compile().result}
-        <h4>Search</h4>
-        <Input value={query} onChange={search} />
+        <TextInput
+          id="search"
+          label="Search"
+          placeholder="search"
+          value={query}
+          onChange={search}
+        />
         {results.map((result, i) => {
           const [left, matched, right] = result.snippet;
           return (

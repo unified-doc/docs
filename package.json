@@ -37,6 +37,7 @@
     "lint": "xo --fix; tsc"
   },
   "dependencies": {
+    "diff": "^4.0.2",
     "docz": "^2.3.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

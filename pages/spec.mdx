@@ -135,8 +135,15 @@ interface FileData {
 }
 ```
 
+The core supported file extensions and behaviors are:
+- `null`: returns the source file without modification.
+- `.html`: returns the compiled `html` contents in a `.html` file.
+- `.txt`: returns only the `text` content in a `.txt` file.
+- `.uni`: returns the `hast` content and other metadata in a `.uni` file.
+
 ```js
 const content = '> **some** markdown content';
+
 console.log(doc.file()); // outputs source file
 // {
   // content: '> **some** markdown content',

@@ -10,7 +10,7 @@ import rehype2react from 'rehype-react';
 import toc from 'rehype-toc';
 import unifiedDoc from 'unified-doc';
 
-import { Button, FlexLayout, Input } from '~/ui';
+import { Button, FlexLayout, TextInput } from '~/ui';
 
 # Options
 
@@ -275,10 +275,9 @@ A `doc` supports a unified interface for searching (more details on this is cove
     /** ====== END EDIT ======  **/
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
-    function search(e) {
-      const query = e.target.value;
-      const results = doc.search(query);
-      setQuery(query);
+    function search(value) {
+      const results = doc.search(value);
+      setQuery(value);
       setResults(results);
     }
     function clear() {
@@ -296,8 +295,13 @@ A `doc` supports a unified interface for searching (more details on this is cove
     return (
       <FlexLayout flexDirection="column" space={2}>
         {doc.compile().result}
-        <h4>Search</h4>
-        <Input value={query} onChange={search} />
+        <TextInput
+          id="search"
+          label="Search"
+          placeholder="search"
+          value={query}
+          onChange={search}
+        />
         {results.map((result, i) => {
           const [left, matched, right] = result.snippet;
           return (
@@ -361,10 +365,9 @@ The following example demonstrates a custom `searchAlgorithm` that pads the matc
     /** ====== END EDIT ======  **/
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
-    function search(e) {
-      const query = e.target.value;
-      const results = doc.search(query);
-      setQuery(query);
+    function search(value) {
+      const results = doc.search(value);
+      setQuery(value);
       setResults(results);
     }
     function clear() {
@@ -384,8 +387,13 @@ The following example demonstrates a custom `searchAlgorithm` that pads the matc
     return (
       <FlexLayout flexDirection="column" space={2}>
         {doc.compile().result}
-        <h4>Search</h4>
-        <Input value={query} onChange={search} />
+        <TextInput
+          id="search"
+          label="Search"
+          placeholder="search"
+          value={query}
+          onChange={search}
+        />
         {results.map((result, i) => {
           const { snippet, value } = result;
           const [left, _matched, right] = snippet;

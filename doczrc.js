@@ -47,6 +47,10 @@ function getThemeConfig() {
     },
   };
 
+  const colors = {
+    muted: 'rgba(128, 128, 128, 0.7)',
+  };
+
   const fonts = {
     body: 'Inter',
     heading: 'Inter',
@@ -68,10 +72,6 @@ function getThemeConfig() {
     },
   };
 
-  const colors = {
-    muted: 'rgba(128, 128, 128, 0.7)',
-  };
-
   const text = {
     muted: {
       color: 'muted',
@@ -90,6 +90,9 @@ function getThemeConfig() {
     },
     h1: h,
     h2: h,
+    pre: {
+      fontSize: 2,
+    },
   };
 
   return {

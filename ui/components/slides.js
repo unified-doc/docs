@@ -79,7 +79,7 @@ export default function Slides({ initialSlideNumber = 0, slides = [] }) {
   }, [slideNumber]);
 
   useEffect(() => {
-    function handleKeydown(event) {
+    function keydown(event) {
       const slideKeys = ['ArrowDown', 'ArrowRight', 'ArrowLeft', 'ArrowUp'];
       if (slideKeys.includes(event.key) && event.target.nodeName !== 'INPUT') {
         event.preventDefault();
@@ -98,10 +98,10 @@ export default function Slides({ initialSlideNumber = 0, slides = [] }) {
       }
     }
 
-    document.addEventListener('keydown', handleKeydown);
+    document.addEventListener('keydown', keydown);
 
     return () => {
-      document.removeEventListener('keydown', handleKeydown);
+      document.removeEventListener('keydown', keydown);
     };
   }, [nextSlide, previousSlide]);
 

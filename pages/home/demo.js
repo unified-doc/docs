@@ -4,7 +4,7 @@ import unifiedDoc from 'unified-doc';
 import { v4 as uuidv4 } from 'uuid';
 
 import { htmlIpsum as initialFile } from '~/files';
-import { Button, FlexLayout, Input } from '~/ui';
+import { Button, FileInput, FlexLayout, TextInput } from '~/ui';
 
 import './doc.css';
 
@@ -17,14 +17,14 @@ const viewOptions = {
 
 export default function Home() {
   const [file, setFile] = useState(initialFile);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState([]);
   const [selectedViewOption, setSelectedViewOption] = useState(
     viewOptions.HTML,
   );
 
-  const annotations = searchResults.map(searchResult => ({
-    ...searchResult,
+  const annotations = results.map(result => ({
+    ...result,
   }));
 
   const doc = unifiedDoc({
@@ -35,24 +35,20 @@ export default function Home() {
     searchOptions: { snippetOffsetPadding: 10 },
   });
 
-  async function handleUploadFile(event) {
-    const file = event.target.files[0];
+  async function uploadFile(file) {
     const content = await file.text();
     setFile({ filename: file.filename, content });
   }
 
-  function handleClearSearch() {
-    setSearchQuery('');
-    setSearchResults([]);
+  function clearSearch() {
+    setQuery('');
+    setResults([]);
   }
 
-  function handleSearch(event) {
-    const query = event.target.value;
-    const searchResults = doc.search(query, { minMatchCharLength: 3 });
-    setSearchQuery(query);
-    setSearchResults(
-      searchResults.map(searchResult => ({ ...searchResult, id: uuidv4() })),
-    );
+  function search(value) {
+    const results = doc.search(value, { minMatchCharLength: 3 });
+    setQuery(value);
+    setResults(results.map(result => ({ ...result, id: uuidv4() })));
   }
 
   const compiled = doc.compile();
@@ -84,7 +80,7 @@ export default function Home() {
         Render, search, annotate, transform, and output files for any document
         with supported content types.
       </div>
-      <Input type="file" onChange={handleUploadFile} />
+      <FileInput id="upload-file" label="upload file" onChange={uploadFile} />
       <FlexLayout space={2}>
         {Object.values(viewOptions).map(viewOption => (
           <Button
@@ -97,9 +93,15 @@ export default function Home() {
           </Button>
         ))}
       </FlexLayout>
-      <Input value={searchQuery} onChange={handleSearch} />
-      {searchResults.map(searchResult => {
-        const { id, snippet } = searchResult;
+      <TextInput
+        id="search"
+        label="Search"
+        placeholder="search"
+        value={query}
+        onChange={search}
+      />
+      {results.map(result => {
+        const { id, snippet } = result;
         const [left, matched, right] = snippet;
         return (
           <div key={id}>
@@ -109,7 +111,7 @@ export default function Home() {
           </div>
         );
       })}
-      <Button onClick={handleClearSearch}>Clear</Button>
+      <Button onClick={clearSearch}>Clear</Button>
       {rendered}
     </FlexLayout>
   );
