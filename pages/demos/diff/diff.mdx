@@ -8,9 +8,13 @@ import Diff from './diff';
 
 # Diff
 
-Use the [`diff`][diff] package to diff the string contents of two files.  Construct the diffed `content` and keep track of `annotations` while iterating through diffed parts.  Render the diffed `content` with a `doc` instance and apply `annotations`.  Use simple CSS to indicate added or removed parts.
+This demo uses the [`diff`][diff] package to diff the string contents of two files.  The diffed `content` and `annotations` are created while iterating through diffed parts.  We then simply render the diffed `content` and `annotations` with `unified-doc`.  Simple CSS is specified on the `annotations` to distinguish between added and removed parts.
 
 > **Note**:  The example preloads HTML and markdown content for comparison.  It is visually clear in the preloaded example why markdown is an _awesome_ markup language that closely resembles and therefore interoperable with HTML.
+
+## Concepts
+- Dynamically creating `content` and `annotations`.
+- Applying simple CSS to `annotations`.
 
 ## Code
 https://github.com/unified-doc/docs/tree/master/pages/demos/diff/diff.js

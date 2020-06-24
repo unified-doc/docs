@@ -5,8 +5,7 @@ import { Box } from '~/ui';
 export default function Card({ children, sx = {}, ...rest }) {
   return (
     <Box
-      px={4}
-      py={3}
+      p={4}
       sx={{
         ...sx,
         borderRadius: '4px',

@@ -10,7 +10,6 @@ import './doc.css';
 
 const viewOptions = {
   HTML: 'html',
-  STRING: 'string',
   TEXT: 'text',
   HAST: 'hast',
 };
@@ -53,16 +52,12 @@ export default function Home() {
 
   const compiled = doc.compile();
   const hast = doc.parse();
-  const text = doc.text();
-  const string = doc.string();
+  const textContent = doc.textContent();
 
   let rendered;
   switch (selectedViewOption) {
-    case viewOptions.STRING:
-      rendered = <pre>{string}</pre>;
-      break;
     case viewOptions.TEXT:
-      rendered = <pre>{text}</pre>;
+      rendered = <pre>{textContent}</pre>;
       break;
     case viewOptions.HAST:
       rendered = <pre>{JSON.stringify(hast, null, 2)}</pre>;
@@ -100,6 +95,7 @@ export default function Home() {
         value={query}
         onChange={search}
       />
+      <Button onClick={clearSearch}>Clear</Button>
       {results.map(result => {
         const { id, snippet } = result;
         const [left, matched, right] = snippet;
@@ -111,7 +107,6 @@ export default function Home() {
           </div>
         );
       })}
-      <Button onClick={clearSearch}>Clear</Button>
       {rendered}
     </FlexLayout>
   );

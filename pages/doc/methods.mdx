@@ -106,12 +106,15 @@ interface SearchResultSnippet extends SearchResult {
 }
 
 interface SearchResult {
+  [key]: string;
   start: number;
   end: number;
   value: string;
 }
 ```
-Searches on the `text` content of a `doc` when a `query` string and configurable `options` is provided.  Returns `SearchResultSnippet`.  This method supports a simple and robust way to search on a `doc` irregardless of its underlying `mimeType`. Custom `searchAlgorithm` with the same unified interface can be easily integrated
+Searches on the `textContent` of a `doc` when a `query` string and configurable `options` is provided.  Returns `SearchResultSnippet`.  This method supports a simple and robust way to search on a `doc` irregardless of its underlying `mimeType`. Custom `searchAlgorithm` with the same unified interface can be easily integrated.
+
+The default `searchAlgorithm` used by the `doc` is [`unified-doc-search-micromatch`][unified-doc-search-micromatch], which implements convenient wildcard/bash matching features via the [`micromatch`][micromatch] package.
 
 <Playground>
   {() => {
@@ -132,10 +135,15 @@ Searches on the `text` content of a `doc` when a `query` string and configurable
         <TextInput
           id="search"
           label="Search"
-          placeholder="search"
+          placeholder="try 'content', 'some*content'"
           value={query}
           onChange={search}
         />
+        {results.length > 0 && (
+          <Button variant="secondary" onClick={clear}>
+            Clear
+          </Button>
+        )}
         {results.map((result, i) => {
           const [left, matched, right] = result.snippet;
           return (
@@ -146,40 +154,25 @@ Searches on the `text` content of a `doc` when a `query` string and configurable
             </div>
           );
         })}
-        {results.length > 0 && (
-          <Button variant="secondary" onClick={clear}>
-            Clear
-          </Button>
-        )}
       </FlexLayout>
     )
   }}
 </Playground>
 
-## `string()`
+## `textContent()`
 
 ```ts
-function string(): string;
+function textContent(): string;
 ```
 
-Returns the string representation of the source document content.
+The `textContent` of a `doc` is obtained by extracting values of all text nodes in the `hast` representation of the source `content`.  The `textContent` is free of markup and metadata, and supports many important `doc` features (annotations and searching)
 
 <Playground>
-  <pre>{doc.string()}</pre>
-</Playground>
-
-## `text()`
-
-```ts
-function text(): string;
-```
-
-The `text` content of a `doc` is obtained by extracting values of all `text` nodes in the `hast` representation of the source `content`.  The `text` content is free of markup and metadata, and supports many important `doc` features (annotations and searching).
-
-<Playground>
-  <pre>{doc.text()}</pre>
+  <pre>{doc.textContent()}</pre>
 </Playground>
 
 <!-- Links -->
 [hast]: https://github.com/syntax-tree/hast
+[micromatch]: https://github.com/micromatch/micromatch
 [vfile]: https://github.com/vfile/vfile
+[unified-doc-search-micromatch]: https://github.com/unified-doc/unified-doc/tree/master/packages/unified-doc-search-micromatch

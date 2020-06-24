@@ -6,6 +6,7 @@ View the docs at: https://unified-doc.netlify.app/
 ## Development
 Docs are:
 - progressively developed and built with `docz`.
+- linted with `xo` + `prettier` + `tsc`.
 - softly-typed with `typescript` using `checkJs`.
 
 ```sh

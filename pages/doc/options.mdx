@@ -119,9 +119,9 @@ A `compiler` compiles the source `content` into output results, usable by render
 }
 ```
 
-Annotations describe how `text` content in a `doc` should be marked.  This is achieved by specifying  the `start` and `end` offset of the annotation relative to the `text` content.  Custom `classNames` and `styles` can be provided to customize annotations.  Overlapping annotations are also supported.
+Annotations describe how `textContent` in a `doc` should be marked.  This is achieved by specifying  the `start` and `end` offset of the annotation relative to the `textContent`.  Custom `classNames` and `styles` can be provided to customize annotations.  Overlapping annotations are also supported.
 
-The following example demonstrates core features of annotations.  The `string()` and `text()` representation of the `doc` is provided to help visualize how annotations are processed against the `text` content of the `doc`.
+The following example demonstrates core features of annotations.  The `textContent` representation of the `doc` is provided to help visualize how annotations are processed against the `textContent`.
 
 <Playground>
   {() => {
@@ -150,9 +150,7 @@ The following example demonstrates core features of annotations.  The `string()`
         <h4>Compiled</h4>
         {doc.compile().result}
         <h4>Text</h4>
-        <pre>{doc.text()}</pre>
-        <h4>String</h4>
-        <pre>{doc.string()}</pre>
+        <pre>{doc.textContent()}</pre>
       </div>
     );
   }}
@@ -260,7 +258,7 @@ By default, a `doc` will be safely sanitized.  You can supply a custom schema to
 
 ```ts
 interface SearchOptions {
-  minMatchCharLength?: number;
+  minQueryLength?: number;
   snippetOffsetPadding?: number;
 }
 ```
@@ -271,8 +269,8 @@ A `doc` supports a unified interface for searching (more details on this is cove
   {() => {
     /** ====== START EDIT ======  **/
     const searchOptions = {
-      minMatchCharLength: 3,
-      snippetOffsetPadding: 10,
+      minQueryLength: 3,
+      snippetOffsetPadding: 100,
     };
     /** ====== END EDIT ======  **/
     const [query, setQuery] = useState('');
@@ -300,10 +298,15 @@ A `doc` supports a unified interface for searching (more details on this is cove
         <TextInput
           id="search"
           label="Search"
-          placeholder="search"
+          placeholder="try 'content', 'some*content'"
           value={query}
           onChange={search}
         />
+        {results.length > 0 && (
+          <Button variant="secondary" onClick={clear}>
+            Clear
+          </Button>
+        )}
         {results.map((result, i) => {
           const [left, matched, right] = result.snippet;
           return (
@@ -314,11 +317,6 @@ A `doc` supports a unified interface for searching (more details on this is cove
             </div>
           );
         })}
-        {results.length > 0 && (
-          <Button variant="secondary" onClick={clear}>
-            Clear
-          </Button>
-        )}
       </FlexLayout>
     );
   }}
@@ -334,13 +332,14 @@ type SearchAlgorithm = (
 ) => SearchResult[];
 
 interface SearchResult {
+  [key]: string;
   start: number;
   end: number;
   value: string;
 }
 ```
 
-A `searchAlgorithm` implements the behaviors of searching a `doc`. A `searchAlgorithm` implementation simply needs to return `SearchResults` containing text offsets relative to the `text` content of a `doc` when a `query` string is provided.  The `doc` will apply unified search features (e.g. snippets) on top of this algorithm.
+A `searchAlgorithm` implementation simply needs to return `SearchResults` containing text offsets relative to the `textContent` of a `doc` when a `query` string is provided.  The flexibility to attach a custom `searchAlgorithm` to a `doc` allows implementors to pick algorithms that best fit their needs.
 
 The following example demonstrates a custom `searchAlgorithm` that pads the matched content with `'==='` strings.
 
@@ -392,10 +391,15 @@ The following example demonstrates a custom `searchAlgorithm` that pads the matc
         <TextInput
           id="search"
           label="Search"
-          placeholder="search"
+          placeholder="try 'content'"
           value={query}
           onChange={search}
         />
+        {results.length > 0 && (
+          <Button variant="secondary" onClick={clear}>
+            Clear
+          </Button>
+        )}
         {results.map((result, i) => {
           const { snippet, value } = result;
           const [left, _matched, right] = snippet;
@@ -407,11 +411,6 @@ The following example demonstrates a custom `searchAlgorithm` that pads the matc
             </div>
           );
         })}
-        {results.length > 0 && (
-          <Button variant="secondary" onClick={clear}>
-            Clear
-          </Button>
-        )}
       </FlexLayout>
     );
   }}

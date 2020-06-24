@@ -8,10 +8,23 @@ import Search from './search';
 
 # Search
 
-Use custom search algorithms and configure them with common options. Search results are applied as `annotations` that highlight where matches occur in a `doc`.  Clicking on a search result links to the match in the `doc` with the use of anchor links.
+This demo uses the `doc.search()` API method to search within a document.  Search results are rendered in a sidebar as snippets, and are also applied as `annotations` in the document.  Clicking on a snippet will navigate to the matched annotation in the document (simple anchorlink implementation).  Upon navigating to the matched annotation, we briefly highlight the matched line visually using the `highlight()` DOM API method.
+
+> **Note**: The default search algorithm attached to the `doc` uses the [`micromatch`][micromatch] package which implements convenient bash/wildcard matching.  Please refer to the package for details on customizing matching through configurable options.
+
+## Concepts
+- Using the `doc.search()` API method.
+- Using the `highlight()` DOM API method.
+- Using [`micromatch`][micromatch] features through configurable options.
+- Rendering search result snippets.
+- Applying search results as annotations.
+- Creating anchorlinks using the `annotation.id` field.
 
 ## Code
 https://github.com/unified-doc/docs/tree/master/pages/demos/search/search.js
 
 ## Demo
 <Search />
+
+<!-- Links -->
+[micromatch]: https://github.com/micromatch/micromatch

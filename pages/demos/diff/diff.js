@@ -55,27 +55,29 @@ export default function DiffDemo() {
   const { result } = docDiff.compile();
 
   return (
-    <FlexLayout space={4}>
-      <Card sx={{ flex: '0 0 40%' }}>
-        <FlexLayout flexDirection="column" space={6}>
+    <FlexLayout space={3}>
+      <FlexLayout flexDirection="column" space={3} sx={{ flex: '0 0 40%' }}>
+        <Card>
           <Textarea
             label="Content 1"
             id="content-1"
             value={content1}
             onChange={setContent1}
           />
+        </Card>
+        <Card>
           <Textarea
             label="Content 2"
             id="content-2"
             value={content2}
             onChange={setContent2}
           />
-        </FlexLayout>
-      </Card>
+        </Card>
+      </FlexLayout>
       <Card sx={{ flex: '1 1 auto' }}>
         <FlexLayout flexDirection="column">
           <h4>Diff</h4>
-          <Box as="prep" sx={{ whiteSpace: 'pre-line' }}>
+          <Box as="pre" sx={{ whiteSpace: 'pre-line' }}>
             {result}
           </Box>
         </FlexLayout>
