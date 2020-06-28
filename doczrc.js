@@ -3,10 +3,10 @@ export default {
   ignore: ['readme.md', 'todos.md'],
   menu: [
     'Home',
+    { name: 'Demos', menu: ['Overview'] },
     { name: 'Doc API', menu: ['Overview', 'Methods', 'Options'] },
     'DOM API',
     'CLI API',
-    { name: 'Demos', menu: ['Overview'] },
     'Wrappers',
     'Recipes',
     'Packages',

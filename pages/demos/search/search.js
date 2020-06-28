@@ -27,7 +27,7 @@ export default function Search() {
   const doc = unifiedDoc({
     annotations: results,
     compiler: [rehype2react, { createElement }],
-    content: alice.content.slice(0, 50000),
+    content: alice.content,
     filename: alice.filename,
     searchOptions: {
       minQueryLength,

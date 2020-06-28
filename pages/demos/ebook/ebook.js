@@ -17,63 +17,6 @@ const bookmarkStyles = [
   { label: 'redline', value: 'bookmark-redline' },
 ];
 
-function Bookmarks({
-  bookmarks,
-  onClearBookmarks,
-  onClickBookmark,
-  onRemoveBookmark,
-}) {
-  return (
-    <FlexLayout flexDirection="column" space={2}>
-      {bookmarks.length > 0 && (
-        <Button variant="secondary" onClick={onClearBookmarks}>
-          Clear all
-        </Button>
-      )}
-      {bookmarks.map(bookmark => {
-        const { id, value, classNames = [] } = bookmark;
-        return (
-          <FlexLayout
-            key={id}
-            alignItems="center"
-            justifyContent="space-between"
-            space={2}>
-            <Box
-              as="mark"
-              className={classNames.join(' ')}
-              sx={{
-                display: 'block',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
-              }}
-              onClick={() => onClickBookmark(bookmark)}>
-              <Box
-                as="a"
-                href={`#${id}`}
-                sx={{
-                  color: 'unset',
-                  textDecoration: 'none',
-                }}>
-                {value}
-              </Box>
-            </Box>
-            <Box
-              sx={{
-                color: 'muted',
-                cursor: 'pointer',
-                flex: '0 0 auto',
-              }}
-              onClick={event => onRemoveBookmark(bookmark, event)}>
-              ×
-            </Box>
-          </FlexLayout>
-        );
-      })}
-    </FlexLayout>
-  );
-}
-
 export default function Ebook() {
   const docRef = useRef();
   const [bookmarks, setBookmarks] = useState([]);
@@ -123,7 +66,7 @@ export default function Ebook() {
       onClick: handleRemoveBookmark,
     },
     compiler: [rehype2react, { createElement }],
-    content: alice.content.slice(0, 50000),
+    content: alice.content,
     filename: alice.filename,
   });
 
@@ -145,12 +88,53 @@ export default function Ebook() {
             value={bookmarkStyle}
             onChange={setBookmarkCategory}
           />
-          <Bookmarks
-            bookmarks={bookmarks}
-            onClearBookmarks={handleClearBoomarks}
-            onClickBookmark={handleClickBookmark}
-            onRemoveBookmark={handleRemoveBookmark}
-          />
+          {bookmarks.length > 0 && (
+            <Button variant="secondary" onClick={handleClearBoomarks}>
+              Clear all
+            </Button>
+          )}
+          <FlexLayout flexDirection="column" space={2}>
+            {bookmarks.map(bookmark => {
+              const { id, value, classNames = [] } = bookmark;
+              return (
+                <FlexLayout
+                  key={id}
+                  alignItems="center"
+                  justifyContent="space-between"
+                  space={2}>
+                  <Box
+                    as="mark"
+                    className={classNames.join(' ')}
+                    sx={{
+                      display: 'block',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                    }}
+                    onClick={() => handleClickBookmark(bookmark)}>
+                    <Box
+                      as="a"
+                      href={`#${id}`}
+                      sx={{
+                        color: 'unset',
+                        textDecoration: 'none',
+                      }}>
+                      {value}
+                    </Box>
+                  </Box>
+                  <Box
+                    sx={{
+                      color: 'muted',
+                      cursor: 'pointer',
+                      flex: '0 0 auto',
+                    }}
+                    onClick={event => handleRemoveBookmark(bookmark, event)}>
+                    ×
+                  </Box>
+                </FlexLayout>
+              );
+            })}
+          </FlexLayout>
         </FlexLayout>
       </Card>
     </FlexLayout>
