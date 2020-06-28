@@ -46,7 +46,7 @@
     "rehype-toc": "^3.0.1",
     "theme-ui": "^0.3.1",
     "unified-doc": "^0.1.16-beta.0",
-    "unified-doc-dom": "^0.1.5-beta.0",
+    "unified-doc-dom": "^0.1.7-beta.0",
     "unified-doc-react": "^0.1.12-beta.0",
     "uuid": "^8.2.0"
   },
@@ -82,6 +82,7 @@
       "import/extensions": "off",
       "import/no-anonymous-default-export": "off",
       "import/no-unassigned-import": "off",
+      "no-alert": "off",
       "no-unused-vars": [
         "error",
         {

@@ -1,0 +1,21 @@
+.bookmark-default {
+  border: 1px solid black;
+}
+
+.bookmark-important {
+  background: orange;
+  border: 1px solid black;
+}
+
+.bookmark-quote {
+  background: lightgray;
+  color: gray;
+  font-style: italic;
+}
+
+.bookmark-redline {
+  background: none;
+  color: red;
+  text-decoration: underline;
+  text-decoration-color: red;
+}

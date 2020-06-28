@@ -1,7 +1,7 @@
-import React, { createElement, useEffect, useRef, useState } from 'react';
+import React, { createElement, useRef, useState } from 'react';
 import rehype2react from 'rehype-react';
 import unifiedDoc from 'unified-doc';
-import { highlight, selectText } from 'unified-doc-dom';
+import { highlight } from 'unified-doc-dom';
 import { v4 as uuidv4 } from 'uuid';
 import 'unified-doc-dom/lib/highlight.css';
 
@@ -24,13 +24,6 @@ export default function Search() {
   const [results, setResults] = useState([]);
   const [snippetOffsetPadding, setSnippetOffsetPadding] = useState(100);
 
-  useEffect(() => {
-    function callback(selectedText) {
-      console.log(selectedText);
-    }
-    return selectText(docRef.current, { callback });
-  });
-
   const doc = unifiedDoc({
     annotations: results,
     compiler: [rehype2react, { createElement }],
@@ -48,10 +41,12 @@ export default function Search() {
   }
 
   function search(value) {
-    const results = doc.search(value, { nocase: !isCaseSensitive }).map(result => ({
-      ...result,
-      id: uuidv4(),
-    }));
+    const results = doc
+      .search(value, { nocase: !isCaseSensitive })
+      .map(result => ({
+        ...result,
+        id: uuidv4(),
+      }));
     setQuery(value);
     setResults(results);
   }
@@ -97,7 +92,7 @@ export default function Search() {
             />
           </FlexLayout>
         </Card>
-        <Card>
+        <Card sx={{ flex: '1 1 auto' }}>
           <FlexLayout flexDirection="column" space={3}>
             <TextInput
               id="search"
