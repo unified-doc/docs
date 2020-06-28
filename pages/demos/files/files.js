@@ -5,6 +5,8 @@ import unifiedDoc from 'unified-doc';
 import * as files from '~/files';
 import { Box, Button, Card, Checkbox, FlexLayout, Select, Text } from '~/ui';
 
+import { downloadFile } from '../utils';
+
 const docs = Object.values(files).map(file =>
   unifiedDoc({
     compiler: [rehype2react, { createElement }],
@@ -18,21 +20,6 @@ const previewTypeOptions = [
   { label: 'file content', value: 'fileContent' },
   { label: 'text content', value: 'textContent' },
 ];
-
-function downloadFile(fileData) {
-  const { content, name, type } = fileData;
-  const file = new File([content], name, { type });
-  const data = window.URL.createObjectURL(file);
-  const link = document.createElement('a');
-  link.href = data;
-  link.download = name;
-  link.click();
-  setTimeout(() => {
-    // For Firefox it is necessary to delay revoking the ObjectURL
-    window.URL.revokeObjectURL(data);
-    link.remove();
-  }, 100);
-}
 
 function Icon({ contents, filename, isSelected, onClick }) {
   const unit = 30;

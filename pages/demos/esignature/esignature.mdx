@@ -8,7 +8,14 @@ import ESignature from './esignature';
 
 # eSignature
 
+This demo shows how we can use `annotations` as a way to create placeholders for labels and signatures.  The sidebar renders inputs based on valid values for `annotations.data.type`.  Editing the input will transform the contents of the annotated `mark` elements.  When all fields are completed, you can download the modified document as a HTML file.
+
+> **Note**: You can create more advanced user experiences by transforming annotated `mark` elements into interactive signature placeholders instead of using a sidebar with text inputs.
+
 ## Concepts
+- Imperative transformation of annotated `mark` elements.
+- Making use the `annotation.data` field.
+- Customize `annotations` with CSS.
 
 ## Code
 https://github.com/unified-doc/docs/tree/master/pages/demos/esignature/esignature.js

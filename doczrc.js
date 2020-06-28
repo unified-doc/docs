@@ -32,6 +32,10 @@ function getThemeConfig() {
     ':hover': {
       opacity: 0.8,
     },
+    ':disabled': {
+      opacity: 0.3,
+      pointerEvents: 'none',
+    },
   };
 
   const buttons = {
