@@ -3,9 +3,9 @@ import rehype2react from 'rehype-react';
 import unifiedDoc from 'unified-doc';
 import 'unified-doc-dom/lib/highlight.css';
 
+import { downloadFile } from '~/pages/utils';
 import { Button, Card, FlexLayout, TextInput } from '~/ui';
 
-import { downloadFile } from '../utils';
 import './esignature.css';
 
 const content = `

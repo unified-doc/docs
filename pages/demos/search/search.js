@@ -138,7 +138,7 @@ export default function Search() {
                   onClick={() => highlight(docRef.current, id)}>
                   <Text variant="muted">
                     …{left}
-                    <Text as="span" sx={{ color: 'primary' }}>
+                    <Text as="span" color="primary">
                       <strong>{matched}</strong>
                     </Text>
                     {right}…

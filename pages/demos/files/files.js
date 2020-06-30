@@ -3,9 +3,8 @@ import rehype2react from 'rehype-react';
 import unifiedDoc from 'unified-doc';
 
 import * as files from '~/files';
+import { downloadFile } from '~/pages/utils';
 import { Box, Button, Card, Checkbox, FlexLayout, Select, Text } from '~/ui';
-
-import { downloadFile } from '../utils';
 
 const docs = Object.values(files).map(file =>
   unifiedDoc({
