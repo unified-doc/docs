@@ -15,7 +15,11 @@
     "prepare": "npm run clean; npm run build"
   },
   "dependencies": {
+    "@mdx-js/mdx": "^1.6.16",
+    "@mdx-js/react": "^1.6.16",
+    "dotenv": "^8.2.0",
     "gatsby": "^2.24.47",
+    "gatsby-source-github-api": "^0.2.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   },

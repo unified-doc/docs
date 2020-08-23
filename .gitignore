@@ -12,5 +12,6 @@ node_modules
 
 # project
 .cache
+.env
 package-lock.json
 public
