@@ -1,0 +1,54 @@
+{
+  "private": true,
+  "name": "docs",
+  "license": "MIT",
+  "homepage": "https://github.com/unified-doc/docs",
+  "repository": "https://github.com/unified-doc/docs",
+  "bugs": "https://github.com/unified-doc/docs/issues",
+  "author": "Chris Zhou <chrisrzhou@pm.me> (https://chrisrzhou.io)",
+  "scripts": {
+    "bootstrap": "npm install",
+    "build": "gatsby build",
+    "clean": "rm -rf dist",
+    "docs": "gatsby develop",
+    "lint": "xo --fix; tsc",
+    "prepare": "npm run clean; npm run build"
+  },
+  "dependencies": {
+    "gatsby": "^2.24.47",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "devDependencies": {
+    "eslint-config-xo-react": "^0.23.0",
+    "husky": "^4.2.5",
+    "typescript": "^4.0.2",
+    "xo": "^0.33.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm prepare; npm run lint"
+    }
+  },
+  "prettier": {
+    "bracketSpacing": true,
+    "jsxBracketSameLine": true,
+    "trailingComma": "all",
+    "useTabs": false
+  },
+  "xo": {
+    "env": [
+      "browser"
+    ],
+    "extends": [
+      "xo-react"
+    ],
+    "prettier": true,
+    "rules": {
+      "capitalized-comments": "off",
+      "padding-line-between-statements": "off",
+      "react/function-component-definition": "off",
+      "react/prop-types": "off"
+    }
+  }
+}
