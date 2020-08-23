@@ -2,6 +2,7 @@ require('dotenv').config();
 
 module.exports = {
   plugins: [
+    'gatsby-plugin-theme-ui',
     {
       resolve: 'gatsby-source-github-api',
       options: {

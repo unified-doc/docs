@@ -19,9 +19,16 @@
     "@mdx-js/react": "^1.6.16",
     "dotenv": "^8.2.0",
     "gatsby": "^2.24.47",
+    "gatsby-plugin-theme-ui": "^0.3.0",
     "gatsby-source-github-api": "^0.2.1",
+    "microtip": "^0.2.2",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "rehype-highlight": "^4.0.0",
+    "theme-ui": "^0.3.1",
+    "unified-doc": "^2.0.5",
+    "unified-doc-dom": "^2.0.0",
+    "unified-doc-react": "^2.0.0"
   },
   "devDependencies": {
     "eslint-config-xo-react": "^0.23.0",
@@ -50,6 +57,8 @@
     "prettier": true,
     "rules": {
       "capitalized-comments": "off",
+      "import/no-anonymous-default-export": "off",
+      "import/no-unassigned-import": "off",
       "padding-line-between-statements": "off",
       "react/function-component-definition": "off",
       "react/prop-types": "off"
