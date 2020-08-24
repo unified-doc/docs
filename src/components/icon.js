@@ -156,6 +156,7 @@ export default function Icon({
       disabled={disabled}
       href={href}
       space={1}
+      sx={{ flex: '0 0 auto' }}
       onClick={onClick}>
       {icons[icon]}
       <Text variant="small">{label}</Text>

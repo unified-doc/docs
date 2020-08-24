@@ -15,7 +15,7 @@ export default function Layout({
       flexDirection="column"
       mx="auto"
       px={4}
-      space={3}
+      space={5}
       sx={{ maxWidth: 840, minHeight: '100vh' }}>
       <Flex
         alignItems={['flex-start', 'center']}

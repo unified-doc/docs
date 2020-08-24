@@ -1,7 +1,7 @@
 import { Link } from 'gatsby';
 import React from 'react';
 
-import { Flex, Layout } from '../../components';
+import { Flex, Layout, SummaryItem } from '../../components';
 
 const links = [
   {
@@ -34,16 +34,15 @@ const links = [
 export default function Demos() {
   return (
     <Layout title="Demos">
-      <Flex flexDirection="column" space={4}>
+      <Flex flexDirection="column" space={5}>
         {links.map((link) => {
           const { description, to, title } = link;
           return (
-            <Flex key={to} flexDirection="column">
-              <Link to={to}>
-                <h3>{title}</h3>
-              </Link>
-              <div>{description}</div>
-            </Flex>
+            <SummaryItem
+              key={to}
+              extra={<div>{description}</div>}
+              title={<Link to={to}>{title}</Link>}
+            />
           );
         })}
       </Flex>

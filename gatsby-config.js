@@ -10,9 +10,9 @@ module.exports = {
         variables: {},
         graphQLQuery: `
           query {
-            allRepos: search(query: "user:unified-doc", type: REPOSITORY, first: 100) {
-              repos: edges {
-                repo: node {
+            repos: search(query: "user:unified-doc", type: REPOSITORY, first: 100) {
+              edges {
+                node {
                   ... on Repository {
                     description
                     licenseInfo {
@@ -49,6 +49,22 @@ module.exports = {
                     updatedAt
                     url
                   }
+                }
+              }
+            }
+            unifiedDocSpec: repository(owner: "unified-doc", name: "unified-doc") {
+              name
+              spec: object(expression: "main:spec.md") {
+                ... on Blob {
+                  text
+                }
+              }
+            }
+            unifiedDocDomSpec: repository(owner: "unified-doc", name: "unified-doc-dom") {
+              name
+              spec: object(expression: "main:spec.md") {
+                ... on Blob {
+                  text
                 }
               }
             }

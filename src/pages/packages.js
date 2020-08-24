@@ -1,14 +1,19 @@
 import { graphql } from 'gatsby';
+import { orderBy } from 'lodash';
 import moment from 'moment';
 import React from 'react';
 
-import { Flex, Icon, Layout, Text, ReadmePreview } from '../components';
+import {
+  DocPreview,
+  Flex,
+  Icon,
+  Layout,
+  SummaryItem,
+  Text,
+} from '../components';
 
 export default function Packages({ data }) {
-  const repos = data.githubData.data.allRepos.repos
-    .filter(({ repo }) => repo.name.startsWith('unified-doc'))
-    .sort((a, b) => (a.repo.name > b.repo.name ? 1 : -1));
-
+  const repos = extract(data);
   return (
     <Layout
       description={
@@ -17,9 +22,11 @@ export default function Packages({ data }) {
         </div>
       }
       title="Packages">
-      {repos.map(({ repo }) => (
-        <Repo key={repo.name} repo={repo} />
-      ))}
+      <Flex flexDirection="column" space={5}>
+        {repos.map((repo) => (
+          <Repo key={repo.name} repo={repo} />
+        ))}
+      </Flex>
     </Layout>
   );
 }
@@ -27,66 +34,84 @@ export default function Packages({ data }) {
 function Repo({ repo }) {
   const {
     description,
-    licenseInfo,
+    license,
     name,
+    packages,
     readme,
-    stargazers,
+    stars,
     updatedAt,
     url,
   } = repo;
-  const packages =
-    repo.packages?.entries.map((entry) => ({
-      name: entry.name,
-      readme: entry.package.files.find((file) => file.name === 'readme.md').file
-        .text,
-    })) || [];
-
   return (
-    <div>
-      <h2>{name}</h2>
-      <Flex flexDirection="column" space={3}>
-        <Text>{description}</Text>
+    <Flex flexDirection="column" space={2}>
+      <Flex
+        flexDirection={['column', 'row']}
+        alignItems={['flex-start', 'center']}
+        justifyContent="space-between"
+        space={2}>
+        <h2>{name}</h2>
         <Flex alignItems="center" space={4}>
           <Icon href={url} icon="github" />
-          {stargazers && (
-            <Icon href={url} icon="star" label={stargazers.totalCount} />
-          )}
-          {licenseInfo && (
-            <Icon
-              icon="license"
-              href={`${url}/blob/main/license`}
-              label={licenseInfo.name}
-            />
-          )}
+          <Icon href={url} icon="star" label={stars} />
+          <Icon
+            icon="license"
+            href={`${url}/blob/main/license`}
+            label={license}
+          />
           <Text color="secondary" variant="small">
             updated {moment(updatedAt).fromNow()}
           </Text>
         </Flex>
-        {readme && <ReadmePreview readme={readme.text} />}
-        {packages.map(({ name, readme }) => (
-          <Package key={name} name={name} readme={readme} />
-        ))}
       </Flex>
-    </div>
+      <Text>{description}</Text>
+      {readme && <DocPreview content={readme} filename="readme.md" />}
+      {packages.map((pkg) => {
+        return (
+          <SummaryItem
+            key={pkg.name}
+            extra={<DocPreview content={pkg.readme} filename="readme.md" />}
+            title={pkg.name}
+          />
+        );
+      })}
+    </Flex>
   );
 }
 
-function Package({ name, readme }) {
-  return (
-    <div>
-      <h3>{name}</h3>
-      <ReadmePreview readme={readme} />
-    </div>
-  );
+function extract(data) {
+  const { edges } = data.githubData.data.repos;
+  const repos = edges
+    .filter((edge) => {
+      return edge.node.name.startsWith('unified-doc');
+    })
+    .map((edge) => {
+      const { node } = edge;
+      const packages = (node.packages?.entries || []).map((entry) => ({
+        name: entry.name,
+        readme: entry.package.files.find((file) => file.name === 'readme.md')
+          .file.text,
+      }));
+      return {
+        name: node.name,
+        description: node.description,
+        license: node.licenseInfo?.name || 'None',
+        readme: node.readme?.text,
+        packages: orderBy(packages, ['name'], ['asc']),
+        stars: node.stargazers?.totalCount || 0,
+        updatedAt: node.updatedAt,
+        url: node.url,
+      };
+    });
+  return orderBy(repos, ['name'], ['asc']);
 }
 
 export const query = graphql`
-  query MyQuery {
+  query allPackages {
     githubData {
       data {
-        allRepos {
-          repos {
-            repo {
+        repos {
+          edges {
+            node {
               description
               licenseInfo {
                 name
