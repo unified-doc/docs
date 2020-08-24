@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import Doc from './Doc';
-import Flex from './Flex';
+import DocPreview from './doc-preview';
+import Flex from './flex';
 import Icon from './icon';
 
 export default function ReadmePreview({ readme }) {
@@ -9,7 +9,7 @@ export default function ReadmePreview({ readme }) {
   if (shown) {
     return (
       <Flex flexDirection="column" space={3}>
-        <Doc
+        <DocPreview
           content={readme}
           filename="readme.md"
           onClose={() => setShown(false)}

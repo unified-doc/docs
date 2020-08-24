@@ -5,12 +5,12 @@ import { saveFile } from 'unified-doc-dom';
 import unifiedDoc from 'unified-doc';
 import { v4 as uuidv4 } from 'uuid';
 
-import Box from './Box';
-import Flex from './Flex';
-import IconGroup from './IconGroup';
-import Icon from './Icon';
-import Pre from './Pre';
-import TextInput from './TextInput';
+import Box from './box';
+import Flex from './flex';
+import IconGroup from './icon-group';
+import Icon from './icon';
+import Pre from './pre';
+import TextInput from './text-input';
 
 const extensionTypes = {
   SOURCE: {
@@ -33,7 +33,7 @@ const previewTypes = {
   HAST: 'Hast',
 };
 
-export default function Doc({ content, filename, onClose = undefined }) {
+export default function DocPreview({ content, filename, onClose = undefined }) {
   const [query, setQuery] = useState('');
   const [marks, setMarks] = useState([]);
   const [selectedPreviewType, setSelectedPreviewType] = useState(

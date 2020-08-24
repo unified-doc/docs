@@ -2,10 +2,10 @@ import { graphql } from 'gatsby';
 import moment from 'moment';
 import React from 'react';
 
-import Flex from '../components/Flex';
-import Icon from '../components/Icon';
-import Text from '../components/Text';
-import ReadmePreview from '../components/ReadmePreview';
+import Flex from '../components/flex';
+import Icon from '../components/icon';
+import Text from '../components/text';
+import ReadmePreview from '../components/readme-preview';
 
 export default function Packages({ data }) {
   const repos = data.githubData.data.allRepos.repos
@@ -52,7 +52,13 @@ function Repo({ repo }) {
           {stargazers && (
             <Icon href={url} icon="star" label={stargazers.totalCount} />
           )}
-          {licenseInfo && <Icon icon="license" href={`${url}/blob/main/license`} label={licenseInfo.name} />}
+          {licenseInfo && (
+            <Icon
+              icon="license"
+              href={`${url}/blob/main/license`}
+              label={licenseInfo.name}
+            />
+          )}
           <Text color="secondary" variant="small">
             updated {moment(updatedAt).fromNow()}
           </Text>

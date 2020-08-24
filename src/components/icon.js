@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Flex from './Flex';
-import Text from './Text';
+import Flex from './flex';
+import Text from './text';
 
 // from https://github.com/feathericons/feather
 const icons = {

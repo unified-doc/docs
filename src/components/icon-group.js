@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
-import Box from './Box';
-import Flex from './Flex';
-import Icon from './Icon';
-import Text from './Text';
+import Box from './box';
+import Flex from './flex';
+import Icon from './icon';
+import Text from './text';
 
 export default function IconGroup({ icon, icons, label }) {
   const [shown, setShown] = useState(false);

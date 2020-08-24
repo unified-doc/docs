@@ -64,8 +64,7 @@
       "import/no-unassigned-import": "off",
       "padding-line-between-statements": "off",
       "react/function-component-definition": "off",
-      "react/prop-types": "off",
-      "unicorn/filename-case": "off"
+      "react/prop-types": "off"
     }
   }
 }
