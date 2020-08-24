@@ -4,6 +4,7 @@ import React from 'react';
 
 import Flex from '../components/flex';
 import Icon from '../components/icon';
+import Layout from '../components/layout';
 import Text from '../components/text';
 import ReadmePreview from '../components/readme-preview';
 
@@ -13,15 +14,17 @@ export default function Packages({ data }) {
     .sort((a, b) => (a.repo.name > b.repo.name ? 1 : -1));
 
   return (
-    <div>
-      <h1>Packages</h1>
-      <div>
-        The following packages form the <code>unified-doc</code> ecosystem.
-      </div>
+    <Layout
+      description={
+        <div>
+          The following packages form the <code>unified-doc</code> ecosystem.
+        </div>
+      }
+      title="Packages">
       {repos.map(({ repo }) => (
         <Repo key={repo.name} repo={repo} />
       ))}
-    </div>
+    </Layout>
   );
 }
 

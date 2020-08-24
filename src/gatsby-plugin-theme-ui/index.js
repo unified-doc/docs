@@ -47,9 +47,6 @@ const space = [0, 4, 8, 16, 32, 64, 128, 256, 512];
 const styles = {
   root: {
     fontFamily: 'body',
-    maxWidth: 840,
-    mx: 'auto',
-    p: 4,
     a: {
       color: 'secondary',
       cursor: 'pointer',
