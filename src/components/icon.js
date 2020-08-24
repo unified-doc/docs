@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Flex from './flex';
-import Text from './text';
+import Flex from './Flex';
+import Text from './Text';
 
 // from https://github.com/feathericons/feather
 const icons = {
@@ -18,6 +18,21 @@ const icons = {
       strokeLinejoin="round">
       <polyline points="16 18 22 12 16 6" />
       <polyline points="8 6 2 12 8 18" />
+    </svg>
+  ),
+  eye: (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round">
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+      <circle cx="12" cy="12" r="3" />
     </svg>
   ),
   github: (
@@ -97,10 +112,11 @@ const icons = {
 };
 
 export default function Icon({
+  disabled = false,
   href = '#',
   icon,
   label = undefined,
-  tooltip,
+  tooltip = undefined,
   onClick = undefined,
 }) {
   return (
@@ -109,6 +125,7 @@ export default function Icon({
       aria-label={tooltip}
       alignItems="center"
       data-microtip-position="top"
+      disabled={disabled}
       justifyContent="center"
       href={href}
       role="tooltip"

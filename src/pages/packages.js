@@ -1,7 +1,7 @@
 import { graphql } from 'gatsby';
 import React from 'react';
 
-import ReadmePreview from '../components/readme-preview';
+import ReadmePreview from '../components/ReadmePreview';
 
 export default function Packages({ data }) {
   const repos = data.githubData.data.allRepos.repos

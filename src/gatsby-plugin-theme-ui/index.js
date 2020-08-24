@@ -2,11 +2,15 @@ import 'microtip/microtip.css';
 
 const colors = {
   background: '#ffffff',
-  link: '#999999',
-  muted: '#e9e9e9',
-  primary: '#111111',
-  secondary: '#8f8f8f',
-  light: '#bbbbbb',
+  light: '#dfdfdf',
+  muted: '#f6f6f6',
+  primary: '#2e8fff',
+  secondary: '#999999',
+  text: '#111111',
+};
+
+const borders = {
+  border: `1px solid ${colors.light}`,
 };
 
 const fonts = {
@@ -50,19 +54,24 @@ const styles = {
       color: 'secondary',
       textDecoration: 'none',
       ':focus, :hover': {
-        color: 'light',
+        opacity: 0.7,
       },
     },
     code: {
-      backgroundColor: 'muted',
+      backgroundColor: 'light',
       borderRadius: 's',
       fontFamily: 'monospace',
       px: 1,
+    },
+    '[disabled]': {
+      opacity: 0.3,
+      pointerEvents: 'none',
     },
   },
 };
 
 export default {
+  borders,
   colors,
   fonts,
   fontSizes,
