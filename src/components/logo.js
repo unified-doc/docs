@@ -1,13 +1,23 @@
 import { Link } from 'gatsby';
 import React from 'react';
 
-import Box from './box';
-import Text from './text';
+import { Box, Text } from '.';
 
 export default function Logo() {
   return (
-    <Text as={Link} to="/" sx={{ fontSize: 3 }}>
-      <Box sx={{ color: 'primary', display: 'inline' }}>uni</Box>fied-doc
+    <Text
+      as={Link}
+      to="/"
+      sx={{
+        fontSize: 3,
+        ':hover': {
+          color: 'primary',
+        },
+      }}>
+      <Box as="span" sx={{ color: 'primary' }}>
+        uni
+      </Box>
+      fied-doc
     </Text>
   );
 }

@@ -1,7 +1,6 @@
 import React from 'react';
 
-import Flex from './flex';
-import Text from './text';
+import { Flex, Text } from '.';
 
 // from https://github.com/feathericons/feather
 const icons = {
@@ -127,7 +126,6 @@ const icons = {
       <polyline points="7 3 7 8 15 8" />
     </svg>
   ),
-
   star: (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -145,9 +143,9 @@ const icons = {
 };
 
 export default function Icon({
+  icon,
   disabled = false,
   href = '#',
-  icon,
   label = undefined,
   onClick = undefined,
 }) {

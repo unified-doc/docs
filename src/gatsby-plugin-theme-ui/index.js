@@ -33,9 +33,9 @@ const lineHeights = {
 };
 
 const radii = {
-  s: '4px',
-  m: '8px',
-  l: '16px',
+  s: '2px',
+  m: '4px',
+  l: '12px',
 };
 
 const shadows = {

@@ -1,8 +1,7 @@
 import { Link } from 'gatsby';
 import React from 'react';
 
-import Flex from '../../components/flex';
-import Layout from '../../components/layout';
+import { Flex, Layout } from '../../components';
 
 const links = [
   {

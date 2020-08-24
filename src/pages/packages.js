@@ -2,11 +2,7 @@ import { graphql } from 'gatsby';
 import moment from 'moment';
 import React from 'react';
 
-import Flex from '../components/flex';
-import Icon from '../components/icon';
-import Layout from '../components/layout';
-import Text from '../components/text';
-import ReadmePreview from '../components/readme-preview';
+import { Flex, Icon, Layout, Text, ReadmePreview } from '../components';
 
 export default function Packages({ data }) {
   const repos = data.githubData.data.allRepos.repos

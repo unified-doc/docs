@@ -5,12 +5,7 @@ import { saveFile } from 'unified-doc-dom';
 import unifiedDoc from 'unified-doc';
 import { v4 as uuidv4 } from 'uuid';
 
-import Box from './box';
-import Flex from './flex';
-import IconGroup from './icon-group';
-import Icon from './icon';
-import Pre from './pre';
-import TextInput from './text-input';
+import { Box, Flex, IconDropdown, Icon, Pre, TextInput } from '.';
 
 const extensionTypes = {
   SOURCE: {
@@ -36,9 +31,7 @@ const previewTypes = {
 export default function DocPreview({ content, filename, onClose = undefined }) {
   const [query, setQuery] = useState('');
   const [marks, setMarks] = useState([]);
-  const [selectedPreviewType, setSelectedPreviewType] = useState(
-    previewTypes.COMPILED,
-  );
+  const [selectedPreview, setSelectedPreview] = useState(previewTypes.COMPILED);
 
   const doc = unifiedDoc({
     compiler: [[rehype2react, { createElement }]],
@@ -53,31 +46,33 @@ export default function DocPreview({ content, filename, onClose = undefined }) {
       ...result,
       id: uuidv4(),
     }));
-    setSelectedPreviewType(previewTypes.COMPILED);
+    setSelectedPreview(previewTypes.COMPILED);
     setQuery(updatedQuery);
     setMarks(updatedMarks);
   }
 
-  const previewIcons = Object.values(previewTypes).map((previewType) => {
+  const previewItems = Object.values(previewTypes).map((previewType) => {
     return {
-      active: previewType === selectedPreviewType,
+      active: previewType === selectedPreview,
       label: previewType,
       onClick: () => {
-        setSelectedPreviewType(previewType);
+        setSelectedPreview(previewType);
         setQuery('');
         setMarks([]);
       },
     };
   });
-  const saveIcons = Object.values(extensionTypes).map((extensionType) => {
+
+  const saveItems = Object.values(extensionTypes).map((extensionType) => {
+    const { extension, label } = extensionType;
     return {
-      label: extensionType.label,
-      onClick: () => saveFile(doc.file(extensionType.extension)),
+      label,
+      onClick: () => saveFile(doc.file(extension)),
     };
   });
 
   let contents;
-  switch (selectedPreviewType) {
+  switch (selectedPreview) {
     case previewTypes.HAST:
       contents = <Pre>{JSON.stringify(doc.parse(), null, 2)}</Pre>;
       break;
@@ -87,32 +82,30 @@ export default function DocPreview({ content, filename, onClose = undefined }) {
     case previewTypes.COMPILED:
     default:
       contents = doc.compile().result;
-      break;
   }
 
   return (
     <Flex
       flexDirection="column"
       p={4}
-      space={4}
+      space={3}
       sx={{ borderRadius: 'l', boxShadow: 'doc' }}>
-      <Flex alignItems="center" justifyContent="space-between" space={4}>
+      <Flex alignItems="center" justifyContent="space-between" space={3}>
         <Box sx={{ flex: '1 1 auto' }}>
           <TextInput
             id="search"
-            label=""
             placeholder={`search in "${filename}"...`}
             value={query}
             onChange={search}
           />
         </Box>
         <Flex alignItems="center">
-          <IconGroup
+          <IconDropdown
             icon="eye"
-            label={`Preview (${selectedPreviewType})`}
-            icons={previewIcons}
+            label={`Preview (${selectedPreview})`}
+            items={previewItems}
           />
-          <IconGroup icon="save" label="Download" icons={saveIcons} />
+          <IconDropdown icon="save" label="Download" items={saveItems} />
           {onClose && (
             <Box ml={3}>
               <Icon icon="close" onClick={onClose} />

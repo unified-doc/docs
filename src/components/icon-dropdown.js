@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 
-import Box from './box';
-import Flex from './flex';
-import Icon from './icon';
-import Text from './text';
+import { Box, Flex, Icon, Text } from '.';
 
-export default function IconGroup({ icon, icons, label }) {
+const p = 3;
+
+export default function IconDropdown({ icon, items, label }) {
   const [shown, setShown] = useState(false);
 
   return (
@@ -14,7 +13,7 @@ export default function IconGroup({ icon, icons, label }) {
       onMouseLeave={() => setShown(false)}>
       <Flex
         alignItems="center"
-        px={3}
+        px={p}
         py={1}
         sx={{
           bg: shown ? 'muted' : undefined,
@@ -24,11 +23,11 @@ export default function IconGroup({ icon, icons, label }) {
         <Icon icon={icon} />
         <Text variant="link">{label}</Text>
         <Flex
-          bg="white"
+          bg="background"
           flexDirection="column"
-          px={3}
-          py={3}
-          space={3}
+          px={p}
+          py={p}
+          space={p}
           sx={{
             position: 'absolute',
             right: 0,
@@ -36,17 +35,18 @@ export default function IconGroup({ icon, icons, label }) {
             textAlign: 'right',
           }}>
           {shown &&
-            icons.map(({ active, label, onClick }) => (
-              <Text
-                key={label}
-                sx={{
-                  color: active ? 'primary' : undefined,
-                }}
-                variant="link"
-                onClick={onClick}>
-                {label}
-              </Text>
-            ))}
+            items.map((item) => {
+              const { active, label, onClick } = item;
+              return (
+                <Text
+                  key={label}
+                  sx={{ color: active ? 'primary' : undefined }}
+                  variant="link"
+                  onClick={onClick}>
+                  {label}
+                </Text>
+              );
+            })}
         </Flex>
       </Flex>
     </Box>

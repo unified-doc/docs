@@ -1,10 +1,10 @@
 import React from 'react';
 
-import Box from './box';
+import { Box } from '.';
 
 export default function Flex({
-  alignItems = undefined,
   children,
+  alignItems = undefined,
   flexDirection = undefined,
   flexWrap = undefined,
   justifyContent = undefined,
