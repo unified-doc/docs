@@ -15,7 +15,6 @@ module.exports = {
                 repo: node {
                   ... on Repository {
                     description
-                    forkCount
                     licenseInfo {
                       name
                     }

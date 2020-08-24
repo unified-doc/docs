@@ -2,7 +2,7 @@ import 'microtip/microtip.css';
 
 const colors = {
   background: '#ffffff',
-  light: '#dfdfdf',
+  light: '#e9e9e9',
   muted: '#f6f6f6',
   primary: '#2e8fff',
   secondary: '#999999',
@@ -10,7 +10,7 @@ const colors = {
 };
 
 const borders = {
-  border: `1px solid ${colors.light}`,
+  border: `1px solid ${colors.secondary}`,
 };
 
 const fonts = {
@@ -19,7 +19,7 @@ const fonts = {
   monospace: 'Roboto Mono',
 };
 
-const fontSizes = [10, 14, 16, 20, 24, 32, 48, 64, 72];
+const fontSizes = [12, 14, 16, 20, 24, 32, 48, 64, 72];
 
 const fontWeights = {
   body: 400,
@@ -52,6 +52,7 @@ const styles = {
     p: 4,
     a: {
       color: 'secondary',
+      cursor: 'pointer',
       textDecoration: 'none',
       ':focus, :hover': {
         opacity: 0.7,
@@ -82,6 +83,10 @@ export default {
   space,
   styles,
   text: {
+    link: {
+      fontSize: 0,
+      ...styles.root.a,
+    },
     small: {
       fontSize: 0,
     },

@@ -22,6 +22,7 @@
     "gatsby-plugin-theme-ui": "^0.3.0",
     "gatsby-source-github-api": "^0.2.1",
     "microtip": "^0.2.2",
+    "moment": "^2.27.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "rehype-highlight": "^4.0.0",

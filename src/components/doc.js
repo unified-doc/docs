@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 import Box from './Box';
 import Flex from './Flex';
 import IconGroup from './IconGroup';
+import Icon from './Icon';
 import Pre from './Pre';
 import TextInput from './TextInput';
 
@@ -32,7 +33,7 @@ const previewTypes = {
   HAST: 'Hast',
 };
 
-export default function Doc({ content, filename }) {
+export default function Doc({ content, filename, onClose = undefined }) {
   const [query, setQuery] = useState('');
   const [marks, setMarks] = useState([]);
   const [selectedPreviewType, setSelectedPreviewType] = useState(
@@ -100,18 +101,23 @@ export default function Doc({ content, filename }) {
           <TextInput
             id="search"
             label=""
-            placeholder="search contents..."
+            placeholder={`search in "${filename}"...`}
             value={query}
             onChange={search}
           />
         </Box>
-        <Flex>
+        <Flex alignItems="center">
           <IconGroup
             icon="eye"
             label={`Preview (${selectedPreviewType})`}
             icons={previewIcons}
           />
           <IconGroup icon="save" label="Download" icons={saveIcons} />
+          {onClose && (
+            <Box ml={3}>
+              <Icon icon="close" onClick={onClose} />
+            </Box>
+          )}
         </Flex>
       </Flex>
       {contents}

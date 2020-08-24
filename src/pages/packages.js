@@ -1,6 +1,10 @@
 import { graphql } from 'gatsby';
+import moment from 'moment';
 import React from 'react';
 
+import Flex from '../components/Flex';
+import Icon from '../components/Icon';
+import Text from '../components/Text';
 import ReadmePreview from '../components/ReadmePreview';
 
 export default function Packages({ data }) {
@@ -12,7 +16,7 @@ export default function Packages({ data }) {
     <div>
       <h1>Packages</h1>
       <div>
-        The following packages exist in the <code>unified-doc</code> ecosystem.
+        The following packages form the <code>unified-doc</code> ecosystem.
       </div>
       {repos.map(({ repo }) => (
         <Repo key={repo.name} repo={repo} />
@@ -24,7 +28,6 @@ export default function Packages({ data }) {
 function Repo({ repo }) {
   const {
     description,
-    forkCount,
     licenseInfo,
     name,
     readme,
@@ -40,18 +43,26 @@ function Repo({ repo }) {
     })) || [];
 
   return (
-    <section>
+    <div>
       <h2>{name}</h2>
-      {description}
-      {licenseInfo?.name}
-      Fork: {forkCount}
-      Stars: {stargazers?.totalCount}
-      {updatedAt}
-      {url}
-      {packages.map(({ name, readme }) => (
-        <Package key={name} name={name} readme={readme} />
-      ))}
-    </section>
+      <Flex flexDirection="column" space={3}>
+        <Text>{description}</Text>
+        <Flex alignItems="center" space={4}>
+          <Icon href={url} icon="github" />
+          {stargazers && (
+            <Icon href={url} icon="star" label={stargazers.totalCount} />
+          )}
+          {licenseInfo && <Icon icon="license" href={`${url}/blob/main/license`} label={licenseInfo.name} />}
+          <Text color="secondary" variant="small">
+            updated {moment(updatedAt).fromNow()}
+          </Text>
+        </Flex>
+        {readme && <ReadmePreview readme={readme.text} />}
+        {packages.map(({ name, readme }) => (
+          <Package key={name} name={name} readme={readme} />
+        ))}
+      </Flex>
+    </div>
   );
 }
 
@@ -72,7 +83,6 @@ export const query = graphql`
           repos {
             repo {
               description
-              forkCount
               licenseInfo {
                 name
               }

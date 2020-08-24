@@ -1,38 +1,54 @@
 import React, { useState } from 'react';
 
+import Box from './Box';
 import Flex from './Flex';
 import Icon from './Icon';
 import Text from './Text';
 
 export default function IconGroup({ icon, icons, label }) {
   const [shown, setShown] = useState(false);
+
   return (
-    <Flex
-      alignItems="center"
-      px={3}
-      py={1}
-      space={3}
-      sx={{
-        bg: shown ? 'muted' : undefined,
-        borderRadius: 'm',
-      }}
-      onMouseEnter={() => setShown(true)}
+    <Box
+      onMouseOver={() => setShown(true)}
       onMouseLeave={() => setShown(false)}>
-      <Icon icon={icon} label={label} />
-      {shown &&
-        icons.map(({ active, label, onClick }) => (
-          <Text
-            key={label}
-            as="a"
-            href="#"
-            sx={{
-              color: active ? 'primary' : undefined,
-            }}
-            variant="small"
-            onClick={onClick}>
-            {label}
-          </Text>
-        ))}
-    </Flex>
+      <Flex
+        alignItems="center"
+        px={3}
+        py={1}
+        sx={{
+          bg: shown ? 'muted' : undefined,
+          borderRadius: 'm',
+          position: 'relative',
+        }}>
+        <Icon icon={icon} />
+        <Text variant="link">{label}</Text>
+        <Flex
+          bg="white"
+          flexDirection="column"
+          px={3}
+          py={3}
+          space={3}
+          sx={{
+            position: 'absolute',
+            right: 0,
+            top: '100%',
+            textAlign: 'right',
+          }}>
+          {shown &&
+            icons.map(({ active, label, onClick }) => (
+              <Text
+                key={label}
+                sx={{
+                  color: active ? 'primary' : undefined,
+                }}
+                variant="link"
+                onClick={onClick}>
+                {label}
+              </Text>
+            ))}
+        </Flex>
+      </Flex>
+    </Box>
   );
 }
