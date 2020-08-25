@@ -43,28 +43,23 @@ function Repo({ repo }) {
     url,
   } = repo;
   return (
-    <Flex flexDirection="column" space={2}>
-      <Flex
-        flexDirection={['column', 'row']}
-        alignItems={['flex-start', 'center']}
-        justifyContent="space-between"
-        space={2}>
-        <h2>{name}</h2>
+    <Flex flexDirection="column" space={3}>
+      <Flex flexDirection="column" space={2}>
+        <Text as="h2">{name}</Text>
+        <Text variant="small">{description}</Text>
         <Flex alignItems="center" space={4}>
           <Icon href={url} icon="github" />
           <Icon href={url} icon="star" label={stars} />
           <Icon
+            enableResponsiveLabelHide
             icon="license"
             href={`${url}/blob/main/license`}
             label={license}
           />
-          <Text color="secondary" variant="small">
-            updated {moment(updatedAt).fromNow()}
-          </Text>
+          <Text variant="small">updated {moment(updatedAt).fromNow()}</Text>
         </Flex>
+        {readme && <DocPreview content={readme} filename="readme.md" />}
       </Flex>
-      <Text>{description}</Text>
-      {readme && <DocPreview content={readme} filename="readme.md" />}
       {packages.map((pkg) => {
         return (
           <SummaryItem

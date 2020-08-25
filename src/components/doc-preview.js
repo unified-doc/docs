@@ -9,7 +9,7 @@ export default function DocPreview({ content, filename }) {
       <Doc
         content={content}
         filename={filename}
-        onClose={() => setShown(false)}
+        onBack={() => setShown(false)}
       />
     );
   }

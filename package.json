@@ -9,6 +9,7 @@
   "scripts": {
     "bootstrap": "npm install",
     "build": "gatsby build",
+    "crawl": "babel-node ./data/crawl.js",
     "clean": "rm -rf dist",
     "docs": "gatsby develop",
     "lint": "xo --fix; tsc",
@@ -17,6 +18,7 @@
   "dependencies": {
     "@mdx-js/mdx": "^1.6.16",
     "@mdx-js/react": "^1.6.16",
+    "axios": "^0.20.0",
     "dotenv": "^8.2.0",
     "gatsby": "^2.24.47",
     "gatsby-plugin-theme-ui": "^0.3.0",
@@ -35,6 +37,9 @@
     "uuid": "^8.3.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.11.4",
+    "@babel/node": "^7.10.5",
+    "babel-preset-gatsby": "^0.5.6",
     "eslint-config-xo-react": "^0.23.0",
     "husky": "^4.2.5",
     "typescript": "^4.0.2",
@@ -63,6 +68,7 @@
       "capitalized-comments": "off",
       "import/no-anonymous-default-export": "off",
       "import/no-unassigned-import": "off",
+      "no-warning-comments": "off",
       "padding-line-between-statements": "off",
       "react/function-component-definition": "off",
       "react/prop-types": "off"

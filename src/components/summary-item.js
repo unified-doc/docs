@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { Flex } from '.';
+import { Flex, Text } from '.';
 
 export default function SummaryItem({ title, extra }) {
   return (
     <Flex alignItems="flex-start" flexDirection="column" space={2}>
-      <h3>{title}</h3>
+      <Text as="h3">{title}</Text>
       {extra}
     </Flex>
   );

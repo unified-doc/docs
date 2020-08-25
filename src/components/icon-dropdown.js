@@ -4,7 +4,12 @@ import { Box, Flex, Icon, Text } from '.';
 
 const p = 3;
 
-export default function IconDropdown({ icon, items, label }) {
+export default function IconDropdown({
+  icon,
+  items,
+  label,
+  enableResponsiveLabelHide = false,
+}) {
   const [shown, setShown] = useState(false);
 
   return (
@@ -19,23 +24,27 @@ export default function IconDropdown({ icon, items, label }) {
           bg: shown ? 'muted' : undefined,
           borderRadius: 'm',
           position: 'relative',
+          width: 'max-content',
         }}>
-        <Icon icon={icon} />
-        <Text variant="link">{label}</Text>
-        <Flex
-          bg="background"
-          flexDirection="column"
-          px={p}
-          py={p}
-          space={p}
-          sx={{
-            position: 'absolute',
-            right: 0,
-            top: '100%',
-            textAlign: 'right',
-          }}>
-          {shown &&
-            items.map((item) => {
+        <Icon
+          enableResponsiveLabelHide={enableResponsiveLabelHide}
+          icon={icon}
+          label={label}
+        />
+        {shown && (
+          <Flex
+            bg="background"
+            flexDirection="column"
+            px={p}
+            py={p}
+            space={p}
+            sx={{
+              position: 'absolute',
+              right: 0,
+              top: '100%',
+              textAlign: 'right',
+            }}>
+            {items.map((item) => {
               const { active, label, onClick } = item;
               return (
                 <Text
@@ -47,7 +56,8 @@ export default function IconDropdown({ icon, items, label }) {
                 </Text>
               );
             })}
-        </Flex>
+          </Flex>
+        )}
       </Flex>
     </Box>
   );

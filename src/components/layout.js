@@ -1,9 +1,8 @@
 import { Link } from 'gatsby';
 import React from 'react';
 
-import { Box, Flex, Logo, Text } from '.';
-
-const gitHubLink = 'https://github.com/unified-doc';
+import { GITHUB_URL } from '../links';
+import { Box, Flex, Logo, ResponsiveFlex, Text } from '.';
 
 export default function Layout({
   children,
@@ -17,29 +16,22 @@ export default function Layout({
       px={4}
       space={5}
       sx={{ maxWidth: 840, minHeight: '100vh' }}>
-      <Flex
-        alignItems={['flex-start', 'center']}
-        flexDirection={['column', 'row']}
-        justifyContent="space-between"
-        py={3}
-        space={3}>
+      <ResponsiveFlex justifyContent="space-between" py={3} space={3}>
         <Logo />
         <Flex alignItems="center" py={2} space={3}>
           <Link to="/demos">Demos</Link>
           <Link to="/packages">Packages</Link>
           <Link to="/specs">Specs</Link>
-          <a href={gitHubLink}>GitHub</a>
+          <a href={GITHUB_URL}>GitHub</a>
         </Flex>
-      </Flex>
+      </ResponsiveFlex>
       <Flex flexDirection="column" space={2}>
-        {title && <h2>{title}</h2>}
+        {title && <Text as="h2">{title}</Text>}
         {description}
       </Flex>
       <Box sx={{ flex: '1 1 auto' }}>{children}</Box>
       <Flex mt={6} py={3}>
-        <Text color="secondary" variant="small">
-          © 2020 unified-doc
-        </Text>
+        <Text variant="small">© 2020 unified-doc</Text>
       </Flex>
     </Flex>
   );

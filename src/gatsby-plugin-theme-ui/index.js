@@ -2,15 +2,16 @@ import 'microtip/microtip.css';
 
 const colors = {
   background: '#ffffff',
-  light: '#e9e9e9',
-  muted: '#f6f6f6',
+  light: '#b9b9b9',
+  muted: '#f0f0f0',
   primary: '#2e8fff',
   secondary: '#999999',
   text: '#111111',
 };
 
 const borders = {
-  border: `1px solid ${colors.secondary}`,
+  border: `1px solid ${colors.light}`,
+  muted: `1px solid ${colors.muted}`,
 };
 
 const fonts = {
@@ -39,7 +40,8 @@ const radii = {
 };
 
 const shadows = {
-  doc: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
+  card: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
+  doc: '0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)',
 };
 
 const space = [0, 4, 8, 16, 32, 64, 128, 256, 512];
@@ -56,14 +58,23 @@ const styles = {
       },
     },
     code: {
-      backgroundColor: 'light',
+      backgroundColor: 'muted',
       borderRadius: 's',
       fontFamily: 'monospace',
       px: 1,
     },
+    hr: {
+      borderColor: 'muted',
+      width: '100%',
+    },
     '[disabled]': {
       opacity: 0.3,
       pointerEvents: 'none',
+    },
+    // custom unified-doc mark styles
+    '[data-mark-id]': {
+      backgroundColor: 'primary',
+      color: 'background',
     },
   },
 };
@@ -81,10 +92,12 @@ export default {
   styles,
   text: {
     link: {
+      color: 'secondary',
       fontSize: 0,
       ...styles.root.a,
     },
     small: {
+      color: 'secondary',
       fontSize: 0,
     },
   },

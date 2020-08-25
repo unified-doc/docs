@@ -7,7 +7,7 @@ export { default as IconDropdown } from './icon-dropdown';
 export { default as Label } from './label';
 export { default as Layout } from './layout';
 export { default as Logo } from './logo';
-export { default as Pre } from './pre';
+export { default as ResponsiveFlex } from './responsive-flex';
 export { default as SummaryItem } from './summary-item';
 export { default as Text } from './text';
 export { default as TextInput } from './text-input';

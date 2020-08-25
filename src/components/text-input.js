@@ -5,10 +5,11 @@ import { Label } from '.';
 
 export default function TextInput({
   id,
+  value,
+  onChange = undefined,
   label = undefined,
   placeholder = undefined,
-  value,
-  onChange,
+  onFocus = undefined,
 }) {
   const input = (
     <UIInput
@@ -18,6 +19,7 @@ export default function TextInput({
       type="text"
       value={value}
       onChange={(event) => onChange(event.target.value)}
+      onFocus={onFocus}
     />
   );
 
