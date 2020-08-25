@@ -13,5 +13,6 @@ node_modules
 # project
 .cache
 .env
+data/files.json
 package-lock.json
 public

@@ -1,1 +1,9 @@
-[]
+[
+  {
+    "content": "<blockquote>some <strong>example</strong> content</blockquote>",
+    "folder": "some folder name",
+    "lastModified": 1598327816279,
+    "name": "name-of-file.html",
+    "url": "https://source-of-file.com"
+  }
+]
