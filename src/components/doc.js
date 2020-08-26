@@ -73,7 +73,7 @@ export default function Doc({ content, filename, onBack = undefined }) {
       content,
       filename,
       marks: results,
-      postPlugins: [[rehypeHighlight, { ignoreMissing: true }]],
+      prePlugins: [[rehypeHighlight, { ignoreMissing: true }]],
       searchOptions: {
         minQueryLength: 2,
         snippetOffsetPadding: 20,

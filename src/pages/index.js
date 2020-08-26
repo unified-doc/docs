@@ -12,17 +12,18 @@ export default function Index() {
         documents
       </Text>
       <Text>
-        Render, search, mark, annotate, convert, and save documents with a simple
-        unified API.
+        Render, search, mark, annotate, convert, and save documents with a
+        simple unified API.
       </Text>
       <Flex flexDirection="column" space={2}>
         <Text variant="small">
           Currently supporting: <code>.html</code>, <code>.md</code>,{' '}
-          <code>.txt</code>
+          <code>.txt</code>, <code>.json</code>
         </Text>
         <Text variant="small">
-          Coming soon: <code>.csv</code>, <code>.json</code>, <code>.xml</code>, <code>.yml</code>,{' '}
-          <code>.docx</code>, <code>.pdf</code>
+          Coming soon: <code>.csv</code>, <code>.xml</code>, <code>.yml</code>,{' '}
+          <code>.docx</code>, <code>.pdf</code>, + any code language supported
+          by <code>highlight.js</code>!
         </Text>
       </Flex>
     </Flex>

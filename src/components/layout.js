@@ -22,6 +22,7 @@ export default function Layout({
           <Link to="/demos">Demos</Link>
           <Link to="/packages">Packages</Link>
           <Link to="/specs">Specs</Link>
+          <Link to="/roadmap">Roadmap</Link>
           <a href={GITHUB_URL}>GitHub</a>
         </Flex>
       </ResponsiveFlex>

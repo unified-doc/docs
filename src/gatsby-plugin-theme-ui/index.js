@@ -67,6 +67,9 @@ const styles = {
       borderColor: 'muted',
       width: '100%',
     },
+    li: {
+      my: 3,
+    },
     '[disabled]': {
       opacity: 0.3,
       pointerEvents: 'none',
