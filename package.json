@@ -1,66 +1,53 @@
 {
   "private": true,
   "name": "docs",
-  "description": "progressive docs for unified-doc",
   "license": "MIT",
   "homepage": "https://github.com/unified-doc/docs",
-  "repository": "unified-doc/unified-doc",
+  "repository": "https://github.com/unified-doc/docs",
   "bugs": "https://github.com/unified-doc/docs/issues",
   "author": "Chris Zhou <chrisrzhou@pm.me> (https://chrisrzhou.io)",
-  "keywords": [
-    "unified",
-    "doc",
-    "docs",
-    "docz",
-    "documentation",
-    "document",
-    "file",
-    "content",
-    "unist",
-    "hast",
-    "parse",
-    "html",
-    "markdown",
-    "text",
-    "compile",
-    "export",
-    "annotate",
-    "highlight",
-    "nlp",
-    "search"
-  ],
   "scripts": {
     "bootstrap": "npm install",
-    "build": "docz build",
-    "clean": "rm -rf .docz dist",
-    "docs": "docz dev",
-    "lint": "xo --fix; tsc"
+    "build": "npm run crawl; gatsby build",
+    "crawl": "git update-index --skip-worktree data/files.json; babel-node ./data/crawl.js",
+    "clean": "rm -rf dist",
+    "docs": "gatsby develop",
+    "lint": "xo --fix; tsc",
+    "prepare": "npm run clean; npm run build"
   },
   "dependencies": {
-    "diff": "^4.0.2",
-    "docz": "^2.3.1",
+    "@mdx-js/mdx": "^1.6.16",
+    "@mdx-js/react": "^1.6.16",
+    "axios": "^0.20.0",
+    "dotenv": "^8.2.0",
+    "gatsby": "^2.24.47",
+    "gatsby-plugin-theme-ui": "^0.3.0",
+    "gatsby-source-github-api": "^0.2.1",
+    "lodash": "^4.17.20",
+    "microtip": "^0.2.2",
+    "moment": "^2.27.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-refresh": "^0.8.3",
-    "rehype-react": "^6.0.0",
-    "rehype-toc": "^3.0.1",
+    "rehype-highlight": "^4.0.0",
+    "rehype-react": "^6.1.0",
     "theme-ui": "^0.3.1",
-    "unified-doc": "^0.1.16-beta.0",
-    "unified-doc-dom": "^0.1.7-beta.0",
-    "unified-doc-react": "^0.1.12-beta.0",
-    "uuid": "^8.2.0"
+    "unified-doc": "^2.0.5",
+    "unified-doc-dom": "^2.0.0",
+    "unified-doc-react": "^2.0.0",
+    "uuid": "^8.3.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.11.4",
+    "@babel/node": "^7.10.5",
+    "babel-preset-gatsby": "^0.5.6",
     "eslint-config-xo-react": "^0.23.0",
-    "eslint-plugin-react": "^7.20.2",
-    "eslint-plugin-react-hooks": "^4.0.4",
     "husky": "^4.2.5",
-    "typescript": "^3.9.5",
-    "xo": "^0.32.0"
+    "typescript": "^4.0.2",
+    "xo": "^0.33.0"
   },
   "husky": {
     "hooks": {
-      "pre-push": "npm run lint; npm run clean; npm run build"
+      "pre-push": "npm prepare; npm run lint"
     }
   },
   "prettier": {
@@ -79,23 +66,12 @@
     "prettier": true,
     "rules": {
       "capitalized-comments": "off",
-      "import/extensions": "off",
       "import/no-anonymous-default-export": "off",
       "import/no-unassigned-import": "off",
-      "no-alert": "off",
-      "no-unused-vars": [
-        "error",
-        {
-          "argsIgnorePattern": "^_"
-        }
-      ],
       "no-warning-comments": "off",
-      "import/no-webpack-loader-syntax": "off",
       "padding-line-between-statements": "off",
       "react/function-component-definition": "off",
-      "react/prop-types": "off",
-      "unicorn/no-reduce": "off",
-      "unicorn/prefer-query-selector": "off"
+      "react/prop-types": "off"
     }
   }
 }

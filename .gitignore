@@ -11,6 +11,8 @@ node_modules
 *.swo
 
 # project
-.docz
-dist
+.cache
+.env
+data/files.json
 package-lock.json
+public
