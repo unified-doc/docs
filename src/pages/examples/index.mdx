@@ -1,15 +1,69 @@
 import { Link } from 'gatsby';
 
-## Basic Examples
-### <Link to="./rendering">Rendering</Link>
-Easily render documents with a few lines of code.
+## Examples
 
-<br />
+Tutorials and recipes for learning how to use and apply `unified-doc` APIs to building interactive document applications.
 
-## Search Examples
+### Fundamentals
+Learn how to render documents with minimal configuration.
+- <Link to="./fundamentals/overview">Overview</Link>
+- <Link to="./fundamentals/compiler">Compiler</Link>
+- <Link to="./fundamentals/recipes">Recipes</Link>
 
-### <Link to="./search">Search</Link>
-Implement interactive search + results.
+### API Methods
+Learn to apply the small unified set of document features on advanced use cases.  For a technical overview of these methods, please refer to the [official docs][unified-doc-docs].
+- <Link to="./api-methods/overview">Overview</Link>
+- <Link to="./api-methods/compile"><code>compile()</code></Link>
+- <Link to="./api-methods/file"><code>file()</code></Link>
+- <Link to="./api-methods/parse"><code>parse()</code></Link>
+- <Link to="./api-methods/search"><code>search()</code></Link>
+- <Link to="./api-methods/text-content"><code>textContent()</code></Link>
+- <Link to="./api-methods/recipes">Recipes</Link>
 
-### <Link to="./search-algorithms">Search Algorithms</Link>
-Integrate custom search algorithms to search on documents.
+### DOM API Methods
+Learn about `unified-doc-dom` methods that further add interactivity and features to documents.  For a technical overview of these methods, please refer to the [official docs][unified-doc-dom-docs].
+- <Link to="./dom-api-methods/overview">Overview</Link>
+- <Link to="./dom-api-methods/from-file"><code>fromFile()</code></Link>
+- <Link to="./dom-api-methods/to-file"><code>toFile()</code></Link>
+- <Link to="./dom-api-methods/save-file"><code>saveFile()</code></Link>
+- <Link to="./dom-api-methods/highlight"><code>highlight()</code></Link>
+- <Link to="./dom-api-methods/register-marks"><code>registerMarks()</code></Link>
+- <Link to="./dom-api-methods/select-text"><code>selectText()</code></Link>
+- <Link to="./dom-api-methods/recipes">Recipes</Link>
+
+### Parsers
+Learn the behaviors of preconfigured default parsers, and how to override them with custom parsers.
+- <Link to="./parsers/overview">Overview</Link>
+- <Link to="./parsers/override">Override</Link>
+- <Link to="./parsers/recipes">Recipes</Link>
+
+### Plugins
+Learn how to further enhance documents with [rehype][] plugins.
+- <Link to="./plugins/overview">Overview</Link>
+- <Link to="./plugins/syntax-highlighting">Syntax Highlighting</Link>
+- <Link to="./plugins/recipes">Recipes</Link>
+
+### Marks
+Learn how to apply and customize visual marks to documents using simple declarative data.
+- <Link to="./marks/overview">Overview</Link>
+- <Link to="./marks/customize">Customize</Link>
+- <Link to="./marks/callbacks">Callbacks</Link>
+- <Link to="./marks/replace">Replace</Link>
+- <Link to="./marks/recipes">Recipes</Link>
+
+### Sanitization
+Learn how to sanitize documents with various schemas and behaviors.
+- <Link to="./sanitization/overview">Overview</Link>
+- <Link to="./sanitization/recipes">Recipes</Link>
+
+### Search
+Learn how to easily integrate and customize search features attachable to a document.
+- <Link to="./search/overview">Overview</Link>
+- <Link to="./search/results">Results</Link>
+- <Link to="./search/algorithms">Algorithms</Link>
+- <Link to="./search/recipes">Recipes</Link>
+
+<!-- Definitions -->
+[rehype]: https://github.com/rehypejs/rehype
+[unified-doc-docs]: https://github.com/unified-doc/unified-doc/tree/main/packages/unified-doc
+[unified-doc-dom-docs]: https://github.com/unified-doc/unified-doc-dom/tree/main/packages/unified-doc-dom
