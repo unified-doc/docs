@@ -9,7 +9,7 @@ export default function FileInput({ id, label, onChange }) {
       {label}
       <ThemeUiInput
         id={id}
-        sx={{ border: 'border' }}
+        sx={{ border: 'none' }}
         type="file"
         onChange={(event) => onChange(event.target.files[0])}
       />

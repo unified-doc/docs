@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { fromFile } from 'unified-doc-dom';
 
-import { Checkbox, Flex, Icon, Text, TextInput } from '~/ui';
+import { GITHUB_URL } from '~/constants/links';
+import { Checkbox, FileInput, Flex, Icon, Text, TextInput } from '~/ui';
 
 function Row({ children }) {
   return (
@@ -35,26 +37,41 @@ export default function FileList({ files, onSelectFile }) {
       flex="1 1 auto"
       flexDirection="column"
       p={4}
-      space={4}
       sx={{ boxShadow: 'card' }}>
       <Text color="light" variant="small">
-        All content below is openly-sourced from GitHub projects. Currently
-        supporting <code>.html</code>, <code>.md</code>, and lots of code files.
+        <a href={GITHUB_URL}>unified-doc</a> supports rendering{' '}
+        <code>.html</code>, <code>.md</code>, <code>.txt</code>,{' '}
+        <code>.json</code>, and lots of other code files. All content below is
+        openly-sourced from GitHub projects.
       </Text>
-      <Flex alignItems="center" space={4}>
-        <TextInput
-          id="search"
-          flex="1 1 auto"
-          placeholder="search files…"
-          value={query}
-          onChange={setQuery}
+      <Flex
+        bg="background"
+        flexDirection="column"
+        py={4}
+        space={2}
+        sx={{ position: 'sticky', top: 0 }}>
+        <FileInput
+          id="upload"
+          label="Upload and view file"
+          onChange={async (file) => {
+            onSelectFile(await fromFile(file));
+          }}
         />
-        <Checkbox
-          id="extension"
-          label="Show extension"
-          value={showExtension}
-          onChange={setShowExtension}
-        />
+        <Flex alignItems="center" space={4}>
+          <TextInput
+            id="search"
+            flex="1 1 auto"
+            placeholder="search files…"
+            value={query}
+            onChange={setQuery}
+          />
+          <Checkbox
+            id="extension"
+            label="Show extension"
+            value={showExtension}
+            onChange={setShowExtension}
+          />
+        </Flex>
       </Flex>
       <Flex flexDirection="column" space={2}>
         <Row>
