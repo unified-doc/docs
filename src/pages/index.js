@@ -18,12 +18,11 @@ export default function Index() {
       <Flex flexDirection="column" space={2}>
         <Text variant="small">
           Currently supporting: <code>.html</code>, <code>.md</code>,{' '}
-          <code>.txt</code>, <code>.json</code>
+          <code>.txt</code>, + <b>lots</b> of code files (see demo below).
         </Text>
         <Text variant="small">
-          Coming soon: <code>.csv</code>, <code>.xml</code>, <code>.yml</code>,{' '}
-          <code>.docx</code>, <code>.pdf</code>, + any code language supported
-          by <code>highlight.js</code>!
+          Coming soon: <code>.csv</code>, <code>.xml</code>, <code>.docx</code>,{' '}
+          <code>.pdf</code>!
         </Text>
       </Flex>
     </Flex>

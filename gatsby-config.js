@@ -10,6 +10,35 @@ module.exports = {
         variables: {},
         graphQLQuery: `
           query {
+            aliceHtml: repository(name: "Alice-s-Adventures-in-Wonderland-HTML-Edition_928", owner: "GITenberg") {
+              file: object(expression: "master:928-h/928-h.htm") {
+                ... on Blob {
+                  byteSize
+                  text
+                }
+              }
+            }
+            codeFiles: repository(name: "highlight.js", owner: "highlightjs") {
+              folder: object(expression: "master:test/detect") {
+                ... on Tree {
+                  languages: entries {
+                    name
+                    test: object {
+                      ... on Tree {
+                        files: entries {
+                          file: object {
+                            ... on Blob {
+                              byteSize
+                              text
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
             repos: search(query: "user:unified-doc", type: REPOSITORY, first: 100) {
               edges {
                 node {
@@ -29,6 +58,7 @@ module.exports = {
                                 name
                                 file: object {
                                   ... on Blob {
+                                    byteSize
                                     text
                                   }
                                 }
@@ -40,6 +70,7 @@ module.exports = {
                     }
                     readme: object(expression: "main:readme.md") {
                       ... on Blob {
+                        byteSize
                         text
                       }
                     }
@@ -52,18 +83,35 @@ module.exports = {
                 }
               }
             }
+            syntaxTreeReadmes: search(query: "user:syntax-tree", type: REPOSITORY, first: 10) {
+              edges {
+                node {
+                  ... on Repository {
+                    name
+                    file: object(expression: "main:readme.md") {
+                      ... on Blob {
+                        byteSize
+                        text
+                      }
+                    }
+                  }
+                }
+              }
+            }
             unifiedDocSpec: repository(owner: "unified-doc", name: "unified-doc") {
               name
-              spec: object(expression: "main:spec.md") {
+              file: object(expression: "main:spec.md") {
                 ... on Blob {
+                  byteSize
                   text
                 }
               }
             }
             unifiedDocDomSpec: repository(owner: "unified-doc", name: "unified-doc-dom") {
               name
-              spec: object(expression: "main:spec.md") {
+              file: object(expression: "main:spec.md") {
                 ... on Blob {
+                  byteSize
                   text
                 }
               }

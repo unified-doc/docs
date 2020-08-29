@@ -33,8 +33,9 @@ export default function Specs({ data }) {
 
 function extract(data) {
   const specs = Object.values(data.githubData.data).map((node) => ({
+    byteSize: node.file.byteSize,
     name: node.name,
-    text: node.spec.text,
+    text: node.file.text,
   }));
   return orderBy(specs, ['name'], ['asc']);
 }
@@ -46,13 +47,15 @@ export const query = graphql`
       data {
         unifiedDocSpec {
           name
-          spec {
+          file {
+            byteSize
             text
           }
         }
         unifiedDocDomSpec {
           name
-          spec {
+          file {
+            byteSize
             text
           }
         }

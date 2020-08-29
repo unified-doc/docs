@@ -8,8 +8,7 @@
   "author": "Chris Zhou <chrisrzhou@pm.me> (https://chrisrzhou.io)",
   "scripts": {
     "bootstrap": "npm install",
-    "build": "npm run crawl; gatsby build",
-    "crawl": "git update-index --skip-worktree src/data/files.json; babel-node src/data/crawl.js",
+    "build": "gatsby build",
     "clean": "rm -rf dist",
     "docs": "gatsby develop",
     "lint": "xo --fix; tsc"

@@ -19,11 +19,11 @@ function FileNameColumn({ children }) {
 }
 
 function ExtensionColumn({ children }) {
-  return <Flex flex="0 0 50px">{children}</Flex>;
+  return <Flex flex="0 0 100px">{children}</Flex>;
 }
 
-function LastModifiedColumn({ children }) {
-  return <Flex flex="0 0 100px">{children}</Flex>;
+function ByteSizeColumn({ children }) {
+  return <Flex flex="0 0 80px">{children}</Flex>;
 }
 
 export default function FileList({ files, onSelectFile }) {
@@ -34,6 +34,7 @@ export default function FileList({ files, onSelectFile }) {
       p={4}
       space={2}
       sx={{ boxShadow: 'card' }}>
+      <Text color="light" pb={4} variant="small">All content below is openly-sourced from GitHub projects.</Text>
       <Row>
         <FileNameColumn>
           <Text as="strong" variant="small">
@@ -42,30 +43,26 @@ export default function FileList({ files, onSelectFile }) {
         </FileNameColumn>
         <ExtensionColumn>
           <Text as="strong" variant="small">
-            Type
+            Extension
           </Text>
         </ExtensionColumn>
-        <LastModifiedColumn>
+        <ByteSizeColumn>
           <Text as="strong" variant="small">
-            Last modified
+            Size
           </Text>
-        </LastModifiedColumn>
+        </ByteSizeColumn>
       </Row>
       {files.map((file) => {
-        const { doc, folder, lastModified, name } = file;
-        const filename = `${folder}/${name}`;
+        const { byteSize, extension, name, stem } = file;
         return (
-          <Text
-            key={filename}
-            variant="link"
-            onClick={() => onSelectFile(file)}>
+          <Text key={name} variant="link" onClick={() => onSelectFile(file)}>
             <Row>
               <FileNameColumn>
                 <Icon icon="file" />
-                {filename}
+                {name}
               </FileNameColumn>
-              <ExtensionColumn>{doc.file().extension}</ExtensionColumn>
-              <LastModifiedColumn>{lastModified}</LastModifiedColumn>
+              <ExtensionColumn>{extension}</ExtensionColumn>
+              <ByteSizeColumn>{(byteSize / 1000).toFixed(2)} KB</ByteSizeColumn>
             </Row>
           </Text>
         );
