@@ -41,8 +41,8 @@ export default function FileList({ files, onSelectFile }) {
       <Text color="light" variant="small">
         <a href={GITHUB_URL}>unified-doc</a> supports rendering{' '}
         <code>.html</code>, <code>.md</code>, <code>.txt</code>,{' '}
-        <code>.json</code>, and lots of other code files. All content below is
-        openly-sourced from GitHub projects.
+        <code>.json</code>, and most code files. All content used below are
+        openly-sourced from various GitHub.
       </Text>
       <Flex
         bg="background"

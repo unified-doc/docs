@@ -130,7 +130,6 @@ const icons = {
 export default function Icon({
   icon,
   enableResponsiveLabelHide = false,
-  disabled = false,
   href = undefined,
   label = undefined,
   onClick = undefined,
@@ -140,7 +139,6 @@ export default function Icon({
       as={onClick || href ? 'a' : 'div'}
       alignItems="center"
       color="secondary"
-      disabled={disabled}
       flex="0 0 auto"
       href={href}
       space={1}

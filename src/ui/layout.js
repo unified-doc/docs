@@ -24,15 +24,17 @@ export default function Layout({ children }) {
             <Link to="/examples">Examples</Link>
           </Flex>
           <Flex space={3}>
+            <Link to="/about">About</Link>
             <Link to="/specs">Specs</Link>
-            <Link to="/roadmap">Roadmap</Link>
             <a href={GITHUB_URL}>GitHub</a>
           </Flex>
         </Flex>
       </ResponsiveFlex>
       <Box sx={{ flex: '1 1 auto' }}>{children}</Box>
       <Flex mt={6} py={3}>
-        <Text variant="small">© 2020 unified-doc</Text>
+        <Text color="light" variant="small">
+          © 2020 <a href={GITHUB_URL}>unified-doc</a>
+        </Text>
       </Flex>
     </Flex>
   );

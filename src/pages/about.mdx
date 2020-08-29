@@ -1,0 +1,37 @@
+## About
+
+Vast amounts of human knowledge is stored digitally in different document formats.  It is cheap to create, store, render, and manage content for the same document format, but much harder to perform the same operations for content across different formats.  Some form of [unified][unified] bridge is required to significantly lower the friction when working across different formats, resulting in improved sharing of human knowledge.
+
+Instead of implementing custom programs per format to parse/render/search/annotate/export content, `unified-doc` implements a set of unified document APIs for supported content types.  This allows extension of existing APIs to newly introduced content types, and for supported content types to benefit from future API methods.
+
+With `unified-doc`, we can easily
+- compile and render any content to HTML.
+- format and style the document.
+- mark or annotate the document.
+- search on the document's text content.
+- export the document in a variety of file formats.
+- preserve the semantic structure of the source content.
+- retrieve useful representations of the document (e.g. source, html, text, syntax tree).
+- enrich the document through an ecosystem of plugins.
+- evolve with interoperable web technologies.
+
+### Document formats
+
+`unified-doc` currently supports and will support the following document formats (and relating file extensions):
+- [x] most code languages (e.g. `.txt`, `.json`, `.js`, `.css`, `.sh`, `.py`, `.r`, `.cpp` etc)
+- [x] `.html`
+- [x] `.md`
+- [ ] `.csv`
+- [ ] `.xml`
+- [ ] `.docx`
+- [ ] `.pdf`
+
+### Roadmap
+- Finish this site!
+- Implement `unified-doc-parse-csv` to parse CSV as HTML tables.
+- Work on unofficial `docx` and `pdf` parsers until the `unified` ecosystem ships formal parsers for the corresponding syntax trees.
+- Spec the `.uni` content type (`text/uni` mime type) with the `unified` community.
+- Work on `unified-doc-cli` that exposes `unified-doc` APIS conveniently in the CLI.
+
+<!-- Definitions -->
+[unified]: https://github.com/unifiedjs

@@ -77,10 +77,6 @@ const styles = {
     li: {
       mt: 3,
     },
-    '[disabled]': {
-      opacity: 0.3,
-      pointerEvents: 'none',
-    },
     // custom unified-doc mark styles
     '[data-mark-id]': {
       backgroundColor: 'primary',
