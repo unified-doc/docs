@@ -63,12 +63,19 @@ const styles = {
       fontFamily: 'monospace',
       px: 1,
     },
+    'h1, h2, h3': {
+      mb: 3,
+      mt: 4,
+    },
     hr: {
       borderColor: 'muted',
       width: '100%',
     },
+    p: {
+      mb: 4,
+    },
     li: {
-      my: 3,
+      mt: 3,
     },
     '[disabled]': {
       opacity: 0.3,

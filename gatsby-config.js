@@ -2,6 +2,14 @@ require('dotenv').config();
 
 module.exports = {
   plugins: [
+    {
+      resolve: 'gatsby-plugin-mdx',
+      options: {
+        defaultLayouts: {
+          default: require.resolve('./src/ui/layout.js'),
+        },
+      },
+    },
     'gatsby-plugin-theme-ui',
     {
       resolve: 'gatsby-source-github-api',

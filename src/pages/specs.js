@@ -2,31 +2,24 @@ import { graphql } from 'gatsby';
 import { orderBy } from 'lodash';
 import React from 'react';
 
-import { DocPreviewToggle, Flex, Layout, SummaryItem } from '~/ui';
+import { Box, DocPreviewToggle, Layout } from '~/ui';
 
 export default function Specs({ data }) {
   const specs = extract(data);
   return (
-    <Layout
-      description={
-        <div>
-          Specs for how <code>unified-doc</code> projects are designed and
-          implemented.
-        </div>
-      }
-      title="Specs">
-      <Flex flexDirection="column" space={5}>
-        {specs.map((spec) => {
-          const { name, text } = spec;
-          return (
-            <SummaryItem
-              key={name}
-              extra={<DocPreviewToggle content={text} filename="spec.md" />}
-              title={name}
-            />
-          );
-        })}
-      </Flex>
+    <Layout>
+      <h2>Specs</h2>
+      Specs for how <code>unified-doc</code> projects are designed and
+      implemented.
+      {specs.map((spec) => {
+        const { name, text } = spec;
+        return (
+          <Box key={name}>
+            <h3>{name}</h3>
+            <DocPreviewToggle content={text} filename="spec.md" />
+          </Box>
+        );
+      })}
     </Layout>
   );
 }

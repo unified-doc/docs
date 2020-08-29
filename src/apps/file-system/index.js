@@ -1,5 +1,4 @@
 import { useStaticQuery, graphql } from 'gatsby';
-import moment from 'moment';
 import React, { useState } from 'react';
 import Doc from 'unified-doc';
 

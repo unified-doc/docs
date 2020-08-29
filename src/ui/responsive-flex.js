@@ -7,7 +7,7 @@ export default function ResponsiveFlex(props) {
     <Flex
       {...props}
       flexDirection={['column', 'row']}
-      alignItems={['flex-start', 'center']}
+      alignItems={['flex-start', props.alignItems]}
     />
   );
 }

@@ -2,13 +2,9 @@ import { Link } from 'gatsby';
 import React from 'react';
 
 import { GITHUB_URL } from '~/constants/links';
-import { Flex, Logo, ResponsiveFlex, Text } from '~/ui';
+import { Box, Flex, Logo, ResponsiveFlex, Text } from '~/ui';
 
-export default function Layout({
-  children,
-  description = undefined,
-  title = undefined,
-}) {
+export default function Layout({ children }) {
   return (
     <Flex
       flexDirection="column"
@@ -17,15 +13,15 @@ export default function Layout({
       space={5}
       sx={{ maxWidth: 840, minHeight: '100vh' }}>
       <ResponsiveFlex
-        alignItems="center"
+        alignItems="baseline"
         justifyContent="space-between"
         py={3}
         space={4}>
         <Logo />
         <Flex flex="1 1 auto" justifyContent="space-between" py={2} space={3}>
           <Flex space={3}>
-            <Link to="/recipes">Recipes</Link>
             <Link to="/packages">Packages</Link>
+            <Link to="/examples">Examples</Link>
           </Flex>
           <Flex space={3}>
             <Link to="/specs">Specs</Link>
@@ -34,11 +30,7 @@ export default function Layout({
           </Flex>
         </Flex>
       </ResponsiveFlex>
-      <Flex flexDirection="column" space={2}>
-        {title && <Text as="h2">{title}</Text>}
-        {description}
-      </Flex>
-      <Flex flex="1 1 auto">{children}</Flex>
+      <Box sx={{ flex: '1 1 auto' }}>{children}</Box>
       <Flex mt={6} py={3}>
         <Text variant="small">© 2020 unified-doc</Text>
       </Flex>

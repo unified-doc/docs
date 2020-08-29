@@ -34,7 +34,9 @@ export default function FileList({ files, onSelectFile }) {
       p={4}
       space={2}
       sx={{ boxShadow: 'card' }}>
-      <Text color="light" pb={4} variant="small">All content below is openly-sourced from GitHub projects.</Text>
+      <Text color="light" pb={4} variant="small">
+        All content below is openly-sourced from GitHub projects.
+      </Text>
       <Row>
         <FileNameColumn>
           <Text as="strong" variant="small">

@@ -3,23 +3,17 @@ import { orderBy } from 'lodash';
 import moment from 'moment';
 import React from 'react';
 
-import { DocPreviewToggle, Flex, Icon, Layout, SummaryItem, Text } from '~/ui';
+import { Box, DocPreviewToggle, Flex, Icon, Layout, Text } from '~/ui';
 
 export default function Packages({ data }) {
   const repos = extract(data);
   return (
-    <Layout
-      description={
-        <div>
-          The following packages form the <code>unified-doc</code> ecosystem.
-        </div>
-      }
-      title="Packages">
-      <Flex flexDirection="column" space={5}>
-        {repos.map((repo) => (
-          <Repo key={repo.name} repo={repo} />
-        ))}
-      </Flex>
+    <Layout>
+      <h2>Package</h2>
+      The following packages form the <code>unified-doc</code> ecosystem.
+      {repos.map((repo) => (
+        <Repo key={repo.name} repo={repo} />
+      ))}
     </Layout>
   );
 }
@@ -36,9 +30,9 @@ function Repo({ repo }) {
     url,
   } = repo;
   return (
-    <Flex flexDirection="column" space={3}>
+    <Box>
+      <h2>{name}</h2>
       <Flex flexDirection="column" space={2}>
-        <Text as="h2">{name}</Text>
         <Text variant="small">{description}</Text>
         <Flex alignItems="center" space={4}>
           <Icon href={url} icon="github" />
@@ -55,16 +49,14 @@ function Repo({ repo }) {
       </Flex>
       {packages.map((pkg) => {
         return (
-          <SummaryItem
-            key={pkg.name}
-            extra={
-              <DocPreviewToggle content={pkg.readme} filename="readme.md" />
-            }
-            title={pkg.name}
-          />
+          <Box key={pkg.name}>
+            <h3>{pkg.name}</h3>
+            <DocPreviewToggle content={pkg.readme} filename="readme.md" />
+          </Box>
         );
       })}
-    </Flex>
+      <br />
+    </Box>
   );
 }
 
