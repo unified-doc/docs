@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Flex, Text } from '.';
+import { Flex, Text } from '~/ui';
 
 export default function SummaryItem({ title, extra }) {
   return (

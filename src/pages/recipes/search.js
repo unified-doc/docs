@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Layout } from '../../components';
+import { Layout } from '~/ui';
 
-export default function SearchDemo() {
+export default function Search() {
   return <Layout title="Search">Coming soon.</Layout>;
 }

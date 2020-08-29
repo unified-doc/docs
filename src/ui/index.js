@@ -1,6 +1,6 @@
 export { default as Box } from './box';
-export { default as Doc } from './doc';
 export { default as DocPreview } from './doc-preview';
+export { default as DocPreviewToggle } from './doc-preview-toggle';
 export { default as Flex } from './flex';
 export { default as Icon } from './icon';
 export { default as IconDropdown } from './icon-dropdown';

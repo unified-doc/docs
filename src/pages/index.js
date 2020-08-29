@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { Flex, Layout, Text } from '../components';
-import FileSystem from '../demos/file-system';
-import { UNIFIED_URL } from '../links';
+import FileSystem from '~/apps/file-system';
+import { UNIFIED_URL } from '~/constants/links';
+import { Flex, Layout, Text } from '~/ui';
 
 export default function Index() {
   const description = (

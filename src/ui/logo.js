@@ -1,7 +1,7 @@
 import { Link } from 'gatsby';
 import React from 'react';
 
-import { Box, Text } from '.';
+import { Box, Text } from '~/ui';
 
 export default function Logo() {
   return (
@@ -14,7 +14,7 @@ export default function Logo() {
           color: 'primary',
         },
       }}>
-      <Box as="span" sx={{ color: 'primary' }}>
+      <Box as="span" color="primary">
         uni
       </Box>
       fied-doc

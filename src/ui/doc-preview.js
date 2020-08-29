@@ -10,11 +10,11 @@ import React, {
 import rehypeHighlight from 'rehype-highlight';
 import rehype2react from 'rehype-react';
 import { highlight, saveFile } from 'unified-doc-dom';
-import unifiedDoc from 'unified-doc';
+import Doc from 'unified-doc';
 import { v4 as uuidv4 } from 'uuid';
 
-import { GITHUB_URL } from '../links';
-import { Box, Flex, IconDropdown, Icon, Text, TextInput } from '.';
+import { GITHUB_URL } from '~/constants/links';
+import { Box, Flex, IconDropdown, Icon, Text, TextInput } from '~/ui';
 
 const extensionTypes = {
   SOURCE: {
@@ -37,7 +37,7 @@ const previewTypes = {
   HAST: 'Hast',
 };
 
-export default function Doc({ content, filename, onBack = undefined }) {
+export default function DocPreview({ content, filename, onBack = undefined }) {
   const docRef = useRef(null);
   const [query, setQuery] = useState('');
   const [showResults, setShowResults] = useState(false);
@@ -68,12 +68,13 @@ export default function Doc({ content, filename, onBack = undefined }) {
 
   // initialize a doc instance!
   const doc = useMemo(() => {
-    return unifiedDoc({
+    return Doc({
       compiler: [[rehype2react, { createElement }]],
       content,
       filename,
       marks: results,
       prePlugins: [[rehypeHighlight, { ignoreMissing: true }]],
+      sanitizeSchema: null,
       searchOptions: {
         minQueryLength: 2,
         snippetOffsetPadding: 20,
@@ -82,7 +83,6 @@ export default function Doc({ content, filename, onBack = undefined }) {
   }, [content, filename, results]);
 
   // memoize doc and file
-  const file = useMemo(() => doc.file(), [doc]);
   const docContents = useMemo(() => {
     switch (selectedPreview) {
       case previewTypes.HAST:
@@ -130,17 +130,14 @@ export default function Doc({ content, filename, onBack = undefined }) {
     [],
   );
 
-  const isUnsupported = !['text/html', 'text/markdown', 'text/plain'].includes(
-    file.type,
-  );
   const docStyles =
-    isUnsupported || selectedPreview !== previewTypes.COMPILED
-      ? {
+    selectedPreview === previewTypes.COMPILED
+      ? undefined
+      : {
           fontFamily: 'monospace',
           fontSize: 0,
           whiteSpace: 'pre-wrap',
-        }
-      : undefined;
+        };
 
   return (
     <Flex
@@ -197,27 +194,27 @@ export default function Doc({ content, filename, onBack = undefined }) {
                 const { id, snippet } = result;
                 const [left, matched, right] = snippet;
                 return (
-                  <Text
-                    key={id}
-                    as="a"
-                    href={`#${id}`}
-                    sx={{
-                      flex: '0 0 auto',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                    }}
-                    variant="small"
-                    onClick={() => {
-                      setShowResults(false);
-                      highlight(docRef.current, id);
-                    }}>
-                    …{left}
-                    <Box as="strong" bg="primary" color="background">
-                      {matched}
-                    </Box>
-                    {right}…
-                  </Text>
+                  <Flex key={id} flex="0 0 auto">
+                    <Text
+                      as="a"
+                      href={`#${id}`}
+                      sx={{
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                      }}
+                      variant="small"
+                      onClick={() => {
+                        setShowResults(false);
+                        highlight(docRef.current, id);
+                      }}>
+                      …{left}
+                      <Box as="strong" bg="primary" color="background">
+                        {matched}
+                      </Box>
+                      {right}…
+                    </Text>
+                  </Flex>
                 );
               })}
             </Flex>
@@ -232,12 +229,6 @@ export default function Doc({ content, filename, onBack = undefined }) {
         <Text color="light" variant="small">
           This document is rendered by <a href={GITHUB_URL}>unified-doc.</a>
         </Text>
-        {isUnsupported && (
-          <Text color="light" variant="small">
-            The &ldquo;{file.extension}&rdquo; content type is currently not
-            supported. Rendering the content as text.
-          </Text>
-        )}
       </Flex>
       <Box ref={docRef} py={4} sx={docStyles}>
         {docContents}

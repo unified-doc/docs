@@ -166,7 +166,7 @@ async function crawl() {
     };
   });
   fs.writeFile(
-    './data/files.json',
+    './src/data/files.json',
     JSON.stringify(await Promise.all(files), null, 2),
     (err) => {
       if (err) {

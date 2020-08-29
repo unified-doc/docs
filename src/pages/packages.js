@@ -3,14 +3,7 @@ import { orderBy } from 'lodash';
 import moment from 'moment';
 import React from 'react';
 
-import {
-  DocPreview,
-  Flex,
-  Icon,
-  Layout,
-  SummaryItem,
-  Text,
-} from '../components';
+import { DocPreviewToggle, Flex, Icon, Layout, SummaryItem, Text } from '~/ui';
 
 export default function Packages({ data }) {
   const repos = extract(data);
@@ -58,13 +51,15 @@ function Repo({ repo }) {
           />
           <Text variant="small">updated {moment(updatedAt).fromNow()}</Text>
         </Flex>
-        {readme && <DocPreview content={readme} filename="readme.md" />}
+        {readme && <DocPreviewToggle content={readme} filename="readme.md" />}
       </Flex>
       {packages.map((pkg) => {
         return (
           <SummaryItem
             key={pkg.name}
-            extra={<DocPreview content={pkg.readme} filename="readme.md" />}
+            extra={
+              <DocPreviewToggle content={pkg.readme} filename="readme.md" />
+            }
             title={pkg.name}
           />
         );

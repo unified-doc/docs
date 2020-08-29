@@ -2,11 +2,15 @@
   "compilerOptions": {
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
     "checkJs": true,
     "esModuleInterop": true,
     "jsx": "react",
+    "noEmit": true,
+    "paths": {
+      "~/*": ["src/*"]
+    },
     "resolveJsonModule": true,
-    "noEmit": true
   },
   "exclude": [".cache", "node_modules", "public"]
 }

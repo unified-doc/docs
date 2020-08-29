@@ -2,7 +2,7 @@ import { graphql } from 'gatsby';
 import { orderBy } from 'lodash';
 import React from 'react';
 
-import { DocPreview, Flex, Layout, SummaryItem } from '../components';
+import { DocPreviewToggle, Flex, Layout, SummaryItem } from '~/ui';
 
 export default function Specs({ data }) {
   const specs = extract(data);
@@ -21,7 +21,7 @@ export default function Specs({ data }) {
           return (
             <SummaryItem
               key={name}
-              extra={<DocPreview content={text} filename="spec.md" />}
+              extra={<DocPreviewToggle content={text} filename="spec.md" />}
               title={name}
             />
           );

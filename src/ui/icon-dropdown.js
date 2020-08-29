@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Box, Flex, Icon, Text } from '.';
+import { Box, Flex, Icon, Text } from '~/ui';
 
 const p = 3;
 
@@ -49,7 +49,7 @@ export default function IconDropdown({
               return (
                 <Text
                   key={label}
-                  sx={{ color: active ? 'primary' : undefined }}
+                  color={active ? 'primary' : undefined}
                   variant="link"
                   onClick={onClick}>
                   {label}

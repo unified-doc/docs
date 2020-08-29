@@ -1,7 +1,7 @@
 import React from 'react';
 import { Input as UIInput } from 'theme-ui';
 
-import { Label } from '.';
+import { Label } from '~/ui';
 
 export default function TextInput({
   id,

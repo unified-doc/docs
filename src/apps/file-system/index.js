@@ -1,17 +1,18 @@
 import moment from 'moment';
 import React, { useState } from 'react';
-import unifiedDoc from 'unified-doc';
+import Doc from 'unified-doc';
 
-import initialFiles from '../../../data/files.json';
-import { Doc } from '../../components';
+import initialFiles from '~/data/files.json';
+import { DocPreview } from '~/ui';
+
 import FileList from './file-list';
 
 export default function FileSystem() {
-  const [files, setFiles] = useState(extract(initialFiles));
+  const [files] = useState(extract(initialFiles));
   const [selectedFile, setSelectedFile] = useState(null);
   if (selectedFile) {
     return (
-      <Doc
+      <DocPreview
         content={selectedFile.doc.file().content}
         filename={selectedFile.name}
         onBack={() => setSelectedFile(null)}
@@ -32,7 +33,7 @@ function extract(files) {
       name,
       lastModified: moment(lastModified).fromNow(),
       folder,
-      doc: unifiedDoc({
+      doc: Doc({
         content,
         filename: name,
       }),

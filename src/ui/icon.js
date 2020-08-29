@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Flex, Text } from '.';
+import { Flex, Text } from '~/ui';
 
 // from https://github.com/feathericons/feather
 const icons = {
@@ -139,10 +139,11 @@ export default function Icon({
     <Flex
       as={onClick || href ? 'a' : 'div'}
       alignItems="center"
+      color="secondary"
       disabled={disabled}
+      flex="0 0 auto"
       href={href}
       space={1}
-      sx={{ color: 'secondary', flex: '0 0 auto' }}
       onClick={onClick}>
       {icons[icon]}
       <Text

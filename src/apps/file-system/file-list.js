@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Flex, Icon, Text } from '../../components';
+import { Flex, Icon, Text } from '~/ui';
 
 function Row({ children }) {
   return (
@@ -12,23 +12,28 @@ function Row({ children }) {
 
 function FileNameColumn({ children }) {
   return (
-    <Flex alignItems="center" space={3} sx={{ flex: '1 1 auto' }}>
+    <Flex alignItems="center" flex="1 1 auto" space={3}>
       {children}
     </Flex>
   );
 }
 
 function ExtensionColumn({ children }) {
-  return <Box sx={{ flex: '0 0 auto', width: '50px' }}>{children}</Box>;
+  return <Flex flex="0 0 50px">{children}</Flex>;
 }
 
 function LastModifiedColumn({ children }) {
-  return <Box sx={{ flex: '0 0 auto', width: '100px' }}>{children}</Box>;
+  return <Flex flex="0 0 100px">{children}</Flex>;
 }
 
 export default function FileList({ files, onSelectFile }) {
   return (
-    <Flex flexDirection="column" p={4} space={2} sx={{ boxShadow: 'card' }}>
+    <Flex
+      flex="1 1 auto"
+      flexDirection="column"
+      p={4}
+      space={2}
+      sx={{ boxShadow: 'card' }}>
       <Row>
         <FileNameColumn>
           <Text as="strong" variant="small">

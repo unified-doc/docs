@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 
-import { Doc, Icon } from '.';
+import { DocPreview, Icon } from '~/ui';
 
-export default function DocPreview({ content, filename }) {
+export default function DocPreviewToggle({ content, filename }) {
   const [shown, setShown] = useState(false);
   if (shown) {
     return (
-      <Doc
+      <DocPreview
         content={content}
         filename={filename}
         onBack={() => setShown(false)}

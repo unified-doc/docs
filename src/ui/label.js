@@ -1,20 +1,22 @@
 import React from 'react';
 import { Label as ThemeUILabel } from 'theme-ui';
 
+import { Flex } from '~/ui';
+
 export default function Label({ children, direction = 'column', htmlFor }) {
   return (
-    <ThemeUILabel
+    <Flex
+      as={ThemeUILabel}
+      alignItems={direction === 'row' ? 'center' : 'flex-start'}
+      flex="0 0 content"
+      flexDirection={direction}
       htmlFor={htmlFor}
       sx={{
-        alignItems: direction === 'row' ? 'center' : 'flex-start',
-        display: 'flex',
-        flex: '0 0 content',
-        flexDirection: direction,
         fontSize: 1,
         fontWeight: 'bold',
         textTransform: 'uppercase',
       }}>
       {children}
-    </ThemeUILabel>
+    </Flex>
   );
 }
