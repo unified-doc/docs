@@ -1,31 +1,29 @@
 import React from 'react';
-import { Input as UIInput } from 'theme-ui';
+import { Input as ThemeUiInput } from 'theme-ui';
 
 import { Label } from '~/ui';
 
 export default function TextInput({
   id,
   value,
-  onChange = undefined,
+  flex = undefined,
   label = undefined,
   placeholder = undefined,
+  onChange = undefined,
   onFocus = undefined,
 }) {
-  const input = (
-    <UIInput
-      id={id}
-      placeholder={placeholder}
-      sx={{ border: 'border' }}
-      type="text"
-      value={value}
-      onChange={(event) => onChange(event.target.value)}
-      onFocus={onFocus}
-    />
+  return (
+    <Label flex={flex} htmlFor={id}>
+      {label}
+      <ThemeUiInput
+        id={id}
+        placeholder={placeholder}
+        sx={{ border: 'border' }}
+        type="text"
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        onFocus={onFocus}
+      />
+    </Label>
   );
-
-  if (label) {
-    return <Label htmlFor={id}>{label}</Label>;
-  }
-
-  return input;
 }

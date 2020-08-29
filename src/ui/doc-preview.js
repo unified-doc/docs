@@ -173,7 +173,7 @@ export default function DocPreview({ content, filename, onBack = undefined }) {
         </Flex>
         <TextInput
           id="search"
-          placeholder={`search in "${filename}"...`}
+          placeholder={`search in "${filename}"…`}
           value={query}
           onChange={(updatedQuery) => {
             setSelectedPreview(previewTypes.COMPILED);

@@ -3,17 +3,22 @@ import { Label as ThemeUILabel } from 'theme-ui';
 
 import { Flex } from '~/ui';
 
-export default function Label({ children, direction = 'column', htmlFor }) {
+export default function Label({
+  children,
+  htmlFor,
+  direction = 'column',
+  flex = '0 0 content',
+}) {
   return (
     <Flex
       as={ThemeUILabel}
       alignItems={direction === 'row' ? 'center' : 'flex-start'}
-      flex="0 0 content"
+      color="secondary"
+      flex={flex}
       flexDirection={direction}
       htmlFor={htmlFor}
       sx={{
-        fontSize: 1,
-        fontWeight: 'bold',
+        fontSize: 0,
         textTransform: 'uppercase',
       }}>
       {children}

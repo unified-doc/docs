@@ -5,7 +5,7 @@ const colors = {
   light: '#b9b9b9',
   muted: '#f0f0f0',
   primary: '#2e8fff',
-  secondary: '#999999',
+  secondary: '#888888',
   text: '#111111',
 };
 

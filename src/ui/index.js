@@ -1,7 +1,9 @@
 export { default as Box } from './box';
+export { default as Checkbox } from './checkbox';
 export { default as DocPreview } from './doc-preview';
 export { default as DocPreviewToggle } from './doc-preview-toggle';
 export { default as Flex } from './flex';
+export { default as FileInput } from './file-input';
 export { default as Icon } from './icon';
 export { default as IconDropdown } from './icon-dropdown';
 export { default as Label } from './label';

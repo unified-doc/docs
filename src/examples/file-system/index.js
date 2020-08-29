@@ -1,8 +1,9 @@
 import { useStaticQuery, graphql } from 'gatsby';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import Doc from 'unified-doc';
+import { fromFile } from 'unified-doc-dom';
 
-import { DocPreview } from '~/ui';
+import { FileInput, Flex, DocPreview } from '~/ui';
 
 import FileList from './file-list';
 
@@ -49,7 +50,7 @@ export default function FileSystem() {
     }
   `);
 
-  const [files] = useState(extract(data));
+  const files = useMemo(() => extract(data), [data]);
   const [selectedFile, setSelectedFile] = useState(null);
 
   if (selectedFile) {
@@ -62,7 +63,18 @@ export default function FileSystem() {
     );
   }
 
-  return <FileList files={files} onSelectFile={setSelectedFile} />;
+  return (
+    <Flex flexDirection="column" space={3}>
+      <FileInput
+        id="upload"
+        label="Upload and view file"
+        onChange={async (file) => {
+          setSelectedFile(await fromFile(file));
+        }}
+      />
+      <FileList files={files} onSelectFile={setSelectedFile} />
+    </Flex>
+  );
 }
 
 function extract(data) {

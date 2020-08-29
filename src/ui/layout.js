@@ -10,7 +10,7 @@ export default function Layout({ children }) {
       flexDirection="column"
       mx="auto"
       px={4}
-      space={5}
+      space={4}
       sx={{ maxWidth: 840, minHeight: '100vh' }}>
       <ResponsiveFlex
         alignItems="baseline"
@@ -18,7 +18,7 @@ export default function Layout({ children }) {
         py={3}
         space={4}>
         <Logo />
-        <Flex flex="1 1 auto" justifyContent="space-between" py={2} space={3}>
+        <Flex flex="1 1 auto" justifyContent="space-between" space={3}>
           <Flex space={3}>
             <Link to="/packages">Packages</Link>
             <Link to="/examples">Examples</Link>
