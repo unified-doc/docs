@@ -14,7 +14,7 @@ import Doc from 'unified-doc';
 import { v4 as uuidv4 } from 'uuid';
 
 import { GITHUB_URL } from '~/constants/links';
-import { Box, Flex, IconDropdown, Icon, Text, TextInput } from '~/ui';
+import { Box, Card, Flex, IconDropdown, Icon, Text, TextInput } from '~/ui';
 
 const extensionTypes = {
   SOURCE: {
@@ -140,11 +140,7 @@ export default function DocPreview({ content, filename, onBack = undefined }) {
         };
 
   return (
-    <Flex
-      flexDirection="column"
-      px={4}
-      space={2}
-      sx={{ borderRadius: 'l', boxShadow: 'doc', width: '100%' }}>
+    <Card variant="doc">
       <Flex
         flexDirection="column"
         py={4}
@@ -233,6 +229,6 @@ export default function DocPreview({ content, filename, onBack = undefined }) {
       <Box ref={docRef} py={4} sx={docStyles}>
         {docContents}
       </Box>
-    </Flex>
+    </Card>
   );
 }

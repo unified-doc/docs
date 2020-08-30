@@ -64,6 +64,16 @@ const styles = {
       fontFamily: 'monospace',
       px: 1,
     },
+    pre: {
+      fontFamily: 'monospace',
+      fontSize: 1,
+      whiteSpace: 'pre-wrap',
+      code: {
+        backgroundColor: 'transparent',
+        borderRadius: 'none',
+        px: 0,
+      },
+    },
     'h1, h2, h3': {
       lineHeight: 'heading',
       mb: 3,
@@ -78,10 +88,6 @@ const styles = {
     },
     p: {
       mb: 4,
-    },
-    pre: {
-      fontFamily: 'monospace',
-      fontSize: 1,
     },
     textarea: {
       fontFamily: 'monospace',
@@ -106,6 +112,17 @@ export default {
   shadows,
   space,
   styles,
+  // variants
+  cards: {
+    card: {
+      borderRadius: 'm',
+      boxShadow: 'card',
+    },
+    doc: {
+      borderRadius: 'l',
+      boxShadow: 'doc',
+    },
+  },
   text: {
     link: {
       color: 'secondary',

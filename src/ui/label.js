@@ -1,5 +1,5 @@
 import React from 'react';
-import { Label as ThemeUILabel } from 'theme-ui';
+import { Label as ThemeUiLabel } from 'theme-ui';
 
 import { Flex } from '~/ui';
 
@@ -11,7 +11,7 @@ export default function Label({
 }) {
   return (
     <Flex
-      as={ThemeUILabel}
+      as={ThemeUiLabel}
       alignItems={direction === 'row' ? 'center' : 'flex-start'}
       color="secondary"
       flex={flex}

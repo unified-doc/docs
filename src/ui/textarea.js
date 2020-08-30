@@ -1,15 +1,23 @@
 import React from 'react';
-import { Textarea as ThemeUITextarea } from 'theme-ui';
+import { Textarea as ThemeUiTextarea } from 'theme-ui';
 
 import { Label } from '~/ui';
 
-export default function Textarea({ id, label, rows = 16, value, onChange }) {
+export default function Textarea({
+  id,
+  flex = undefined,
+  label,
+  rows = 16,
+  value,
+  onChange,
+}) {
   return (
-    <Label htmlFor={id} direction="column">
+    <Label flex={flex} htmlFor={id} direction="column">
       {label}
-      <ThemeUITextarea
+      <ThemeUiTextarea
         id={id}
         rows={rows}
+        sx={{ border: 'border' }}
         value={value}
         onChange={(event) => onChange(event.target.value)}
       />

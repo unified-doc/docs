@@ -1,18 +1,10 @@
 import React from 'react';
+import { Card as ThemeUiCard } from 'theme-ui';
 
-import { Box } from '~/ui';
-
-export default function Card({ children, sx = {}, ...rest }) {
+export default function Card({ children, variant = 'card' }) {
   return (
-    <Box
-      p={4}
-      sx={{
-        ...sx,
-        borderRadius: 'm',
-        boxShadow: 'card',
-      }}
-      {...rest}>
+    <ThemeUiCard p={4} variant={variant}>
       {children}
-    </Box>
+    </ThemeUiCard>
   );
 }
