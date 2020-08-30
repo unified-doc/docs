@@ -19,7 +19,7 @@ export default function NavCrumbs() {
       return [...acc, { label, route }];
     }, []);
 
-  return (
+  return crumbs.length > 0 && (
     <h2>
       {crumbs.map((crumb, i) => {
         const { label, route } = crumb;
