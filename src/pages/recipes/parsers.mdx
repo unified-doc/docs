@@ -1,1 +1,153 @@
-Coming soon
+import { Link } from 'gatsby';
+import { createElement } from 'react';
+import rehype2react from 'rehype-react';
+import Doc from 'unified-doc';
+
+### Supported parsers
+`unified-doc` infers the mime type from the `filename` to determine which parser should be used.  The following mime types and parsers are supported or will by supported in the near future:
+- [x] `text/markdown`: markdown parser
+- [x] `text/html`: HTML parser
+- [ ] `text/csv`: CSV parser
+- [ ] `text/xml`: XML parser
+- [ ] `application/vnd.openxmlformats-officedocument.wordprocessing`: DOCX parser
+- [ ] `application/pdf`: PDF parser
+
+It is important to ensure that the `content` and `filename` are associated with each other.  In general, this is not a problem if `content` and `filename` are derived from file instances.
+
+```js live=true
+// import { createElement } from 'react';
+// import rehype2react from 'rehype-react';
+// import Doc from 'unified-doc';
+
+function() {
+  const markdownDoc = Doc({
+    compiler: [[rehype2react, { createElement }]],
+    content: '> **some** markdown content',
+    filename: 'doc.md',
+  });
+
+  const htmlDoc = Doc({
+    compiler: [[rehype2react, { createElement }]],
+    content: '<blockquote><strong>some</strong> HTML content</blockquote>',
+    filename: 'doc.html',
+  });
+
+  return (
+    <div>
+      <h4><code>doc.md</code></h4>
+      {markdownDoc.compile().result}
+      <h4><code>doc.html</code></h4>
+      {htmlDoc.compile().result}
+    </div>
+  );
+}
+```
+
+### Fallback code block parser
+
+If a parser is not supported from its inferred mime type, a fallback parser that renders content into a code block is applied.  This is useful for syntax highlighters, and will be further explored in the <Link to="/recipes/plugins">Plugins</Link> section.
+
+```js live=true
+// import { createElement } from 'react';
+// import rehype2react from 'rehype-react';
+// import Doc from 'unified-doc';
+
+function() {
+  const jsonDoc = Doc({
+    compiler: [[rehype2react, { createElement }]],
+    content: '{ "one": 2, "three": [true, false, null, "four", 5]}',
+    filename: 'doc.json',
+  });
+
+  const jsDoc = Doc({
+    compiler: [[rehype2react, { createElement }]],
+    content: 'function greet() {\n\treturn "hello world";\n}',
+    filename: 'doc.js',
+  });
+
+  const pythonDoc = Doc({
+    compiler: [[rehype2react, { createElement }]],
+    content: 'def greet():\n\treturn "hello world"',
+    filename: 'doc.py',
+  });
+
+  return (
+    <div>
+      <h4><code>doc.json</code></h4>
+      {jsonDoc.compile().result}
+      <h4><code>doc.js</code></h4>
+      {jsDoc.compile().result}
+      <h4><code>doc.py</code></h4>
+      {pythonDoc.compile().result}
+    </div>
+  );
+}
+```
+
+### Custom parser
+
+Parsers are applied using the `PluggableList` interface and can include multiple steps e.g. `[textParse]` or `[remarkParse, remark2rehype]`.  Custom parsers are specified through a mapping of mimeTypes to associated parsers.
+
+You can override an existing parser with a new parser by assigning to its supported mime type or assign specific parsers to unsupported mime types.
+
+```js live=true
+// import Doc from 'unified-doc';
+
+function () {
+  function flattenToString() {
+    this.Parser = function(doc) {
+      return {
+        type: 'root',
+        children: [
+          {
+            type: 'text',
+            value: doc,
+          },
+        ],
+      };
+    };
+  };
+
+  function capitalize() {
+    return function transformer(tree) {
+      const children = tree.children.map(child => ({
+        ...child,
+        value: child.value.toUpperCase(),
+      }));
+      return {
+        ...tree,
+        children,
+      };
+    };
+  }
+
+  const customParser = [flattenToString, capitalize];
+
+  const markdownDoc = Doc({
+    content: '> **some** markdown content',
+    filename: 'doc.md',
+    parsers: {
+      'text/markdown': customParser,
+      'application/json': customParser,
+    },
+  });
+
+  const jsonDoc = Doc({
+    content: '{ "one": 2, "three": [true, false, null, "four", 5]}',
+    filename: 'doc.json',
+    parsers: {
+      'text/markdown': [flattenToString, capitalize],
+      'application/json': [flattenToString, capitalize],
+    },
+  });
+
+  return (
+    <div>
+      <h4>Override markdown parser</h4>
+      <pre>{markdownDoc.compile().contents}</pre>
+      <h4>New JSON parser</h4>
+      <pre>{jsonDoc.compile().contents}</pre>
+    </div>
+  );
+}
+```

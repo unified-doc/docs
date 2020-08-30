@@ -6,11 +6,14 @@ import Doc from 'unified-doc';
 The default compiler, if not specified, compiles the content into stringified HTML.
 
 ```js live=true
+// import Doc from 'unified-doc';
+
 function() {
   const doc = Doc({
     content: '> **some** markdown content',
     filename: 'doc.md',
   });
+
   return <pre>{doc.compile().contents}</pre>;
 }
 ```
@@ -21,6 +24,7 @@ Use the `rehype-react` compiler to compile to [react][].
 ```js live=true
 // import { createElement } from 'react';
 // import rehype2react from 'rehype-react';
+// import Doc from 'unified-doc';
 
 function() {
   const doc = Doc({
@@ -28,6 +32,7 @@ function() {
     content: '> **some** markdown content',
     filename: 'doc.md',
   });
+
   return <div>{doc.compile().result}</div>;
 }
 ```
@@ -36,17 +41,21 @@ function() {
 A custom [compiler][] can be  applied using the `PluggableList` interface e.g. `[compiler]` or `[[compiler, compilerOptions]]`.  The following example demonstrates a custom compiler that returns the `hast` tree in JSON format, overriding the default HTML string compiler.
 
 ```js live=true
+// import Doc from 'unified-doc';
+
 function() {
   function jsonHast(options) {
     this.Compiler = function compiler(tree) {
       return JSON.stringify(tree, null, options.space)
     }
   }
+
   const doc = Doc({
     compiler: [[jsonHast, { space: 2 }]],
     content: '> **some** markdown content',
     filename: 'doc.md',
   });
+
   return <pre>{doc.compile().contents}</pre>;
 }
 ```
