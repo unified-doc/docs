@@ -1,3 +1,70 @@
+import { createElement } from 'react';
+import rehype2react from 'rehype-react';
+import Doc from 'unified-doc';
+
 # Fundamentals: Compiler
 
-Coming soon
+A `doc` can be compiled to various outputs depending on the `compiler` attached to it.  By default, a string compiler is used and stringified HTML is returned.
+
+```js live=true
+function() {
+  const doc = Doc({
+    content: '> **some** markdown content',
+    filename: 'doc.md',
+  });
+  return (
+    <div>
+      <h3>HTML String (default compiler)</h3>
+      <pre>{doc.compile().contents}</pre>
+    </div>
+  );
+}
+```
+
+A [compiler][] attached to `unified-doc` converts a [hast][] tree into output contents.  Custom compilers can be attached by specifying the `compiler` property when initializing a `doc`.  A `compiler` is applied using the `PluggableList` interface e.g. `[compiler]` or `[[compiler, compilerOptions]]`
+
+The following example demonstrates a custom compiler that returns the `hast` tree in JSON format, overriding the default HTML string compiler.
+
+```js live=true
+function() {
+  function jsonify(options) {
+    this.Compiler = function compiler(tree) {
+      return JSON.stringify(tree, null, options.space)
+    }
+  }
+  const doc = Doc({
+    compiler: [[jsonify, { space: 2 }]],
+    content: '> **some** markdown content',
+    filename: 'doc.md',
+  });
+  return (
+    <div>
+      <h3>Custom JSON compiler</h3>
+      <pre>{doc.compile().contents}</pre>
+    </div>
+  );
+}
+```
+
+This example uses a common `rehype-react` compiler to compile the `hast` tree into React output, useful in React-based projects.
+
+```js
+function() {
+  const doc = Doc({
+    compiler: [[rehype2react, { createElement }]],
+    content: '> **some** markdown content',
+    filename: 'doc.md',
+  });
+  return (
+    <div>
+      <h3>React compiler</h3>
+      <pre>{doc.compile().result}</pre>
+    </div>
+  );
+}
+```
+
+
+<!-- Definitions -->
+[compiler]: https://github.com/unifiedjs/unified#processorcompiler
+[hast]: https://github.com/syntax-tree/hast

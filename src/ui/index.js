@@ -1,5 +1,6 @@
 export { default as Box } from './box';
 export { default as Checkbox } from './checkbox';
+export { default as CodeBlock } from './code-block';
 export { default as DocPreview } from './doc-preview';
 export { default as DocPreviewToggle } from './doc-preview-toggle';
 export { default as Flex } from './flex';
@@ -12,3 +13,4 @@ export { default as Logo } from './logo';
 export { default as ResponsiveFlex } from './responsive-flex';
 export { default as Text } from './text';
 export { default as TextInput } from './text-input';
+export { default as theme } from './theme';

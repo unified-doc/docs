@@ -1,3 +1,99 @@
+import { Link } from 'gatsby';
+import Doc from 'unified-doc';
+
 # Fundamentals: Overview
 
-Coming soon
+## `doc` instance
+A `doc` is an instance of `unified-doc` initialized by providing the required `content` and `filename` properties.  An initialized `doc` provides access to all document APIs irregardless of content type.
+
+```js live=true
+function() {
+  const doc = Doc({
+    content: '> **some** markdown content',
+    filename: 'doc.md',
+  });
+  return (
+    <div>
+      <h3><code>compile()</code></h3>
+      <pre>{doc.compile().contents}</pre>
+      <h3><code>file()</code></h3>
+      <pre>{JSON.stringify(doc.file('.html'), null, 2)}</pre>
+      <h3><code>parse()</code></h3>
+      <pre>{JSON.stringify(doc.parse(), null, 2)}</pre>
+      <h3><code>search()</code></h3>
+      <pre>{JSON.stringify(doc.search('content'), null, 2)}</pre>
+      <h3><code>textContent()</code></h3>
+      <pre>{JSON.stringify(doc.textContent(), null, 2)}</pre>
+    </div>
+  );
+}
+```
+
+## `content`
+The `content` provided to a `doc` is a simple string value.
+
+## `filename`
+
+The `filename` property is important and is used to infer how the content will be parsed.  This will be covered in more detail in the <Link to="/examples/parsers/overview">Parsers</Link> section.  The following example shows how different values of `filename` return different compiled outputs for the same input `content`.
+
+```js live=true
+function() {
+  const content = '> **some** markdown content';
+  const mdDoc = Doc({
+    content,
+    filename: 'doc.md',
+  });
+  const htmlDoc = Doc({
+    content,
+    filename: 'doc.html',
+  });
+  const txtDoc = Doc({
+    content,
+    filename: 'doc.txt',
+  });
+  return (
+    <div>
+      <h3>Markdown</h3>
+      <pre>{mdDoc.compile().contents}</pre>
+      <h3>HTML</h3>
+      <pre>{htmlDoc.compile().contents}</pre>
+      <h3>Text</h3>
+      <pre>{txtDoc.compile().contents}</pre>
+    </div>
+  );
+}
+```
+
+## `options`
+
+A `doc` can be configured with options.  The <Link to="/examples">examples</Link> throughout the docs will cover some of these options in more detail.
+
+For more details, please view the official [typings][] of the project.
+
+```ts
+interface Options {
+  /** required content must be provided */
+  content: string;
+  /** required filename must be provided.  This infers the mimeType of the content and subsequently how content will be parsed */
+  filename: string;
+  /** attach a compiler (with optional options) in the `PluggableList` interface to determine how the content will be compiled */
+  compiler?: PluggableList;
+  /** an array of `Mark` data that is used by the mark algorithm to insert `mark` nodes with matching offsets */
+  marks?: Mark[];
+  /** specify new parsers or override existing parsers with this map */
+  parsers?: Parsers;
+  /** apply plugins to further customize the `doc`.  These plugins are applied after private plugins (hence the 'post' prefix).  Private methods such as `textContent()` and `parse()` will not incorporate `hast` modifications introduced by these plugins. */
+  postPlugins?: PluggableList;
+  /** apply plugins to further customize the `doc`.  These plugins are applied before private plugins (hence the 'pre' prefix).  Private methods such as `textContent()` and `parse()` may incorporate `hast` modifications introduced by these plugins. */
+  prePlugins?: PluggableList;
+  /** provide a sanitize schema for sanitizing the `doc`.  By default, the `doc` is safely sanitized.  If `null` is provided as a value, the `doc` will not be sanitized. */
+  sanitizeSchema?: SanitizeSchema | null;
+  /** attach a search algorithm that implements the `SearchAlgorithm` interface to support custom search behaviors on a `doc` */
+  searchAlgorithm?: SearchAlgorithm;
+  /** unified search options independent of the attached search algorithm */
+  searchOptions?: SearchOptions;
+}
+```
+
+<!-- Definitions -->
+[typings]: https://github.com/unified-doc/unified-doc/blob/main/packages/unified-doc/types/index.d.ts
