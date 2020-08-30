@@ -1,1 +1,79 @@
-Coming soon
+### Default/safe schema
+
+By default, all documents rendered by `unified-doc` are [safely-sanitized][] after plugins are applied.  This, however, means that you need to customize sanitzation schema for your specific needs if the default is too restrictive.
+
+```js live=true
+// import { createElement } from 'react';
+// import rehype2react from 'rehype-react';
+// import Doc from 'unified-doc';
+
+function() {
+  const doc = Doc({
+    compiler: [[rehype2react, { createElement }]],
+    content: '<blockquote><mark data-mark-id="a" class="highlight" style="background: red;">some</mark> HTML content</blockquote>',
+    filename: 'doc.html',
+    sanitizeSchema: {}, // default value
+  });
+
+  // no class, style, data-* attributes etc
+  return doc.compile().result;
+}
+```
+
+### No/unsafe schema
+
+Setting the `sanitizeSchema` value to `null` skips sanitization of the document.  This is a convenient setting to render documents 'as-is'.  However, use this only if you have sufficient trust with your source code and user generated content.
+
+Improper use of santization can open you up to a [cross-site scripting (XSS) attack][xss]. The defaults are safe, but deviating from them is likely unsafe.
+
+```js live=true
+// import { createElement } from 'react';
+// import rehype2react from 'rehype-react';
+// import Doc from 'unified-doc';
+
+function() {
+  const doc = Doc({
+    compiler: [[rehype2react, { createElement }]],
+    content: '<blockquote><mark data-mark-id="a" class="highlight" style="background: red;">some</mark> HTML content</blockquote>',
+    filename: 'doc.html',
+    sanitizeSchema: null,
+  });
+
+  // no class, style, data-* attributes etc
+  return doc.compile().result;
+}
+```
+
+### Convenient schema
+
+The following schema is conveniently used in most scenarios by `unified-doc`.  This schema whitelists the following stylistic and data attributes
+- `className`
+- `style`
+- `dataMarkId` (only on `mark` nodes)
+
+```js live=true
+// import { createElement } from 'react';
+// import rehype2react from 'rehype-react';
+// import Doc from 'unified-doc';
+
+function() {
+  const sanitizeSchema = {
+    attributes: {
+      '*': ['className', 'style'],
+      'mark': ['dataMarkId'],
+    },
+  };
+  const doc = Doc({
+    compiler: [[rehype2react, { createElement }]],
+    content: '<blockquote><mark data-mark-id="a" class="highlight" style="background: red;">some</mark> HTML content</blockquote>',
+    filename: 'doc.html',
+    sanitizeSchema,
+  });
+
+  return doc.compile().result;
+}
+```
+
+<!-- Definitions -->
+[safely-sanitized]: https://github.com/rehypejs/rehype-sanitize#security
+[xss]: https://en.wikipedia.org/wiki/Cross-site_scripting
