@@ -6,7 +6,7 @@ import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live';
 import rehype2react from 'rehype-react';
 import Doc from 'unified-doc';
 
-import { Box, Flex, Text, theme } from '~/ui';
+import { Card, Box, Flex, Text, theme } from '~/ui';
 
 const scope = {
   mdx,
@@ -73,9 +73,9 @@ export default function CodeBlock({ codeString, className, live, render }) {
           <Text mt={3} variant="small">
             Preview
           </Text>
-          <Box p={3} sx={{ boxShadow: 'card' }}>
+          <Card>
             <LivePreview />
-          </Box>
+          </Card>
         </Flex>
       </LiveProvider>
     );

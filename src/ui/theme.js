@@ -64,10 +64,6 @@ const styles = {
       fontFamily: 'monospace',
       px: 1,
     },
-    pre: {
-      fontFamily: 'monospace',
-      fontSize: 1,
-    },
     'h1, h2, h3': {
       lineHeight: 'heading',
       mb: 3,
@@ -77,11 +73,19 @@ const styles = {
       borderColor: 'muted',
       width: '100%',
     },
+    li: {
+      mt: 3,
+    },
     p: {
       mb: 4,
     },
-    li: {
-      mt: 3,
+    pre: {
+      fontFamily: 'monospace',
+      fontSize: 1,
+    },
+    textarea: {
+      fontFamily: 'monospace',
+      fontSize: 1,
     },
     // custom unified-doc mark styles
     '[data-mark-id]': {

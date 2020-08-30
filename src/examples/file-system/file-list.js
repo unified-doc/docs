@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { fromFile } from 'unified-doc-dom';
 
 import { GITHUB_URL } from '~/constants/links';
-import { Checkbox, FileInput, Flex, Icon, Text, TextInput } from '~/ui';
+import { Card, Checkbox, FileInput, Flex, Icon, Text, TextInput } from '~/ui';
 
 function Row({ children }) {
   return (
@@ -33,11 +33,7 @@ export default function FileList({ files, onSelectFile }) {
   const [query, setQuery] = useState('');
 
   return (
-    <Flex
-      flex="1 1 auto"
-      flexDirection="column"
-      p={4}
-      sx={{ boxShadow: 'card' }}>
+    <Card>
       <Text color="light" variant="small">
         <a href={GITHUB_URL}>unified-doc</a> supports rendering{' '}
         <code>.html</code>, <code>.md</code> and most non-markup (i.e. code)
@@ -118,6 +114,6 @@ export default function FileList({ files, onSelectFile }) {
             );
           })}
       </Flex>
-    </Flex>
+    </Card>
   );
 }
