@@ -17,6 +17,7 @@
     "@mapbox/rehype-prism": "^0.5.0",
     "@mdx-js/mdx": "^1.6.16",
     "@mdx-js/react": "^1.6.16",
+    "diff": "^4.0.2",
     "dotenv": "^8.2.0",
     "gatsby": "^2.24.52",
     "gatsby-plugin-mdx": "^1.2.37",
