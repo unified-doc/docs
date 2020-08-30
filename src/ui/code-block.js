@@ -1,8 +1,9 @@
 import { mdx } from '@mdx-js/react';
 import Highlight, { defaultProps } from 'prism-react-renderer';
 import github from 'prism-react-renderer/themes/github';
-import React from 'react';
+import React, { createElement } from 'react';
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live';
+import rehype2react from 'rehype-react';
 import Doc from 'unified-doc';
 
 import { Box, Flex, Text, theme } from '~/ui';
@@ -10,6 +11,8 @@ import { Box, Flex, Text, theme } from '~/ui';
 const scope = {
   mdx,
   // TODO: this is a hack, not sure how else to auto-pass to MDX scope
+  createElement,
+  rehype2react,
   Doc,
 };
 
@@ -28,7 +31,11 @@ export default function CodeBlock({ codeString, className, live, render }) {
         language={language}
         theme={github}>
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
-          <Box as="pre" className={className} p={2} sx={{ ...style, overflow: 'auto' }}>
+          <Box
+            as="pre"
+            className={className}
+            p={2}
+            sx={{ ...style, overflow: 'auto' }}>
             {tokens.map((line, i) => (
               <div key={i} {...getLineProps({ line, key: i })}>
                 {line.map((token, key) => (

@@ -1,9 +1,7 @@
 import { Link } from 'gatsby';
 import Doc from 'unified-doc';
 
-# Fundamentals: Overview
-
-## `doc` instance
+### `doc` instance
 A `doc` is an instance of `unified-doc` initialized by providing the required `content` and `filename` properties.  An initialized `doc` provides access to all document APIs irregardless of content type.
 
 ```js live=true
@@ -14,27 +12,29 @@ function() {
   });
   return (
     <div>
-      <h3><code>compile()</code></h3>
+      <h4><code>compile()</code></h4>
       <pre>{doc.compile().contents}</pre>
-      <h3><code>file()</code></h3>
+      <h4><code>file()</code></h4>
       <pre>{JSON.stringify(doc.file('.html'), null, 2)}</pre>
-      <h3><code>parse()</code></h3>
+      <h4><code>parse()</code></h4>
       <pre>{JSON.stringify(doc.parse(), null, 2)}</pre>
-      <h3><code>search()</code></h3>
+      <h4><code>search()</code></h4>
       <pre>{JSON.stringify(doc.search('content'), null, 2)}</pre>
-      <h3><code>textContent()</code></h3>
+      <h4><code>textContent()</code></h4>
       <pre>{JSON.stringify(doc.textContent(), null, 2)}</pre>
     </div>
   );
 }
 ```
 
-## `content`
+### `content`
 The `content` provided to a `doc` is a simple string value.
 
-## `filename`
+### `filename`
 
-The `filename` property is important and is used to infer how the content will be parsed.  This will be covered in more detail in the <Link to="/examples/parsers/overview">Parsers</Link> section.  The following example shows how different values of `filename` return different compiled outputs for the same input `content`.
+The `filename` property is important and is used to infer how the content will be parsed.  This will be covered in more detail in the <Link to="/examples/parsers/overview">Parsers</Link> section.  In general, if a supported parser exists for the inferred content type, we will apply it.  Otherwise, a generic parser rendering the content as source code into a code block is used (useful for displaying source code).
+
+The following example shows how different values of `filename` return different compiled outputs for the same input `content`.
 
 ```js live=true
 function() {
@@ -47,24 +47,24 @@ function() {
     content,
     filename: 'doc.html',
   });
-  const txtDoc = Doc({
-    content,
-    filename: 'doc.txt',
+  const sourceCodeDoc = Doc({
+    content: 'const hello = "world";',
+    filename: 'doc.js',
   });
   return (
     <div>
-      <h3>Markdown</h3>
+      <h4>Markdown</h4>
       <pre>{mdDoc.compile().contents}</pre>
-      <h3>HTML</h3>
+      <h4>HTML</h4>
       <pre>{htmlDoc.compile().contents}</pre>
-      <h3>Text</h3>
-      <pre>{txtDoc.compile().contents}</pre>
+      <h4>Source Code</h4>
+      <pre>{sourceCodeDoc.compile().contents}</pre>
     </div>
   );
 }
 ```
 
-## `options`
+### `options`
 
 A `doc` can be configured with options.  The <Link to="/examples">examples</Link> throughout the docs will cover some of these options in more detail.
 

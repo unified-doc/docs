@@ -9,7 +9,6 @@ export default function Packages({ data }) {
   const repos = extract(data);
   return (
     <Layout>
-      <h2>Package</h2>
       The following packages form the <code>unified-doc</code> ecosystem.
       {repos.map((repo) => (
         <Repo key={repo.name} repo={repo} />

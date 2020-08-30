@@ -1,4 +1,11 @@
-## About
+This is a progressive documentation site for the [**unified-doc**][unified-doc] project.  In addition to authored content, the site uses openly-sourced data from the following Github projects:
+- [`syntax-tree`][syntax-tree]
+- [`highlightjs/highlight.js`][highlightjs]
+- [`GITenberg/Alice-s-Adventures-in-Wonderland-HTML-Edition_928`][gitenberg]
+
+Documents used in the site are rendered with `unified-doc`, and we hope you enjoy this project and its quest to improve sharing and acquisition of human knowledge.
+
+### Motivation
 
 Vast amounts of human knowledge is stored digitally in different document formats.  It is cheap to create, store, render, and manage content for the same document format, but much harder to perform the same operations for content across different formats.  Some form of [unified][unified] bridge is required to significantly lower the friction when working across different formats, resulting in improved sharing of human knowledge.
 
@@ -17,7 +24,7 @@ With `unified-doc`, we can easily
 
 ### Document formats
 
-`unified-doc` currently supports and will support the following document formats (and relating file extensions):
+`unified-doc` currently supports, and will support, the following document formats (and relating file extensions):
 - [x] most code languages (e.g. `.txt`, `.json`, `.js`, `.css`, `.sh`, `.py`, `.r`, `.cpp` etc)
 - [x] `.html`
 - [x] `.md`
@@ -27,11 +34,15 @@ With `unified-doc`, we can easily
 - [ ] `.pdf`
 
 ### Roadmap
-- Finish this site!
+- Finish the site!
 - Implement `unified-doc-parse-csv` to parse CSV as HTML tables.
 - Work on unofficial `docx` and `pdf` parsers until the `unified` ecosystem ships formal parsers for the corresponding syntax trees.
 - Spec the `.uni` content type (`text/uni` mime type) with the `unified` community.
 - Work on `unified-doc-cli` that exposes `unified-doc` APIS conveniently in the CLI.
 
 <!-- Definitions -->
+[gitenberg]: https://github.com/GITenberg/Alice-s-Adventures-in-Wonderland-HTML-Edition_928
+[highlightjs]: https://github.com/highlightjs/highlight.js
+[syntax-tree]: https://github.com/syntax-tree
 [unified]: https://github.com/unifiedjs
+[unified-doc]: https://github.com/unified-doc/unified-doc

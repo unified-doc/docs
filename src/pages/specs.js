@@ -8,7 +8,6 @@ export default function Specs({ data }) {
   const specs = extract(data);
   return (
     <Layout>
-      <h2>Specs</h2>
       Specs for how <code>unified-doc</code> projects are designed and
       implemented.
       {specs.map((spec) => {
