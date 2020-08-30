@@ -87,7 +87,7 @@ function extract(data) {
 }
 
 export const query = graphql`
-  query allPackages {
+  query GetAllPackages {
     githubData {
       data {
         repos {

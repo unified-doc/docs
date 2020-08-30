@@ -1,0 +1,7 @@
+The `textContent` of a document is the concatenated value of text values in all text nodes.  While this representation of the document does not seem immediately useful, it is used in the implementation of core API methods and features (e.g. `doc.search()`, `doc.file('.txt')`, `marks`).
+
+> TODO: elaborate more on how this is used in relation to the core API methods and features.
+
+One can retrieve the `textContent` of the document and process data in a different environment to return text offsets, that can be re-consumed by `unified-doc` in compatible ways.  This opens up to a lot of flexibility with operating on documents across environments.
+
+Note that every document rendered through `unified-doc` has a stable and reproducible `textContent` representation.

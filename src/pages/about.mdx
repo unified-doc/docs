@@ -24,24 +24,33 @@ With `unified-doc`, we can easily
 
 ### Document formats
 
-`unified-doc` currently supports, and will support, the following document formats (and relating file extensions):
-- [x] most code languages (e.g. `.txt`, `.json`, `.js`, `.css`, `.sh`, `.py`, `.r`, `.cpp` etc)
+`unified-doc` currently supports, and will eventually support, the following document formats (and relating file extensions):
+
+#### Non-markup formats
+Non-markup docments are trivially rendered into a code block that can be easily highlighted by JS syntax highlighting libraries e.g. `.txt`, `.json`, `.js`, `.css`, `.sh`, `.py`, `.r`, `.cpp` etc).
+
+#### Markup formats
+Markup formats are supported by implementing parsers that parse the respective source content into unified [hast][] syntax tree.  The [unified][] community is largely credited for implementation of such parsers.
 - [x] `.html`
 - [x] `.md`
 - [ ] `.csv`
-- [ ] `.xml`
 - [ ] `.docx`
+- [ ] `.epub`
+- [ ] `.mathml`
 - [ ] `.pdf`
+- [ ] `.rtf`
+- [ ] `.tex`
+- [ ] `.xml`
 
 ### Roadmap
 - Finish the site!
-- Implement `unified-doc-parse-csv` to parse CSV as HTML tables.
-- Work on unofficial `docx` and `pdf` parsers until the `unified` ecosystem ships formal parsers for the corresponding syntax trees.
-- Spec the `.uni` content type (`text/uni` mime type) with the `unified` community.
+- Work on "unofficial" `.csv`, `docx`, `epub`, `mathml`, `pdf`, `rtf`, `tex` parsers until the `unified` ecosystem ships formal parsers for the corresponding syntax trees.
 - Work on `unified-doc-cli` that exposes `unified-doc` APIS conveniently in the CLI.
+- Spec the `.uni` content type (`text/uni` mime type) with the `unified` community.
 
 <!-- Definitions -->
 [gitenberg]: https://github.com/GITenberg/Alice-s-Adventures-in-Wonderland-HTML-Edition_928
+[hast]: https://github.com/syntax-tree/hast
 [highlightjs]: https://github.com/highlightjs/highlight.js
 [syntax-tree]: https://github.com/syntax-tree
 [unified]: https://github.com/unifiedjs

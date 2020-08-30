@@ -40,9 +40,9 @@ export default function FileList({ files, onSelectFile }) {
       sx={{ boxShadow: 'card' }}>
       <Text color="light" variant="small">
         <a href={GITHUB_URL}>unified-doc</a> supports rendering{' '}
-        <code>.html</code>, <code>.md</code>, <code>.txt</code>,{' '}
-        <code>.json</code>, and most code files. All content used below are
-        openly-sourced from various GitHub.
+        <code>.html</code>, <code>.md</code> and most non-markup (i.e. code)
+        documents. All content used below are openly-sourced from various
+        GitHub.
       </Text>
       <Flex
         bg="background"

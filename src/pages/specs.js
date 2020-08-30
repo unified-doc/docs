@@ -33,7 +33,7 @@ function extract(data) {
 }
 
 export const query = graphql`
-  query allSpecs {
+  query GetAllSpecs {
     githubData {
       id
       data {

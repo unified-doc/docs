@@ -6,9 +6,9 @@ import { DocPreview } from '~/ui';
 
 import FileList from './file-list';
 
-export default function FileSystem() {
+export default function FileSystemExample() {
   const data = useStaticQuery(graphql`
-    query getCodeFiles {
+    query GetAllFiles {
       githubData {
         id
         data {
