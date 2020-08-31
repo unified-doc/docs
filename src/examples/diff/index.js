@@ -50,8 +50,9 @@ export default function DiffDemo() {
     sanitizeSchema: {
       attributes: {
         '*': ['className', 'style'],
-        mark: ['dataMarkId'],
+        mark: ['dataMarkId', 'id'],
       },
+      clobberPrefix: '',
     },
     marks,
   });

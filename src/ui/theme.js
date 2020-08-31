@@ -94,9 +94,11 @@ const styles = {
       fontSize: 1,
     },
     // custom unified-doc mark styles
+    // scrollMarginTop accounts for some sticky headers and scrolls marks to the middle of the viewport height.
     '[data-mark-id]': {
       backgroundColor: 'primary',
       color: 'background',
+      scrollMarginTop: '50vh',
     },
   },
 };

@@ -5,7 +5,6 @@ import React, {
   useMemo,
   useRef,
   useState,
-  useEffect,
 } from 'react';
 import rehypeHighlight from 'rehype-highlight';
 import rehype2react from 'rehype-react';
@@ -14,7 +13,16 @@ import Doc from 'unified-doc';
 import { v4 as uuidv4 } from 'uuid';
 
 import { GITHUB_URL } from '~/constants/links';
-import { Box, Card, Flex, IconDropdown, Icon, Text, TextInput } from '~/ui';
+import {
+  Box,
+  Card,
+  Flex,
+  IconDropdown,
+  Icon,
+  Snippet,
+  Text,
+  TextInput,
+} from '~/ui';
 
 const extensionTypes = {
   SOURCE: {
@@ -44,28 +52,6 @@ export default function DocPreview({ content, filename, onBack = undefined }) {
   const [results, setResults] = useState([]);
   const [selectedPreview, setSelectedPreview] = useState(previewTypes.COMPILED);
 
-  // when location hash change, scroll mark element into view
-  useEffect(() => {
-    function scrollIntoView() {
-      const { hash } = document.location;
-      const selector = `[id='${hash.slice(1)}']`;
-      const markElement = docRef.current.querySelector(selector);
-      if (markElement) {
-        markElement.scrollIntoView({
-          behavior: 'auto',
-          block: 'center',
-          inline: 'center',
-        });
-      }
-    }
-
-    window.addEventListener('hashchange', scrollIntoView);
-
-    return () => {
-      window.removeEventListener('hashchange', scrollIntoView);
-    };
-  }, []);
-
   // initialize a doc instance!
   const doc = useMemo(() => {
     return Doc({
@@ -74,10 +60,16 @@ export default function DocPreview({ content, filename, onBack = undefined }) {
       filename,
       marks: results,
       prePlugins: [[rehypeHighlight, { ignoreMissing: true }]],
-      sanitizeSchema: null,
+      sanitizeSchema: {
+        attributes: {
+          '*': ['className', 'style'],
+          mark: ['dataMarkId', 'id'],
+        },
+        clobberPrefix: '',
+      },
       searchOptions: {
         minQueryLength: 2,
-        snippetOffsetPadding: 20,
+        snippetOffsetPadding: 30,
       },
     });
   }, [content, filename, results]);
@@ -151,7 +143,11 @@ export default function DocPreview({ content, filename, onBack = undefined }) {
           top: 0,
         }}>
         <Flex alignItems="center" justifyContent="space-between">
-          {onBack && <Icon icon="back" label="Go back" onClick={onBack} />}
+          {onBack ? (
+            <Icon icon="back" label="Go back" onClick={onBack} />
+          ) : (
+            <div />
+          )}
           <Flex>
             <IconDropdown
               enableResponsiveLabelHide
@@ -191,15 +187,8 @@ export default function DocPreview({ content, filename, onBack = undefined }) {
                 const [left, matched, right] = snippet;
                 return (
                   <Flex key={id} flex="0 0 auto">
-                    <Text
-                      as="a"
-                      href={`#${id}`}
-                      sx={{
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
-                      }}
-                      variant="small"
+                    <Snippet
+                      id={id}
                       onClick={() => {
                         setShowResults(false);
                         highlight(docRef.current, id);
@@ -209,7 +198,7 @@ export default function DocPreview({ content, filename, onBack = undefined }) {
                         {matched}
                       </Box>
                       {right}…
-                    </Text>
+                    </Snippet>
                   </Flex>
                 );
               })}
