@@ -4,13 +4,17 @@ import rehype2react from 'rehype-react';
 import Doc from 'unified-doc';
 
 ### Supported parsers
-`unified-doc` infers the mime type from the `filename` to determine which parser should be used.  The following mime types and parsers are supported or will by supported in the near future:
-- [x] `text/markdown`: markdown parser
+`unified-doc` infers the [mime type][] from the `filename` to determine which parser should be used.  The following mime types and parsers are supported, or will be supported for the following markup docment formats:
 - [x] `text/html`: HTML parser
+- [x] `text/markdown`: Markdown parser
 - [ ] `text/csv`: CSV parser
 - [ ] `text/xml`: XML parser
+- [ ] `application/epub+zip`: EPUB parser
 - [ ] `application/vnd.openxmlformats-officedocument.wordprocessing`: DOCX parser
+- [ ] `application/mathml+xml`: MathML parser
 - [ ] `application/pdf`: PDF parser
+- [ ] `application/rtf`: RTF parser
+- [ ] `application/x-latex`: LaTeX parser
 
 It is important to ensure that the `content` and `filename` are associated with each other.  In general, this is not a problem if `content` and `filename` are derived from file instances.
 
@@ -45,7 +49,7 @@ function() {
 
 ### Fallback code block parser
 
-If a parser is not supported from its inferred mime type, a fallback parser that renders content into a code block is applied.  This is useful for syntax highlighters, and will be further explored in the <Link to="/recipes/syntax-highlighting">Syntax highlighting</Link> section.
+If a parser is not supported from its inferred mime type, a fallback parser that renders content into a code block is applied.  This is useful for syntax highlighters, and will be further explored in the <Link to="/recipes/syntax-highlighting">Syntax highlighting</Link> section.  Code documents that are non-markup documents usually fall under this category.
 
 ```js live=true
 // import { createElement } from 'react';
@@ -151,3 +155,6 @@ function () {
   );
 }
 ```
+
+<!-- Definitions -->
+[mime type]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
