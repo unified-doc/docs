@@ -5,18 +5,6 @@ import React from 'react';
 
 import { Box, DocPreviewToggle, Flex, Icon, Layout, Text } from '~/ui';
 
-export default function Packages({ data }) {
-  const repos = extract(data);
-  return (
-    <Layout>
-      The following packages form the <code>unified-doc</code> ecosystem.
-      {repos.map((repo) => (
-        <Repo key={repo.name} repo={repo} />
-      ))}
-    </Layout>
-  );
-}
-
 function Repo({ repo }) {
   const {
     description,
@@ -84,6 +72,18 @@ function extract(data) {
       };
     });
   return orderBy(repos, ['name'], ['asc']);
+}
+
+export default function Packages({ data }) {
+  const repos = extract(data);
+  return (
+    <Layout>
+      The following packages form the <code>unified-doc</code> ecosystem.
+      {repos.map((repo) => (
+        <Repo key={repo.name} repo={repo} />
+      ))}
+    </Layout>
+  );
 }
 
 export const query = graphql`

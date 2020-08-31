@@ -4,6 +4,15 @@ import React from 'react';
 
 import { Box, DocPreviewToggle, Layout } from '~/ui';
 
+function extract(data) {
+  const specs = Object.values(data.githubData.data).map((node) => ({
+    byteSize: node.file.byteSize,
+    name: node.name,
+    text: node.file.text,
+  }));
+  return orderBy(specs, ['name'], ['asc']);
+}
+
 export default function Specs({ data }) {
   const specs = extract(data);
   return (
@@ -21,15 +30,6 @@ export default function Specs({ data }) {
       })}
     </Layout>
   );
-}
-
-function extract(data) {
-  const specs = Object.values(data.githubData.data).map((node) => ({
-    byteSize: node.file.byteSize,
-    name: node.name,
-    text: node.file.text,
-  }));
-  return orderBy(specs, ['name'], ['asc']);
 }
 
 export const query = graphql`

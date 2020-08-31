@@ -72,6 +72,7 @@
       "import/no-anonymous-default-export": "off",
       "import/no-unassigned-import": "off",
       "new-cap": "off",
+      "no-alert": "off",
       "no-warning-comments": "off",
       "padding-line-between-statements": "off",
       "react/no-array-index-key": "off",
