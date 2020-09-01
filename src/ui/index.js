@@ -16,6 +16,7 @@ export { default as Nav } from './nav';
 export { default as NavCrumbs } from './nav-crumbs';
 export { default as ResponsiveFlex } from './responsive-flex';
 export { default as Snippet } from './snippet';
+export { default as SourceCode } from './source-code';
 export { default as Text } from './text';
 export { default as Textarea } from './textarea';
 export { default as TextInput } from './text-input';

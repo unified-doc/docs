@@ -1,6 +1,25 @@
+import { Link } from 'gatsby';
+
 import EbookExample from '~/examples/ebook';
+import { SourceCode } from '~/ui';
+
+<SourceCode source="examples/ebook" />
+
+Implementing interactive bookmark features easily with `unified-doc`.  This example only includes bookmarking features, but many more document features (e.g. search, save) are useful in Ebook applications.  You can explore these in the <Link to="/examples/doc-preview">Doc preview</Link> example.
+
+### Features
+- Select text in a document to add bookmarks.
+- Clicking on a bookmark will jump to where it occurs in the document and apply a brief highlight effect.
+- Remove bookmarks using the bookmark manager, or by clicking on bookmarks in the document.
+- Bookmarks can be visually customized.
 
 ### Concepts
+- Controlled management of `marks` (bookmarks) with a `doc` instance.
+- Customizable `marks` with CSS.
 - `options.marks`
+- `options.sanitizeSchema`
+- `dom.highlight`
+- `dom.registerMarks`
+- `dom.selectText`
 
 <EbookExample />

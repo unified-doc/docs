@@ -24,10 +24,12 @@ function extract(data) {
   const files = [];
   const { aliceHtml, codeFiles, syntaxTreeReadmes } = data.githubData.data;
   if (aliceHtml.file) {
+    const { byteSize, text } = aliceHtml.file;
     const filename = `alice.html`;
-    const startIndex = aliceHtml.file.text.indexOf('<h1');
+    const startIndex = text.indexOf('<h1');
     const file = {
-      text: aliceHtml.file.text.slice(startIndex),
+      byteSize,
+      text: text.slice(startIndex),
     };
     files.push(createFile(file, filename, 'html'));
   }

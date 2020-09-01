@@ -35,10 +35,10 @@ export default function FileList({ files, onSelectFile }) {
   return (
     <Card>
       <Text color="light" variant="small">
-        <a href={GITHUB_URL}>unified-doc</a> supports rendering{' '}
-        <code>.html</code>, <code>.md</code> and most non-markup (i.e. code)
-        documents. All content used below are openly-sourced from various
-        GitHub.
+        <a href={GITHUB_URL}>unified-doc</a> supports rendering most non-markup
+        (i.e. code) formats, and the following markup formats:{' '}
+        <code>.html</code>, <code>.md</code>. All content used below are
+        openly-sourced from GitHub.
       </Text>
       <Flex
         bg="background"
