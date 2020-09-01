@@ -35,7 +35,7 @@ function diffContents(content1, content2) {
   return { marks, content };
 }
 
-export default function DiffDemo() {
+export default function DiffExample() {
   const [content1, setContent1] = useState(markdownContent);
   const [content2, setContent2] = useState(htmlContent);
 

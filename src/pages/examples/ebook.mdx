@@ -5,7 +5,7 @@ import { SourceCode } from '~/ui';
 
 <SourceCode source="examples/ebook" />
 
-Implementing interactive bookmark features easily with `unified-doc`.  This example only includes bookmarking features, but many more document features (e.g. search, save) are useful in Ebook applications.  You can explore these in the <Link to="/examples/doc-preview">Doc preview</Link> example.
+A simple implementation of an Ebook using `unified-doc`.  This example only focuses on bookmark features. Other useful Ebook features (e.g. searching, saving) can be implemented and explored in the <Link to="/examples/doc-preview">Doc preview</Link> example.
 
 ### Features
 - Select text in a document to add bookmarks.
@@ -15,13 +15,13 @@ Implementing interactive bookmark features easily with `unified-doc`.  This exam
 
 ### Concepts
 - Controlled management of `marks` (bookmarks) with a `doc` instance.
-- Custom `mark` CSS.
+- Apply custom `mark` CSS.
 - `mark` anchorlinks.
 - `mark` tooltips.
+- `dom.highlight()`
+- `dom.registerMarks()`
+- `dom.selectText()`
 - `options.marks`
 - `options.sanitizeSchema`
-- `dom.highlight`
-- `dom.registerMarks`
-- `dom.selectText`
 
 <EbookExample />

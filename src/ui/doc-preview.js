@@ -122,7 +122,7 @@ export default function DocPreview({ content, filename, onBack = undefined }) {
     [],
   );
 
-  const docStyles =
+  const docStyle =
     selectedPreview === previewTypes.COMPILED
       ? undefined
       : {
@@ -215,7 +215,7 @@ export default function DocPreview({ content, filename, onBack = undefined }) {
           This document is rendered by <a href={GITHUB_URL}>unified-doc.</a>
         </Text>
       </Flex>
-      <Box ref={docRef} py={4} sx={docStyles}>
+      <Box ref={docRef} py={4} sx={docStyle}>
         {docContents}
       </Box>
     </Card>
