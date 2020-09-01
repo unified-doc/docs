@@ -16,7 +16,7 @@ export default function Snippet({ children, id, onClick }) {
       }}
       variant="small"
       onClick={onClick}>
-      {children}
+      …{children}…
     </Text>
   );
 }

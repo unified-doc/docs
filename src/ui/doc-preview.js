@@ -181,7 +181,7 @@ export default function DocPreview({ content, filename, onBack = undefined }) {
             <Flex
               flexDirection="column"
               space={1}
-              sx={{ maxHeight: 300, overflow: 'auto' }}>
+              sx={{ maxHeight: 200, overflow: 'auto' }}>
               {results.map((result) => {
                 const { id, snippet } = result;
                 const [left, matched, right] = snippet;
@@ -193,11 +193,11 @@ export default function DocPreview({ content, filename, onBack = undefined }) {
                         setShowResults(false);
                         highlight(docRef.current, id);
                       }}>
-                      …{left}
+                      {left}
                       <Box as="strong" bg="primary" color="background">
                         {matched}
                       </Box>
-                      {right}…
+                      {right}
                     </Snippet>
                   </Flex>
                 );

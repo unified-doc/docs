@@ -20,7 +20,7 @@ const scope = {
 export default function CodeBlock({ codeString, className, live, render }) {
   const language = className.replace(/language-/, '');
 
-  let Content;
+  let content;
 
   const Code = (
     <Box>
@@ -50,7 +50,7 @@ export default function CodeBlock({ codeString, className, live, render }) {
   );
 
   if (live || render) {
-    Content = (
+    content = (
       <LiveProvider
         code={codeString}
         scope={scope}
@@ -80,8 +80,8 @@ export default function CodeBlock({ codeString, className, live, render }) {
       </LiveProvider>
     );
   } else {
-    Content = Code;
+    content = Code;
   }
 
-  return <Box py={3}>{Content}</Box>;
+  return <Box py={3}>{content}</Box>;
 }

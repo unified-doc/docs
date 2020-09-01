@@ -1,5 +1,3 @@
-import 'microtip/microtip.css';
-
 const colors = {
   background: '#ffffff',
   light: '#b9b9b9',
@@ -10,6 +8,7 @@ const colors = {
 };
 
 const borders = {
+  active: `1px solid ${colors.primary}`,
   border: `1px solid ${colors.light}`,
   muted: `1px solid ${colors.muted}`,
 };

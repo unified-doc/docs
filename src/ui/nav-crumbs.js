@@ -24,7 +24,7 @@ export default function NavCrumbs() {
       <h2>
         {crumbs.map((crumb, i) => {
           const { label, route } = crumb;
-          const Content =
+          const content =
             i < crumbs.length - 1 ? (
               <>
                 <Link to={route}>{label}</Link>/
@@ -32,7 +32,7 @@ export default function NavCrumbs() {
             ) : (
               label
             );
-          return <React.Fragment key={route}>{Content}</React.Fragment>;
+          return <React.Fragment key={route}>{content}</React.Fragment>;
         })}
       </h2>
     )
