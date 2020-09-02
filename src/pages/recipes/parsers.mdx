@@ -160,6 +160,29 @@ function () {
 }
 ```
 
+## Disable supported parser
+
+If you would prefer to use the fallback code block parser to render the source code of the file, you can disable the parser by setting its value to `null` for the associated mime type in the `parsers` option.  The following shows how the default HTML parser can be disabled to rely on the fallback code block parser to render the source code of the HTML content.
+
+```js live=true
+// import { createElement } from 'react';
+// import rehype2react from 'rehype-react';
+// import Doc from 'unified-doc';
+
+function() {
+  const doc = Doc({
+    compiler: [[rehype2react, { createElement }]],
+    content: '<blockquote><strong>some</strong> HTML content</blockquote>',
+    filename: 'doc.html',
+    parsers: {
+      'text/html': null,
+    },
+  });
+
+  return <div>{doc.compile().result}</div>
+}
+```
+
 <!-- Definitions -->
 [hast]: https://github.com/syntax-tree/hast
 [mime type]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types

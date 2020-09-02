@@ -1,22 +1,109 @@
+import rehypePrism from '@mapbox/rehype-prism';
 import { Link } from 'gatsby';
+import { createElement } from 'react';
+import rehypeHighlight from 'rehype-highlight';
+import rehype2react from 'rehype-react';
+import Doc from 'unified-doc';
 
-Syntax highlighting of code blocks is easily accomplished through the use of relevant [rehype][] plugins that are explored in the sections below.
+Syntax highlighting of code blocks is easily accomplished through the use of relevant [rehype][] plugins that are explored in the sections below.  In most situations, you also need to apply custom <Link to="/recipes/sanitization">Sanitzation</Link> schemas to whitelist stylistic properties introduced from syntax highlighters.
 
 ### `rehype-highlight`
-Syntax highlighting is done through the [`rehype-highlight`][rehype-highlight] plugin, which uses [`highlight.js`][highlightjs] under the hood.
+Syntax highlighting is done through the [`rehype-highlight`][rehype-highlight] plugin, which uses [`highlight.js`][highlightjs] under the hood.  Please refer to the plugin documentation for configuations.
 
-Please refer to the plugin documentation for more advanced plugin configuration.
+```js live=true
+// import { createElement } from 'react';
+// import rehypeHighlight from 'rehype-highlight';
+// import rehype2react from 'rehype-react';
+// import Doc from 'unified-doc';
+
+// import './highlight-github.css'; // supply a custom highlight.js stylesheet
+
+function() {
+  const doc = Doc({
+    compiler: [[rehype2react, { createElement }]],
+    content: `
+      function greet() {
+        return "hello world";
+      }`,
+    filename: 'doc.js',
+    prePlugins: [[rehypeHighlight, { ignoreMissing: true }]],
+    sanitizeSchema: {
+      attributes: {
+        '*': ['className', 'style'],
+      },
+      clobberPrefix: '',
+    },
+  });
+
+  return <div>{doc.compile().result}</div>
+}
+```
 
 
 ### `rehype-prism`
-Syntax highlighting is done through the [`rehype-prism`][rehype-prism] plugin, which uses [`prism.js`][prismjs] under the hood.
+Syntax highlighting is done through the [`rehype-prism`][rehype-prism] plugin, which uses [`prism.js`][prismjs] under the hood.  Please refer to the plugin documentation for configuations.
 
-Please refer to the plugin documentation for more advanced plugin configuration.
+```js live=true
+// import { createElement } from 'react';
+// import rehypeHighlight from 'rehype-highlight';
+// import rehype2react from 'rehype-react';
+// import Doc from 'unified-doc';
 
+// import './prism-github.css'; // supply a custom prism.js stylesheet
 
-### Highlighting `.html`, `.md` files as source code
+function() {
+  const doc = Doc({
+    compiler: [[rehype2react, { createElement }]],
+    content: `
+      function greet() {
+        return "hello world";
+      }`,
+    filename: 'doc.js',
+    prePlugins: [[rehypePrism, { ignoreMissing: true }]],
+    sanitizeSchema: {
+      attributes: {
+        '*': ['className', 'style'],
+      },
+      clobberPrefix: '',
+    },
+  });
 
-By default, `unified-doc` will auto-assign parsers based on inferred mime-type from the `filename`.  This means that parsers supporting various content types (e.g. `.html`, `.md`) will not render its contents as source code in a code block.  If you would like to explicitly render the content into a code block, set the `asCode` option to `true`.
+  return <div>{doc.compile().result}</div>
+}
+```
+
+### Highlighting explicitly parsed content as source code
+
+By default, `unified-doc` will auto-assign parsers based on inferred mime-type from the `filename`.  This means that parsers supporting various content types (e.g. `.html`, `.md`) will not render its contents as source code in a code block.  To explicitly render such content type as source code, disable the parser by assigning `null` to its corresponding mime type.
+
+```js live=true
+// import { createElement } from 'react';
+// import rehypeHighlight from 'rehype-highlight';
+// import rehype2react from 'rehype-react';
+// import Doc from 'unified-doc';
+
+// import './prism-github.css'; // supply a custom prism.js stylesheet
+
+function() {
+  const doc = Doc({
+    compiler: [[rehype2react, { createElement }]],
+    content: '<blockquote><strong>some</strong> markdown content</blockquote>',
+    filename: 'doc.html',
+    parsers: {
+      'text/html': null,
+    },
+    prePlugins: [[rehypePrism, { ignoreMissing: true }]],
+    sanitizeSchema: {
+      attributes: {
+        '*': ['className', 'style'],
+      },
+      clobberPrefix: '',
+    },
+  });
+
+  return <div>{doc.compile().result}</div>
+}
+```
 
 <!-- Definitions -->
 [highlightjs]: https://github.com/highlightjs/highlight.js

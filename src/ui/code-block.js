@@ -7,6 +7,7 @@ import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live';
 import { Card, Box, Flex, Text, theme } from '~/ui';
 
 // TODO: this is a hack, not sure how else to auto-pass libraries into MDX scope
+import rehypePrism from '@mapbox/rehype-prism';
 import rehypeHighlight from 'rehype-highlight';
 import rehype2react from 'rehype-react';
 import Doc from 'unified-doc';
@@ -16,6 +17,7 @@ const scope = {
   createElement,
   rehype2react,
   rehypeHighlight,
+  rehypePrism,
   Doc,
   visit,
 };
