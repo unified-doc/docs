@@ -212,7 +212,7 @@ export default function DocPreview({ content, filename, onBack = undefined }) {
         space={1}
         sx={{ borderBottom: 'muted' }}>
         <Text color="light" variant="small">
-          This document is rendered by <a href={GITHUB_URL}>unified-doc.</a>
+          This document is rendered with <a href={GITHUB_URL}>unified-doc.</a>
         </Text>
       </Flex>
       <Box ref={docRef} py={4} sx={docStyle}>

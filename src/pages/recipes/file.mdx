@@ -47,7 +47,10 @@ function() {
 
   const fileData = doc.file();
   const { content, name, type } = fileData;
-  const file = new File([content], name, { type });
+  let file = {};
+  if (typeof File !== 'undefined') {
+    file = new File([content], name, { type });
+  }
   console.log('------------------------------');
   console.log('[Recipes] Create a file')
   console.log('------------------------------');
