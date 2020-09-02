@@ -1,5 +1,6 @@
 const colors = {
   background: '#ffffff',
+  blockquote: '#fafafa',
   light: '#b9b9b9',
   muted: '#f0f0f0',
   primary: '#2e8fff',
@@ -56,6 +57,14 @@ const styles = {
       ':focus, :hover': {
         opacity: 0.7,
       },
+    },
+    blockquote: {
+      backgroundColor: 'blockquote',
+      border: 'muted',
+      borderRadius: 'm',
+      color: 'secondary',
+      px: 4,
+      py: 2,
     },
     code: {
       backgroundColor: 'muted',

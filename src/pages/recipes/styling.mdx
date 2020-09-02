@@ -1,1 +1,125 @@
-Coming soon
+import { createElement } from 'react';
+import rehype2react from 'rehype-react';
+import Doc from 'unified-doc';
+
+import '~/styles/doc.css';
+
+Documents rendered by `unified-doc` are well-formed HTML that are easily styled with CSS and web technologies.  The following are some common recipes for configuring documents.
+
+## Basic
+
+Style typography, padding with `style` or `class` intuitively.
+
+```js live=true
+// import { createElement } from 'react';
+// import rehype2react from 'rehype-react';
+// import Doc from 'unified-doc';
+
+// import './doc.css';
+
+/** Example CSS
+.recipes--styling--doc {
+  background: black;
+  color: white;
+  font-family: impact;
+  font-size: 2em;
+  padding: 8px;
+}
+*/
+
+function() {
+  const doc = Doc({
+    compiler: [[rehype2react, { createElement }]],
+    content: '**some** markdown content',
+    filename: 'doc.md',
+  });
+
+  return (
+    <div className="recipes--styling--doc">
+      {doc.compile().result}
+    </div>
+  );
+}
+```
+
+## Marks
+
+You can apply custom and creative ways to style `marks`.  Take advantage of `data-*` attribtues set on `marks` through the `dataset` property.
+
+
+```js live=true
+// import { createElement } from 'react';
+// import rehype2react from 'rehype-react';
+// import Doc from 'unified-doc';
+
+// import './doc.css';
+
+/** Example CSS
+.recipes--styling--doc {
+  background: black;
+  color: white;
+  font-family: impact;
+  font-size: 2em;
+  padding: 8px;
+}
+
+mark[data-mark-id].recipes--styling--mark-a {
+  background: blue;
+  color: white;
+  padding-left: 4px;
+  padding-right: 4px;
+  position: relative;
+}
+mark[data-mark-id].recipes--styling--mark-a::after {
+  content: attr(data-category);
+  color: gray;
+  font-size: 8px;
+  left: 0px;
+  position: absolute;
+  top: 100%;
+}
+
+mark[data-mark-id].recipes--styling--mark-b {
+  background: orange;
+  color: black;
+  padding-left: 4px;
+  padding-right: 4px;
+  border: 1px solid black;
+}
+*/
+
+function() {
+  const doc = Doc({
+    compiler: [[rehype2react, { createElement }]],
+    content: '**some** markdown content',
+    filename: 'doc.md',
+    marks: [
+      {
+        id: 'a',
+        start: 5,
+        end: 13,
+        dataset: {
+          category: 'Category A',
+        },
+        classNames: ['recipes--styling--mark-a']
+      },
+      {
+        id: 'b',
+        start: 14,
+        end: 21,
+        dataset: {
+          category: 'Category B',
+        },
+        classNames: ['recipes--styling--mark-b']
+      },
+    ],
+    sanitizeSchema: null,
+  });
+
+  return (
+    <div>
+      {doc.compile().result}
+    </div>
+  );
+}
+```

@@ -1,1 +1,100 @@
-Coming soon
+import Doc from 'unified-doc';
+
+The `doc.file()` method provides simple ways to return file data based on the specifie file extension (if supported).  This is the `unified-doc`'s way of performing file conversions!
+
+### Simple filename operations
+With the returned file data, you can easily work with the `filename` and `extension` to rename files.
+
+```js live=true
+// import Doc from 'unified-doc';
+
+function() {
+  const doc = Doc({
+    content: '> **some** markdown content',
+    filename: 'doc.md',
+  });
+
+  const fileData = doc.file();
+  const { extension, name, stem, type } = fileData;
+  const newExtension = '.new-extension';
+
+  return (
+    <div>
+      <div>
+        <strong>Old filename</strong>:{' '}
+        <code>{name}</code>
+      </div>
+      <div>
+        <strong>New filename</strong>:{' '}
+        <code>{stem + newExtension}</code>
+      </div>
+    </div>
+  );
+}
+```
+
+### Create a file
+You can easily create JS files with the file data returned by `doc.file()`.
+
+```js live=true
+// import Doc from 'unified-doc';
+
+function() {
+  const doc = Doc({
+    content: '> **some** markdown content',
+    filename: 'doc.md',
+  });
+
+  const fileData = doc.file();
+  const { content, name, type } = fileData;
+  const file = new File([content], name, { type });
+  console.log(file);
+
+  return <div>Check console for logged file</div>;
+}
+```
+
+### Export as original/source
+Returns the document as-is.
+
+```js live=true
+// import Doc from 'unified-doc';
+
+function() {
+  const doc = Doc({
+    content: '> **some** markdown content',
+    filename: 'doc.md',
+  });
+  return <pre>{JSON.stringify(doc.file(), null, 2)}</pre>;
+}
+```
+
+### Export as `.html`
+Returns the document as a valid '.html' file.
+
+```js live=true
+// import Doc from 'unified-doc';
+
+function() {
+  const doc = Doc({
+    content: '> **some** markdown content',
+    filename: 'doc.md',
+  });
+  return <pre>{JSON.stringify(doc.file('.html'), null, 2)}</pre>;
+}
+```
+
+### Export as `.txt`
+Returns the `textContent` of a document.
+
+```js live=true
+// import Doc from 'unified-doc';
+
+function() {
+  const doc = Doc({
+    content: '> **some** markdown content',
+    filename: 'doc.md',
+  });
+  return <pre>{JSON.stringify(doc.file('.txt'), null, 2)}</pre>;
+}
+```

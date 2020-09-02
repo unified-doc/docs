@@ -1,1 +1,118 @@
-Coming soon
+import { createElement } from 'react';
+import rehypeHighlight from 'rehype-highlight';
+import rehype2react from 'rehype-react';
+import Doc from 'unified-doc';
+import visit from 'unist-util-visit';
+
+[rehype][] plugins can be used by `unified-doc` to enhance the rendered document.  `unified-doc` uses a number of private plugins to implement its core APIs.  Plugins can be applied as `prePlugins` or `postPlugins`, which correspond to whether the plugins are run before/after private plugins are applied.  Plugins should use the `PluggableList` interface e.g. `[plugin1, [plugin2, plugin2Options]]`.
+
+### `prePlugins`
+These plugins are applied **before** private plugins, and therefore API methods (e.g. `marks`) can act on the changes made by these plugins, as seen in the example below where the `marks` algorithm is able to operate on changes made by the `rehype-highlight` plugin.
+
+```js live=true
+// import { createElement } from 'react';
+// import rehypeHighlight from 'rehype-highlight';
+// import rehype2react from 'rehype-react';
+// import Doc from 'unified-doc';
+
+function() {
+  const doc = Doc({
+    compiler: [[rehype2react, { createElement }]],
+    content: `
+      function greet() {
+        return "hello world";
+      }`,
+    filename: 'doc.js',
+    marks: [{ id: 'a', start: 16, end: 21 }],
+    prePlugins: [[rehypeHighlight, { ignoreMissing: true }]],
+    sanitizeSchema: null,
+  });
+  return (
+    <div>
+      <h4>Compiled</h4>
+      {doc.compile().result}
+      <h4>HTML</h4>
+      <pre>{doc.file('.html').content}</pre>
+    </div>
+  );
+}
+```
+
+### `postPlugins`
+Unlike `prePlugins`, these plugins are applied **after** private plugins, and therefore API methods (e.g. `marks`) do not act on changes made by these plugins (since they are applied later), as seen in the example below where the `marks` algorithm doesn't run on the changes made by `rehype-plugins`.
+
+```js live=true
+// import { createElement } from 'react';
+// import rehypeHighlight from 'rehype-highlight';
+// import rehype2react from 'rehype-react';
+// import Doc from 'unified-doc';
+
+function() {
+  const doc = Doc({
+    compiler: [[rehype2react, { createElement }]],
+    content: `
+      function greet() {
+        return "hello world";
+      }`,
+    filename: 'doc.js',
+    marks: [{ id: 'a', start: 16, end: 21 }],
+    postPlugins: [[rehypeHighlight, { ignoreMissing: true }]],
+    sanitizeSchema: null,
+  });
+  return (
+    <div>
+      <h4>Compiled</h4>
+      {doc.compile().result}
+      <h4>HTML</h4>
+      <pre>{doc.file('.html').content}</pre>
+    </div>
+  );
+}
+```
+
+> Use `postPlugins` with care because some plugins might strictly overwrite any changes made by prviate plugins.
+
+### Custom plugins
+
+Here is an example of a custom plugin that capitalizes all text node values, and applied as a `prePlugin` so private plugins can pickup changes applied by it.
+
+
+```js live=true
+// import { createElement } from 'react';
+// import rehypeHighlight from 'rehype-highlight';
+// import rehype2react from 'rehype-react';
+// import Doc from 'unified-doc';
+// import visit from 'unist-util-visit';
+
+function() {
+  function customPlugin() {
+    return function transformer(tree) {
+      visit(tree, 'text', (node) => {
+        node.value = node.value.toUpperCase();
+      });
+      return tree;
+    }
+  }
+
+  const doc = Doc({
+    compiler: [[rehype2react, { createElement }]],
+    content: '> **some** markdown content',
+    filename: 'doc.md',
+    marks: [{ id: 'a', start: 6, end: 14 }],
+    prePlugins: [[customPlugin]],
+    sanitizeSchema: null,
+  });
+
+  return (
+    <div>
+      <h4>Compiled</h4>
+      {doc.compile().result}
+      <h4>HTML</h4>
+      <pre>{doc.file('.html').content}</pre>
+    </div>
+  );
+}
+```
+
+<!-- Definitions -->
+[rehype]: https://github.com/rehypejs/rehype

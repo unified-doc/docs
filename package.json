@@ -37,6 +37,7 @@
     "unified-doc": "^3.0.4",
     "unified-doc-dom": "^2.0.0",
     "unified-doc-react": "^2.0.0",
+    "unist-util-visit": "^2.0.3",
     "uuid": "^8.3.0"
   },
   "devDependencies": {

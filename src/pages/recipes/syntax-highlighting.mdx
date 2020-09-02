@@ -1,1 +1,26 @@
-Coming soon
+import { Link } from 'gatsby';
+
+Syntax highlighting of code blocks is easily accomplished through the use of relevant [rehype][] plugins that are explored in the sections below.
+
+### `rehype-highlight`
+Syntax highlighting is done through the [`rehype-highlight`][rehype-highlight] plugin, which uses [`highlight.js`][highlightjs] under the hood.
+
+Please refer to the plugin documentation for more advanced plugin configuration.
+
+
+### `rehype-prism`
+Syntax highlighting is done through the [`rehype-prism`][rehype-prism] plugin, which uses [`prism.js`][prismjs] under the hood.
+
+Please refer to the plugin documentation for more advanced plugin configuration.
+
+
+### Highlighting `.html`, `.md` files as source code
+
+By default, `unified-doc` will auto-assign parsers based on inferred mime-type from the `filename`.  This means that parsers supporting various content types (e.g. `.html`, `.md`) will not render its contents as source code in a code block.  If you would like to explicitly render the content into a code block, set the `asCode` option to `true`.
+
+<!-- Definitions -->
+[highlightjs]: https://github.com/highlightjs/highlight.js
+[prismjs]: https://github.com/PrismJS/prism
+[rehype]: https://github.com/rehypejs/rehype
+[rehype-highlight]: https://github.com/rehypejs/rehype-highlight
+[rehype-prism]: https://github.com/mapbox/rehype-prism

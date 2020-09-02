@@ -3,20 +3,21 @@ import { createElement } from 'react';
 import rehype2react from 'rehype-react';
 import Doc from 'unified-doc';
 
+Parsers inform how content should be parsed into a valid [hast][] tree.  Parsers are assigned to their corresponding mime type (inferred from the `filename`).  You can add a new parser, or override an existing parser, by assigning a custom parser to a mime type.
+
 ### Supported parsers
-`unified-doc` infers the [mime type][] from the `filename` to determine which parser should be used.  The following mime types and parsers are supported, or will be supported for the following markup docment formats:
+`unified-doc` infers the [mime type][] from the `filename` to determine which parser should be used.  `unified-doc` currently supports, and will eventually support, the following document formats (and relating mime types):
 - [x] `text/html`: HTML parser
 - [x] `text/markdown`: Markdown parser
 - [ ] `text/csv`: CSV parser
 - [ ] `text/xml`: XML parser
-- [ ] `application/epub+zip`: EPUB parser
 - [ ] `application/vnd.openxmlformats-officedocument.wordprocessing`: DOCX parser
-- [ ] `application/mathml+xml`: MathML parser
 - [ ] `application/pdf`: PDF parser
 - [ ] `application/rtf`: RTF parser
 - [ ] `application/x-latex`: LaTeX parser
+- [ ] and potentially more formats.
 
-It is important to ensure that the `content` and `filename` are associated with each other.  In general, this is not a problem if `content` and `filename` are derived from file instances.
+The `filename` should be related to the `content` intending to be parsed in a natural way.  This is usually not an issue if both pieces of information are read from a common source/file/document.
 
 ```js live=true
 // import { createElement } from 'react';
@@ -59,13 +60,16 @@ If a parser is not supported from its inferred mime type, a fallback parser that
 function() {
   const jsonDoc = Doc({
     compiler: [[rehype2react, { createElement }]],
-    content: '{ "one": 2, "three": [true, false, null, "four", 5]}',
+    content: JSON.stringify({
+      one: 2,
+      three: [true, false, null, 'four', 5],
+    }, null, 2),
     filename: 'doc.json',
   });
 
   const jsDoc = Doc({
     compiler: [[rehype2react, { createElement }]],
-    content: 'function greet() {\n\treturn "hello world";\n}',
+    content: 'function greet() {\n  return "hello world";\n}',
     filename: 'doc.js',
   });
 
@@ -90,7 +94,7 @@ function() {
 
 ### Custom parser
 
-Parsers are applied using the `PluggableList` interface and can include multiple steps e.g. `[textParse]` or `[remarkParse, remark2rehype]`.  Custom parsers are specified through a mapping of mimeTypes to associated parsers.
+Parsers are applied using the `PluggableList` interface and can include multiple steps e.g. `[parser1]` or `[parser2, parser3]`.  Custom parsers are specified through a mapping of mimeTypes to associated parsers.
 
 You can override an existing parser with a new parser by assigning to its supported mime type or assign specific parsers to unsupported mime types.
 
@@ -157,4 +161,5 @@ function () {
 ```
 
 <!-- Definitions -->
+[hast]: https://github.com/syntax-tree/hast
 [mime type]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types

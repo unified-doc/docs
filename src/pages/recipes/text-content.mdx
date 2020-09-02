@@ -1,7 +1,90 @@
-The `textContent` of a document is the concatenated value of text values in all text nodes.  While this representation of the document does not seem immediately useful, it is used in the implementation of core API methods and features (e.g. `doc.search()`, `doc.file('.txt')`, `marks`).
+import { Link } from 'gatsby';
+import { createElement } from 'react';
+import rehype2react from 'rehype-react';
+import Doc from 'unified-doc';
 
-> TODO: elaborate more on how this is used in relation to the core API methods and features.
+The `textContent` of a document is the concatenated value of text values in all text nodes.  This data is used by many API methods (e.g. `doc.search()`, `doc.file('.txt')`, `marks`).  It can also be useful in a couple of scenarios outside of `unified-doc` to compute derived data that can be passed back to `unified-doc` as `marks`.
 
-One can retrieve the `textContent` of the document and process data in a different environment to return text offsets, that can be re-consumed by `unified-doc` in compatible ways.  This opens up to a lot of flexibility with operating on documents across environments.
+## Use outside `unified-doc`
 
-Note that every document rendered through `unified-doc` has a stable and reproducible `textContent` representation.
+`doc.textContent` will easily return you the text content of a document (irregardless of its content type).  You can use this data for anything (e.g. in various NLP pipelines).
+
+```js live=true
+// import Doc from 'unified-doc';
+
+function() {
+  const term = 'content';
+  const content = '> **some** markdown content, content, content';
+  const filename = 'doc.md';
+  const doc = Doc({ content, filename });
+  const textContent = doc.textContent();
+
+  function countPipeline(text, term) {
+    return (text.match(new RegExp(`${term}`, 'gi')) || []).length;
+  }
+
+  return (
+    <div>
+      <div>
+        <strong>Text content:</strong>{' '}
+        <code>{textContent}</code>
+      </div>
+      <div>
+        <strong>Term:</strong>{' '}
+        <code>{term}</code>
+      </div>
+      <div>
+        <strong>Count:</strong>{' '}
+        <code>{countPipeline(textContent, term)}</code>
+      </div>
+    </div>
+  );
+}
+```
+
+## Compute `marks`
+
+You can use the `textContent` to compute `marks` by calculating `start` and `end` offset of matched terms and repipe that data to `unified-doc` for visually marking nodes.  Note that the `doc.search()` method (explored more in the <Link to="/recipes/search">Search</Link> section) should be the preferred way to do this (since search results are compatible interfaces with `mark` interfaces).
+
+This example demonstrates how the `marks` data could be computed outside of a `doc` instance (e.g. by a server), and the results will be fully compatible with `unified-doc` since the offsets are  based on the `textContent` of a `doc`.
+
+```js live=true
+// import { createElement } from 'react';
+// import rehype2react from 'rehype-react';
+// import Doc from 'unified-doc';
+
+function() {
+  const content = '> **some** markdown content, content, content';
+  const filename = 'doc.md';
+
+  // create a temporary doc to extract its text content
+  const textContent = Doc({ content, filename }).textContent();
+
+  // a crude example of what a server would do given `textContent` and a `query string`.  Perhaps the server would deconstruct a more complex query string, fetch some relating data from parsed IDs, check against caches and data stores and finally decide how to return marks.
+  function getMarksFromServer(textContent, query) {
+    return Array.from(textContent.matchAll(query))
+      .map(match => {
+        const start = match.index;
+        return {
+          id: start,
+          start,
+          end: start + query.length,
+        };
+      })
+  }
+
+  const doc = Doc({
+    compiler: [[rehype2react, { createElement }]],
+    content: '> **some** markdown content, content, content',
+    filename: 'doc.md',
+    marks: getMarksFromServer(textContent, 'content'),
+  });
+
+  return (
+    <div>
+      <h4>Compiled</h4>
+      {doc.compile().result}
+    </div>
+  );
+}
+```

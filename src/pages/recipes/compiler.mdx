@@ -2,6 +2,8 @@ import { createElement } from 'react';
 import rehype2react from 'rehype-react';
 import Doc from 'unified-doc';
 
+A [compiler][] compiles the document into output usable by rendering programs.  You can override the default compiler with custom compilers.
+
 ### Default compiler
 The default compiler, if not specified, compiles the content into stringified HTML.
 
@@ -13,7 +15,6 @@ function() {
     content: '> **some** markdown content',
     filename: 'doc.md',
   });
-
   return <pre>{doc.compile().contents}</pre>;
 }
 ```
@@ -32,7 +33,6 @@ function() {
     content: '> **some** markdown content',
     filename: 'doc.md',
   });
-
   return <div>{doc.compile().result}</div>;
 }
 ```

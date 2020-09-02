@@ -1,5 +1,7 @@
 import Doc from 'unified-doc';
 
+Bare concepts to get started with understanding how to initialize a `doc` instance using `unified-doc`.  More details and recipes are covered in further sections.
+
 ### Render to HTML string
 
 Simplest example of rendering any content into stringified HTML.
@@ -12,7 +14,6 @@ function () {
     content: '> **some** markdown content',
     filename: 'doc.md',
   });
-
   return <pre>{doc.compile().contents}</pre>
 }
 ```
@@ -32,7 +33,6 @@ function () {
       }`,
     filename: 'doc.js',
   });
-
   return <pre>{doc.compile().contents}</pre>
 }
 ```

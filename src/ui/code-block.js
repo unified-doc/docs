@@ -3,17 +3,21 @@ import Highlight, { defaultProps } from 'prism-react-renderer';
 import github from 'prism-react-renderer/themes/github';
 import React, { createElement } from 'react';
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live';
-import rehype2react from 'rehype-react';
-import Doc from 'unified-doc';
 
 import { Card, Box, Flex, Text, theme } from '~/ui';
 
+// TODO: this is a hack, not sure how else to auto-pass libraries into MDX scope
+import rehypeHighlight from 'rehype-highlight';
+import rehype2react from 'rehype-react';
+import Doc from 'unified-doc';
+import visit from 'unist-util-visit';
 const scope = {
   mdx,
-  // TODO: this is a hack, not sure how else to auto-pass to MDX scope
   createElement,
   rehype2react,
+  rehypeHighlight,
   Doc,
+  visit,
 };
 
 // https://mdxjs.com/guides/live-code

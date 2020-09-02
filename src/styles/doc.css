@@ -1,0 +1,31 @@
+.recipes--styling--doc {
+  background: black;
+  color: white;
+  font-family: impact;
+  font-size: 2em;
+  padding: 8px;
+}
+
+mark[data-mark-id].recipes--styling--mark-a {
+  background: blue;
+  color: white;
+  padding-left: 4px;
+  padding-right: 4px;
+  position: relative;
+}
+mark[data-mark-id].recipes--styling--mark-a::after {
+  content: attr(data-category);
+  color: gray;
+  font-size: 8px;
+  left: 0px;
+  position: absolute;
+  top: 100%;
+}
+
+mark[data-mark-id].recipes--styling--mark-b {
+  background: orange;
+  color: black;
+  padding-left: 4px;
+  padding-right: 4px;
+  border: 1px solid black;
+}

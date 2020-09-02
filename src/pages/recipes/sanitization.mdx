@@ -1,6 +1,9 @@
-### Default/safe schema
+import { Link } from 'gatsby';
 
-By default, all documents rendered by `unified-doc` are [safely-sanitized][] after plugins are applied.  This, however, means that you need to customize sanitzation schema for your specific needs if the default is too restrictive.
+By default, all documents rendered by `unified-doc` are [safely-sanitized][] after all plugins are applied.  This, however, means that you may need to customize sanitzation schema for your specific needs if the default is too restrictive.  When using with `marks` and <Link to="/recipes/plugins">plugins</Link>, you may need to define custom sanitzation schemas to whitelist stylistic features of various plugins.
+
+### Default/safe schema
+The default sanitization schema ensures that the doc is safely-sanitized.
 
 ```js live=true
 // import { createElement } from 'react';
@@ -14,9 +17,7 @@ function() {
     filename: 'doc.html',
     sanitizeSchema: {}, // default value
   });
-
-  // no class, style, data-* attributes etc
-  return doc.compile().result;
+  return doc.compile().result; // no class, style, data-* attributes etc
 }
 ```
 
@@ -38,18 +39,13 @@ function() {
     filename: 'doc.html',
     sanitizeSchema: null,
   });
-
-  // no class, style, data-* attributes etc
-  return doc.compile().result;
+  return doc.compile().result; // no class, style, data-* attributes etc
 }
 ```
 
 ### Convenient schema
 
-The following schema is conveniently used in most scenarios by `unified-doc`.  This schema whitelists the following stylistic and data attributes
-- `className`
-- `style`
-- `dataMarkId` (only on `mark` nodes)
+The following schema is conveniently used in most scenarios by `unified-doc`.  This schema whitelists the following stylistic and attributes.
 
 ```js live=true
 // import { createElement } from 'react';
@@ -59,11 +55,12 @@ The following schema is conveniently used in most scenarios by `unified-doc`.  T
 function() {
   const sanitizeSchema = {
     attributes: {
-      '*': ['className', 'style'],
-      mark: ['dataMarkId', 'id'],
+      '*': ['className', 'style'],  // whitelist class and style attributes
+      mark: ['dataMarkId', 'id'],  // whitelist data-mark-id and id attribute for only mark elements
     },
-    clobberPrefix: '',
+    clobberPrefix: '', // remove prefix for user-generated data attribute values
   };
+
   const doc = Doc({
     compiler: [[rehype2react, { createElement }]],
     content: '<blockquote><mark data-mark-id="a" class="highlight" style="background: red;">some</mark> HTML content</blockquote>',
