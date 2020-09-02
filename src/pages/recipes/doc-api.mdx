@@ -1,1 +1,168 @@
-Coming soon
+import { createElement } from 'react';
+import rehype2react from 'rehype-react';
+import Doc from 'unified-doc';
+import visit from 'unist-util-visit';
+
+Recipes for best ways to use the API methods exposed by a `doc` instance.
+
+### `doc.compile()`
+Use this method if you want to compile and **render** the document as in this example of compiling to `react`:
+
+```js live=true
+// import { createElement } from 'react';
+// import rehype2react from 'rehype-react';
+// import Doc from 'unified-doc';
+
+function() {
+  const doc = Doc({
+    compiler: [[rehype2react, { createElement }]],
+    content: '> **some** markdown content',
+    filename: 'doc.md',
+  });
+  return (
+    <div>
+      <div>Render the doc anywhere in the React tree</div>
+      <div>{doc.compile().result}</div>
+    </div>
+  );
+}
+```
+
+### `doc.file()`
+Use this method if you want to create or work with the corresponding JS `File`, filename, extensions, and mime type.
+
+```js live=true
+// import Doc from 'unified-doc';
+
+function() {
+  const doc = Doc({
+    content: '> **some** markdown content',
+    filename: 'doc.md',
+  });
+
+  const fileData = doc.file();
+  const { content, name, type } = fileData;
+  const file = new File([content], name, { type });
+  console.log('------------------------------');
+  console.log('[Recipes] doc.file()')
+  console.log('------------------------------');
+  console.log('filename: ', fileData.name);
+  console.log('extension: ', fileData.extension);
+  console.log('stem: ', fileData.stem);
+  console.log('mimeType: ', fileData.type);
+  console.log('file: ', file);
+
+  return <div>Check console for logged file</div>;
+}
+```
+
+### `doc.parse()`
+Use this method if you want to obtain the [hast][] representation of the content, which is useful if you want to work with the syntax tree directly (e.g. with hast utils).
+
+```js live=true
+// import Doc from 'unified-doc';
+// import visit from 'unist-util-visit';
+
+function() {
+  const doc = Doc({
+    content: '> **some** markdown content',
+    filename: 'doc.md',
+  });
+
+  const hast = doc.parse();
+
+  function visitor(hast) {
+    console.log('visiting the text nodes of a hast tree...')
+    visit(hast, 'text', node => {
+      console.log('text node value: ', node.value);
+    });
+  }
+
+  console.log('------------------------------');
+  console.log('[Recipes] doc.parse()');
+  console.log('------------------------------');
+  console.log('hast: ', hast);
+  visitor(hast);
+
+  return <div>Check console for logged content</div>;
+}
+```
+
+### `doc.search()`
+Use this method if you want to search for matches for in the document for a given query and attached search algorithm.  This method is useful when returning interface-compatible data for `marks` to highlight matches in a document.  It is also useful in general for computing offsets and derived data in other NLP pipelines and processes.
+
+
+```js live=true
+// import { createElement } from 'react';
+// import rehype2react from 'rehype-react';
+// import Doc from 'unified-doc';
+
+function() {
+  const term = 'content';
+  const content = '> **some** markdown content, content, content';
+  const filename = 'doc.md';
+
+  const results = Doc({ content, filename }).search(term);
+  const marks = results.map((result, i) => ({
+    id: i.toString(),
+    ...result,
+  }));
+
+  const doc = Doc({
+    compiler: [[rehype2react, { createElement }]],
+    content,
+    filename,
+    marks,
+  });
+
+  return (
+    <div>
+      <div>
+        <h4>Compiled</h4>
+        <div>{doc.compile().result}</div>
+        <h4>Results</h4>
+        {}
+      </div>
+    </div>
+  );
+}
+```
+
+### `doc.textContent()`
+Use this method if you want to obtain the `textContent` representation of the document, useful for computing offsets and derived data in other NLP pipelines and processes.
+
+```js live=true
+// import Doc from 'unified-doc';
+
+function() {
+  const term = 'content';
+  const content = '> **some** markdown content, content, content';
+  const filename = 'doc.md';
+  const doc = Doc({ content, filename });
+  const textContent = doc.textContent();
+
+  function countPipeline(text, term) {
+    return (text.match(new RegExp(`${term}`, 'gi')) || []).length;
+  }
+
+  return (
+    <div>
+      <div>
+        <strong>Text content:</strong>{' '}
+        <code>{textContent}</code>
+      </div>
+      <div>
+        <strong>Term:</strong>{' '}
+        <code>{term}</code>
+      </div>
+      <div>
+        <strong>Count:</strong>{' '}
+        <code>{countPipeline(textContent, term)}</code>
+      </div>
+    </div>
+  );
+}
+```
+
+<!-- Definitions -->
+[hast]: https://github.com/syntax-tree/hast
