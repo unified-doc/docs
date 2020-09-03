@@ -8,6 +8,7 @@ module.exports = {
         defaultLayouts: {
           default: require.resolve('./src/ui/layout.js'),
         },
+        extensions: ['.md', '.mdx'],
       },
     },
     'gatsby-plugin-theme-ui',

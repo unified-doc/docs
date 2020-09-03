@@ -119,22 +119,24 @@ export default function EbookExample() {
   useEffect(() => {
     function callback(selectedText) {
       const { start, end, value } = selectedText;
-      const shouldAddBookmark = window.confirm(
-        `Do you want to add the following to your bookmarks as a ${category}?
+      if (end > start) {
+        const shouldAddBookmark = window.confirm(
+          `Do you want to add the following to your bookmarks as a ${category}?
 
         ${value}
         `,
-      );
-      if (shouldAddBookmark) {
-        setBookmarks((previousBookmarks) => [
-          ...previousBookmarks,
-          createBookmark({
-            start,
-            end,
-            type: category,
-            value,
-          }),
-        ]);
+        );
+        if (shouldAddBookmark) {
+          setBookmarks((previousBookmarks) => [
+            ...previousBookmarks,
+            createBookmark({
+              start,
+              end,
+              type: category,
+              value,
+            }),
+          ]);
+        }
       }
     }
     return selectText(docRef.current, { callback });
@@ -143,8 +145,12 @@ export default function EbookExample() {
   // register mark callbacks and add tooltips
   useEffect(() => {
     const callbacks = {
-      onClick: (_event, bookmark) => removeBookmark(bookmark),
+      onClick: (event, bookmark) => {
+        event.stopPropagation();
+        removeBookmark(bookmark);
+      },
       onMouseEnter: (event, bookmark) => {
+        event.stopPropagation();
         const { createdAt, type, value } = bookmark.data;
         const content = `This ${type} bookmark was created ${moment(
           createdAt,
@@ -157,7 +163,8 @@ export default function EbookExample() {
           content,
         });
       },
-      onMouseLeave: () => {
+      onMouseLeave: (event) => {
+        event.stopPropagation();
         tooltipRef.current.hide();
       },
     };
