@@ -29,7 +29,7 @@ function() {
 ```
 
 ### `doc.file()`
-Use this method if you want to create or work with the corresponding JS `File`, filename, extensions, and mime type.
+Use this method if you want to create or work with the corresponding JS `File`, filename, extensions, and mime type.  This method is also useful for exporting to other supported formats.
 
 ```js live=true
 // import Doc from 'unified-doc';
@@ -40,7 +40,7 @@ function() {
     filename: 'doc.md',
   });
 
-  const fileData = doc.file();
+  const fileData = doc.file('.html');
   const { content, name, type } = fileData;
   let file = {};
   if (typeof File !== 'undefined') {
@@ -92,7 +92,9 @@ function() {
 ```
 
 ### `doc.search()`
-Use this method if you want to search for matches for in the document for a given query and attached search algorithm.  This method is useful when returning interface-compatible data for `marks` to highlight matches in a document.  It is also useful in general for computing offsets and derived data in other NLP pipelines and processes.
+Use this method if you want to search for matches for in the document for a given query and attached search algorithm.  Search results are simple and conveniently return start/end offset and snippet information that is useful to display context around the matched search value.
+
+This method is useful when returning interface-compatible data for `marks` to highlight matches in a document.  It is also useful in general for computing offsets and derived data in other NLP pipelines and processes.
 
 
 ```js live=true
@@ -124,7 +126,16 @@ function() {
         <h4>Compiled</h4>
         <div>{doc.compile().result}</div>
         <h4>Results</h4>
-        {}
+        {results.map((result, i) => {
+          const { start, end, snippet } = result;
+          const [left, matched, right] = snippet;
+          return (
+            <div key={i}>
+              {left}<strong>{matched}</strong>{right}{' '}
+              (start: {start}, end: {end})
+            </div>
+          );
+        })}
       </div>
     </div>
   );

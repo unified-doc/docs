@@ -55,7 +55,7 @@ function createBookmark({ start, end, type, value = undefined }) {
 }
 
 function extract(data) {
-  const { text } = data.githubData.data.aliceHtml.file;
+  const { text } = data.githubData.data.exampleHtmlFile.file;
   const startIndex = text.indexOf('<h1');
   const content = text.slice(startIndex);
   return {
@@ -70,7 +70,7 @@ export default function EbookExample() {
       githubData {
         id
         data {
-          aliceHtml {
+          exampleHtmlFile {
             file {
               text
             }

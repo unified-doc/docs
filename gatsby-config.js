@@ -19,15 +19,7 @@ module.exports = {
         variables: {},
         graphQLQuery: `
           query {
-            aliceHtml: repository(name: "Alice-s-Adventures-in-Wonderland-HTML-Edition_928", owner: "GITenberg") {
-              file: object(expression: "master:928-h/928-h.htm") {
-                ... on Blob {
-                  byteSize
-                  text
-                }
-              }
-            }
-            codeFiles: repository(name: "highlight.js", owner: "highlightjs") {
+            exampleCodeFiles: repository(name: "highlight.js", owner: "highlightjs") {
               folder: object(expression: "master:test/detect") {
                 ... on Tree {
                   languages: entries {
@@ -42,6 +34,29 @@ module.exports = {
                             }
                           }
                         }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            exampleHtmlFile: repository(name: "Alice-s-Adventures-in-Wonderland-HTML-Edition_928", owner: "GITenberg") {
+              file: object(expression: "master:928-h/928-h.htm") {
+                ... on Blob {
+                  byteSize
+                  text
+                }
+              }
+            }
+            exampleMarkdownFiles: search(query: "user:syntax-tree", type: REPOSITORY, first: 10) {
+              edges {
+                node {
+                  ... on Repository {
+                    name
+                    file: object(expression: "main:readme.md") {
+                      ... on Blob {
+                        byteSize
+                        text
                       }
                     }
                   }
@@ -88,21 +103,6 @@ module.exports = {
                     }
                     updatedAt
                     url
-                  }
-                }
-              }
-            }
-            syntaxTreeReadmes: search(query: "user:syntax-tree", type: REPOSITORY, first: 10) {
-              edges {
-                node {
-                  ... on Repository {
-                    name
-                    file: object(expression: "main:readme.md") {
-                      ... on Blob {
-                        byteSize
-                        text
-                      }
-                    }
                   }
                 }
               }

@@ -22,9 +22,13 @@ function extract(data) {
   }
 
   const files = [];
-  const { aliceHtml, codeFiles, syntaxTreeReadmes } = data.githubData.data;
-  if (aliceHtml.file) {
-    const { byteSize, text } = aliceHtml.file;
+  const {
+    exampleCodeFiles,
+    exampleHtmlFile,
+    exampleMarkdownFiles,
+  } = data.githubData.data;
+  if (exampleHtmlFile.file) {
+    const { byteSize, text } = exampleHtmlFile.file;
     const filename = `alice.html`;
     const startIndex = text.indexOf('<h1');
     const file = {
@@ -33,14 +37,14 @@ function extract(data) {
     };
     files.push(createFile(file, filename, 'html'));
   }
-  syntaxTreeReadmes.edges.forEach((edge) => {
+  exampleMarkdownFiles.edges.forEach((edge) => {
     const { name, file } = edge.node;
     if (file) {
       const filename = `${name}.md`;
       files.push(createFile(file, filename, 'md'));
     }
   });
-  codeFiles.folder.languages.forEach((language) => {
+  exampleCodeFiles.folder.languages.forEach((language) => {
     const file = (language.test.files || [])[0]?.file;
     if (file && file.text) {
       const filename = `code.${language.name}`;
@@ -56,13 +60,7 @@ export default function FileSystemExample() {
       githubData {
         id
         data {
-          aliceHtml {
-            file {
-              byteSize
-              text
-            }
-          }
-          codeFiles {
+          exampleCodeFiles {
             folder {
               languages {
                 name
@@ -77,7 +75,13 @@ export default function FileSystemExample() {
               }
             }
           }
-          syntaxTreeReadmes {
+          exampleHtmlFile {
+            file {
+              byteSize
+              text
+            }
+          }
+          exampleMarkdownFiles {
             edges {
               node {
                 name
