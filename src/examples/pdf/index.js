@@ -3,7 +3,7 @@ import React, { createElement, useState } from 'react';
 import rehype2react from 'rehype-react';
 import Doc from 'unified-doc';
 
-import { Box, Card, DocPreview, FileInput, Flex, Icon } from '~/ui';
+import { Card, DocPreview, FileInput, Flex, Icon } from '~/ui';
 
 import parsePdf from './parse-pdf';
 
@@ -56,17 +56,7 @@ export default function DocPreviewExample() {
         </Flex>
       </Card>
       {doc && (
-        <Box
-          sx={{
-            '.textLayer': {
-              opacity: 1,
-              '& ::selection': {
-                background: 'rgba(0, 0, 255, 0.1)',
-              },
-            },
-          }}>
-          <DocPreview content={doc.file().content} filename={doc.file().name} />
-        </Box>
+        <DocPreview content={doc.file().content} filename={doc.file().name} />
       )}
     </Flex>
   );

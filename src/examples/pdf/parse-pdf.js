@@ -2,8 +2,6 @@ import pdfjs from 'pdfjs-dist/build/pdf';
 import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.entry';
 import * as pdfjsViewer from 'pdfjs-dist/web/pdf_viewer.js';
 
-import 'pdfjs-dist/web/pdf_viewer.css';
-
 if (pdfjs.GlobalWorkerOptions !== undefined) {
   pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 }

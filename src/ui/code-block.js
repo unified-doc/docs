@@ -66,7 +66,7 @@ export default function CodeBlock({ codeString, className, live, render }) {
           {live && (
             <>
               <LiveError />
-              <Text variant="small">Code Editor</Text>
+              <Text variant="small">Live Code Editor</Text>
               <LiveEditor
                 style={{
                   fontFamily: theme.fonts.monospace,

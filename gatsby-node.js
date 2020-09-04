@@ -12,7 +12,7 @@ exports.onCreateWebpackConfig = ({ actions, loaders, stage }) => {
   });
 
   // https://www.gatsbyjs.com/docs/debugging-html-builds/#fixing-third-party-modules
-  if (stage === "build-html") {
+  if (stage === 'build-html') {
     actions.setWebpackConfig({
       module: {
         rules: [
@@ -22,6 +22,6 @@ exports.onCreateWebpackConfig = ({ actions, loaders, stage }) => {
           },
         ],
       },
-    })
+    });
   }
 };

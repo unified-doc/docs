@@ -1,9 +1,16 @@
+import 'pdfjs-dist/web/pdf_viewer.css';
+import 'tippy.js/dist/tippy.css';
+import 'unified-doc-dom/css/highlight.css';
+
+import '~/styles/global.css';
+
 const colors = {
   background: '#ffffff',
   blockquote: '#fafafa',
   light: '#b9b9b9',
   muted: '#f0f0f0',
   primary: '#2e8fff',
+  primaryTransparent: 'rgba(46, 143, 255, 0.3)',
   secondary: '#888888',
   text: '#111111',
 };
@@ -107,6 +114,17 @@ const styles = {
       backgroundColor: 'primary',
       color: 'background',
       scrollMarginTop: '50vh',
+    },
+    // custom pdfjs styles
+    '.textLayer': {
+      opacity: 1,
+      '[data-mark-id]': {
+        color: 'transparent',
+        backgroundColor: 'primaryTransparent',
+      },
+      '& ::selection': {
+        background: 'rgba(220, 140, 40, 0.2)',
+      },
     },
   },
 };
