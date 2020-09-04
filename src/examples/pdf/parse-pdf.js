@@ -4,7 +4,9 @@ import * as pdfjsViewer from 'pdfjs-dist/web/pdf_viewer.js';
 
 import 'pdfjs-dist/web/pdf_viewer.css';
 
-pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
+if (pdfjs.GlobalWorkerOptions !== undefined) {
+  pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
+}
 
 async function renderTextLayers(div, page, viewport) {
   const textContent = await page.getTextContent();
@@ -19,10 +21,6 @@ async function renderTextLayers(div, page, viewport) {
   });
   textLayer.setTextContent(textContent);
   textLayer.render();
-}
-
-async function getTextContent(div) {
-  return div.innerHTML;
 }
 
 async function toHtml(div, canvas) {
