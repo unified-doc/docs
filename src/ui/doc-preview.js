@@ -60,13 +60,7 @@ export default function DocPreview({ content, filename, onBack = undefined }) {
       filename,
       marks: results,
       prePlugins: [[rehypeHighlight, { ignoreMissing: true }]],
-      sanitizeSchema: {
-        attributes: {
-          '*': ['className', 'style'],
-          mark: ['dataMarkId', 'id'],
-        },
-        clobberPrefix: '',
-      },
+      sanitizeSchema: null,
       searchOptions: {
         minQueryLength: 2,
         snippetOffsetPadding: 30,

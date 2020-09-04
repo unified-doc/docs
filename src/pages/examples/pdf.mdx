@@ -1,5 +1,13 @@
 import PdfExample from '~/examples/pdf';
+import { SourceCode } from '~/ui';
 
-PDF documents are fundamentally incompatible with HTML/XML, but this is a hacky approach to representing PDFs as HTML images and text nodes, which still makes it possible to benefit from `unified-doc` APIs (e.g. render, search, export, marks).
+<SourceCode source="examples/pdf" />
+
+The PDF format is fundamentally incompatible with HTML.  This example converts PDF documents to HTML documents, represented by images and text nodes using [`pdf.js`][pdfjs].
+
+With the HTML representation of a PDF document, we are now able to benefit from `unified-doc` APIs (e.g. render, search, export, marks).
 
 <PdfExample />
+
+<!-- Definitions -->
+[pdfjs]: https://github.com/mozilla/pdf.js

@@ -3,11 +3,12 @@ import { Input as ThemeUiInput } from 'theme-ui';
 
 import { Label } from '~/ui';
 
-export default function FileInput({ id, label, onChange }) {
+export default function FileInput({ accept = undefined, id, label, onChange }) {
   return (
     <Label htmlFor={id}>
       {label}
       <ThemeUiInput
+        accept={accept}
         id={id}
         sx={{ border: 'none' }}
         type="file"

@@ -12,7 +12,7 @@ export default function Bookmarks({
   onSelectCategory,
 }) {
   return (
-    <Card bg="background" sx={{ position: 'sticky', top: 0 }} variant="card">
+    <Card bg="background" sx={{ position: 'sticky', top: 0 }}>
       <Flex alignItems="center" space={4}>
         <h4>Bookmark style</h4>
         {categories.map((category) => (

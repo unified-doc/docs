@@ -13,6 +13,13 @@ module.exports = {
     },
     'gatsby-plugin-theme-ui',
     {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        name: 'files',
+        path: './src/files/',
+      },
+    },
+    {
       resolve: 'gatsby-source-github-api',
       options: {
         token: process.env.GITHUB_API_TOKEN,
