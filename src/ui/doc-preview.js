@@ -115,7 +115,6 @@ export default function DocPreview({ content, filename, onBack = undefined }) {
 
   // implement search using doc.search()
   const search = useCallback(
-    // @ts-ignore
     throttle((updatedQuery) => {
       const updatedResults = doc.search(updatedQuery).map((result) => ({
         ...result,
@@ -160,7 +159,6 @@ export default function DocPreview({ content, filename, onBack = undefined }) {
           },
           '[data-mark-id].bookmark': {
             backgroundColor: 'orange',
-            color: 'black',
           },
         }
       : {
@@ -208,7 +206,6 @@ export default function DocPreview({ content, filename, onBack = undefined }) {
           onChange={(updatedQuery) => {
             setSelectedPreview(previewTypes.COMPILED);
             setQuery(updatedQuery);
-            // @ts-ignore
             search(updatedQuery);
           }}
           onFocus={() => setShowResults(true)}

@@ -1,4 +1,3 @@
-import 'pdfjs-dist/web/pdf_viewer.css';
 import 'tippy.js/dist/tippy.css';
 import 'unified-doc-dom/css/highlight.css';
 
@@ -113,10 +112,11 @@ const styles = {
       opacity: 1,
       '[data-mark-id]': {
         color: 'transparent',
-        backgroundColor: 'primaryTransparent',
+        backgroundColor: 'primary',
+        opacity: 0.3,
       },
       '& ::selection': {
-        background: 'rgba(220, 140, 40, 0.2)',
+        backgroundColor: 'primaryTransparent',
       },
     },
   },

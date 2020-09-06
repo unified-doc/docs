@@ -5,9 +5,9 @@ import Doc from 'unified-doc';
 
 import { Card, DocPreview, FileInput, Flex, Icon } from '~/ui';
 
-import parsePdf from './parse-pdf';
+import parsePdf, { getPdfDoc } from './parse-pdf';
 
-function rename(filename, extension) {
+function changeExtension(filename, extension) {
   const doc = Doc({ content: '', filename });
   return doc.file().stem + extension;
 }
@@ -20,20 +20,28 @@ export default function DocPreviewExample() {
       }
     }
   `);
-
   const samplePdfUrl = data.file.publicURL;
 
   const [doc, setDoc] = useState(null);
 
-  async function updatePdfFile(pdfFile) {
-    const html = await parsePdf(pdfFile);
+  // TODO: organize in unified-doc-pages, hardcode viewing last page for testing pagination
+  async function updatePdfData(pdfData) {
+    const pdfDoc = await getPdfDoc(pdfData);
+    const lastPageNumber = pdfDoc.numPages;
+    const pages = await parsePdf(pdfData, { pageNumber: lastPageNumber });
     const doc = Doc({
       compiler: [[rehype2react, { createElement }]],
-      content: html,
-      filename: rename(pdfFile?.name || 'sample', '.html'),
+      content: pages[lastPageNumber - 1],
+      filename: changeExtension(pdfData?.name || 'sample', '.html'),
       sanitizeSchema: null,
     });
     setDoc(doc);
+  }
+
+  let docPreview;
+  if (doc) {
+    const { content, name } = doc.file();
+    docPreview = <DocPreview content={content} filename={name} />;
   }
 
   return (
@@ -44,20 +52,16 @@ export default function DocPreviewExample() {
             accept="application/pdf"
             id="update-pdf"
             label="Upload PDF"
-            onChange={updatePdfFile}
+            onChange={updatePdfData}
           />
           <Icon
             icon="doc"
             label="View Sample PDF"
-            onClick={() => {
-              updatePdfFile(samplePdfUrl);
-            }}
+            onClick={() => updatePdfData(samplePdfUrl)}
           />
         </Flex>
       </Card>
-      {doc && (
-        <DocPreview content={doc.file().content} filename={doc.file().name} />
-      )}
+      {docPreview}
     </Flex>
   );
 }

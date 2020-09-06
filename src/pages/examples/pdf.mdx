@@ -3,9 +3,7 @@ import { SourceCode } from '~/ui';
 
 <SourceCode source="examples/pdf" />
 
-The PDF format is fundamentally incompatible with HTML.  This example converts PDF documents to HTML documents, represented by images and text nodes using [`pdf.js`][pdfjs].
-
-With the HTML representation of a PDF document, we are now able to benefit from `unified-doc` APIs (e.g. render, search, export, marks).
+This example converts PDF documents to HTML documents, represented by images and text nodes using [`pdf.js`][pdfjs].  With the PDF represented by a HTML document, we are now able to benefit from all `unified-doc` APIs (e.g. render, search, export, marks).
 
 <PdfExample />
 

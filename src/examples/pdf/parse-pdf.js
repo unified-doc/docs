@@ -1,80 +1,103 @@
+import dedent from 'dedent';
 import pdfjs from 'pdfjs-dist/build/pdf';
 import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.entry';
-import * as pdfjsViewer from 'pdfjs-dist/web/pdf_viewer.js';
+import { TextLayerBuilder } from 'pdfjs-dist/web/pdf_viewer.js';
 
 if (pdfjs.GlobalWorkerOptions !== undefined) {
   pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 }
 
-async function renderTextLayers(div, page, viewport) {
+async function cleanup(elements) {
+  elements.forEach((element) => element.remove());
+}
+
+function toHtml(container, canvas) {
+  const { height, width } = canvas;
+  return dedent`
+    <html>
+      <head>
+        <style>
+          .textLayer {
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+            line-height: 1.0;
+          }
+          .textLayer > span {
+            color: transparent;
+            position: absolute;
+            white-space: pre;
+            cursor: text;
+            transform-origin: 0% 0%;
+          }
+        </style>
+      </head>
+      <body>
+        <div style="position: relative">
+          <img src=${canvas.toDataURL()} style="width:${width}px; height: ${height}px" />
+          ${container.innerHTML}
+        </div>
+      </body>
+    </html>
+  `;
+}
+
+async function renderPage(doc, options) {
+  const { pageNumber, scale } = options;
+  const container = document.createElement('div');
+  const canvas = document.createElement('canvas');
+  container.setAttribute('style', 'position: relative');
+
+  // render page
+  const page = await doc.getPage(pageNumber);
+  const viewport = page.getViewport({ scale });
+  const canvasContext = canvas.getContext('2d');
+  canvas.height = viewport.height;
+  canvas.width = viewport.width;
+  await page.render({ canvasContext, viewport }).promise;
+
+  // render text layer
   const textContent = await page.getTextContent();
   const textLayerDiv = document.createElement('div');
   textLayerDiv.setAttribute('class', 'textLayer');
-  div.append(textLayerDiv);
-  // Create new instance of TextLayerBuilder class
-  const textLayer = new pdfjsViewer.TextLayerBuilder({
+  container.append(textLayerDiv);
+  const textLayer = new TextLayerBuilder({
     textLayerDiv,
     pageIndex: page.pageIndex,
     viewport,
   });
   textLayer.setTextContent(textContent);
-  textLayer.render();
+  await textLayer.render();
+
+  await cleanup([container, canvas]);
+
+  return toHtml(container, canvas);
 }
 
-async function toHtml(div, canvas) {
-  const dataURL = canvas.toDataURL();
-  const { height, width } = canvas;
-
-  const html = `
-    <html>
-      <head></head>
-      <body>
-        <div style="position: relative">
-          <img src=${dataURL} style="width:${width}px; height: ${height}px" />
-          ${div.innerHTML}
-        </div>
-      </body>
-    </html>
-  `;
-
-  return html;
+export async function getPdfDoc(data) {
+  const contents = data instanceof File ? await data.arrayBuffer() : data;
+  return pdfjs.getDocument(contents).promise;
 }
 
-export default async function parsePdf(pdfFile) {
-  const pdfContents =
-    typeof pdfFile === 'string' ? pdfFile : await pdfFile.arrayBuffer();
-  // @ts-ignore
-  const doc = await pdfjs.getDocument(pdfContents).promise;
-  const container = document.createElement('div');
+export default async function parsePdf(file, options = {}) {
+  const { pageNumber = null, scale = 1 } = options;
 
-  const page = await doc.getPage(1);
-  const scale = 1.15;
-  const viewport = page.getViewport({ scale });
-  const canvas = document.createElement('canvas');
+  const doc = await getPdfDoc(file);
+  let pages = Array.from({ length: doc.numPages }).fill('');
 
-  async function cleanup() {
-    canvas.remove();
+  if (pageNumber === null) {
+    pages = await Promise.all(
+      pages.map((_, i) => {
+        return renderPage(doc, { pageNumber: i + 1, scale });
+      }),
+    );
+  } else {
+    const content = await renderPage(doc, { pageNumber, scale });
+    pages[pageNumber - 1] = content;
   }
 
-  const div = document.createElement('div');
-  div.setAttribute('style', 'position: relative');
-  container.append(div);
-  div.append(canvas);
-
-  const context = canvas.getContext('2d');
-  canvas.height = viewport.height;
-  canvas.width = viewport.width;
-
-  const renderContext = {
-    canvasContext: context,
-    viewport,
-  };
-
-  await page.render(renderContext).promise;
-
-  await renderTextLayers(div, page, viewport);
-
-  await cleanup();
-
-  return toHtml(div, canvas);
+  return pages;
 }
