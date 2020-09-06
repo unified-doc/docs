@@ -86,12 +86,12 @@ export async function getPageCount(content) {
   return doc.numPages;
 }
 
-export default async function parser(pdfContent, pageNumber, options) {
+export default async function parser(content, pageNumber, options) {
   const { scale = 1 } = options;
-  const doc = await getPdfDoc(pdfContent);
-  const content = await renderPage(doc, { pageNumber, scale });
+  const doc = await getPdfDoc(content);
+  const html = await renderPage(doc, { pageNumber, scale });
   return {
-    content,
+    content: html,
     filename: `page-${pageNumber}.html`,
   };
 }

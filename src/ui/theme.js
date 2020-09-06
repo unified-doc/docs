@@ -1,3 +1,4 @@
+import 'microtip/microtip.css';
 import 'tippy.js/dist/tippy.css';
 import 'unified-doc-dom/css/highlight.css';
 

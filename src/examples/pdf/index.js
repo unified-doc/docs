@@ -28,7 +28,7 @@ async function getPage({ content, filename, pageCount, pageNumber }) {
   return result.pages[0];
 }
 
-export default function DocPreviewExample() {
+export default function PdfExample() {
   const data = useStaticQuery(graphql`
     query PdfFileQuery {
       file(base: { eq: "doc.pdf" }) {

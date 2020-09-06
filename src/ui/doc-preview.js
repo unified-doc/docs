@@ -9,7 +9,12 @@ import React, {
 } from 'react';
 import rehypeHighlight from 'rehype-highlight';
 import rehype2react from 'rehype-react';
-import { highlight, saveFile, selectText } from 'unified-doc-dom';
+import {
+  highlight,
+  registerMarks,
+  saveFile,
+  selectText,
+} from 'unified-doc-dom';
 import Doc from 'unified-doc';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -19,6 +24,7 @@ import {
   Card,
   Flex,
   IconDropdown,
+  HelpIcon,
   Icon,
   Snippet,
   Text,
@@ -46,6 +52,9 @@ const previewTypes = {
   HAST: 'Hast',
 };
 
+const TOOLTIP =
+  'Search and navigate to matching results.  Bookmark any selected text.  Preview or download the document in various formats (search results and bookmarks included).';
+
 export default function DocPreview({
   content,
   filename,
@@ -67,13 +76,14 @@ export default function DocPreview({
     }
   }, [id]);
 
-  // initialize a doc instance!
+  // initialize and memoize doc objects
+  const marks = useMemo(() => [...results, ...bookmarks], [results, bookmarks]);
   const doc = useMemo(() => {
     return Doc({
       compiler: [[rehype2react, { createElement }]],
       content,
       filename,
-      marks: [...results, ...bookmarks],
+      marks,
       prePlugins: [[rehypeHighlight, { ignoreMissing: true }]],
       sanitizeSchema: null,
       searchOptions: {
@@ -81,9 +91,7 @@ export default function DocPreview({
         snippetOffsetPadding: 30,
       },
     });
-  }, [bookmarks, content, filename, results]);
-
-  // memoize doc and file
+  }, [content, filename, marks]);
   const docContents = useMemo(() => {
     switch (selectedPreview) {
       case previewTypes.HAST:
@@ -116,6 +124,7 @@ export default function DocPreview({
               start,
               end,
               data: {
+                type: 'bookmark',
                 value,
               },
             },
@@ -126,12 +135,33 @@ export default function DocPreview({
     return selectText(docRef.current, { callback });
   }, []);
 
+  // registerMarks
+  useEffect(() => {
+    const callbacks = {
+      onClick: (event, mark) => {
+        if (mark.data.type === 'bookmark') {
+          event.stopPropagation();
+          const shouldRemoveBookmark = window.confirm('Remove bookmark?');
+          if (shouldRemoveBookmark) {
+            setBookmarks((previousBookmarks) =>
+              previousBookmarks.filter((bookmark) => bookmark.id !== mark.id),
+            );
+          }
+        }
+      },
+    };
+    return registerMarks(docRef.current, marks, callbacks);
+  }, [marks]);
+
   // implement search using doc.search()
   const search = useCallback(
     throttle((updatedQuery) => {
       const updatedResults = doc.search(updatedQuery).map((result) => ({
         ...result,
         id: uuidv4(),
+        data: {
+          type: 'result',
+        },
       }));
       setResults(updatedResults);
       setShowResults(true);
@@ -160,25 +190,27 @@ export default function DocPreview({
     };
   });
 
+  // custom unified-doc mark styles
+  const compiledStyle = {
+    '[data-mark-id]': {
+      backgroundColor: 'primary',
+      color: 'background',
+      // scrollMarginTop accounts for some sticky headers and scrolls marks to the middle of the viewport height.
+      scrollMarginTop: '50vh',
+    },
+    '[data-mark-id].bookmark': {
+      backgroundColor: 'orange',
+    },
+  };
+  const nonCompiledStyle = {
+    fontFamily: 'monospace',
+    fontSize: 0,
+    whiteSpace: 'pre-wrap',
+  };
   const docStyle =
     selectedPreview === previewTypes.COMPILED
-      ? {
-          // custom unified-doc mark styles
-          // scrollMarginTop accounts for some sticky headers and scrolls marks to the middle of the viewport height.
-          '[data-mark-id]': {
-            backgroundColor: 'primary',
-            color: 'background',
-            scrollMarginTop: '50vh',
-          },
-          '[data-mark-id].bookmark': {
-            backgroundColor: 'orange',
-          },
-        }
-      : {
-          fontFamily: 'monospace',
-          fontSize: 0,
-          whiteSpace: 'pre-wrap',
-        };
+      ? compiledStyle
+      : nonCompiledStyle;
 
   return (
     <Card variant="doc">
@@ -197,7 +229,7 @@ export default function DocPreview({
           ) : (
             <div />
           )}
-          <Flex>
+          <Flex alignItems="center">
             <IconDropdown
               enableResponsiveLabelHide
               icon="eye"
@@ -210,6 +242,9 @@ export default function DocPreview({
               label="Download"
               items={saveItems}
             />
+            <Box ml={2}>
+              <HelpIcon tooltip={TOOLTIP} />
+            </Box>
           </Flex>
         </Flex>
         <TextInput
@@ -254,15 +289,9 @@ export default function DocPreview({
           </>
         )}
       </Flex>
-      <Flex
-        flexDirection="column"
-        pb={4}
-        space={1}
-        sx={{ borderBottom: 'muted' }}>
-        <Text color="light" variant="small">
-          This document is rendered with <a href={GITHUB_URL}>unified-doc.</a>
-        </Text>
-      </Flex>
+      <Text color="light" variant="small">
+        This document is rendered with <a href={GITHUB_URL}>unified-doc.</a>
+      </Text>
       <Box ref={docRef} py={4} sx={docStyle}>
         {docContents}
       </Box>

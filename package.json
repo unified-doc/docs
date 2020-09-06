@@ -27,6 +27,7 @@
     "gatsby-source-github-api": "^0.2.1",
     "lodash": "^4.17.20",
     "mdx-utils": "^0.2.0",
+    "microtip": "^0.2.2",
     "moment": "^2.27.0",
     "pdfjs-dist": "^2.4.456",
     "prism-react-renderer": "^1.1.1",

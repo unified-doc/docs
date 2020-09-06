@@ -7,6 +7,7 @@ export { default as DocPreviewToggle } from './doc-preview-toggle';
 export { default as Flex } from './flex';
 export { default as FileInput } from './file-input';
 export { default as Footer } from './footer';
+export { default as HelpIcon } from './help-icon';
 export { default as Icon } from './icon';
 export { default as IconDropdown } from './icon-dropdown';
 export { default as Label } from './label';
