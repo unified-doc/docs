@@ -107,6 +107,10 @@ const styles = {
       fontFamily: 'monospace',
       fontSize: 1,
     },
+    '[disabled]': {
+      opacity: 0.2,
+      pointerEvents: 'none',
+    },
     // custom pdfjs styles
     '.textLayer': {
       opacity: 1,

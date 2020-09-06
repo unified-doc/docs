@@ -46,13 +46,26 @@ const previewTypes = {
   HAST: 'Hast',
 };
 
-export default function DocPreview({ content, filename, onBack = undefined }) {
+export default function DocPreview({
+  content,
+  filename,
+  id = undefined,
+  onBack = undefined,
+}) {
   const docRef = useRef(null);
   const [query, setQuery] = useState('');
   const [showResults, setShowResults] = useState(false);
   const [results, setResults] = useState([]);
   const [bookmarks, setBookmarks] = useState([]);
   const [selectedPreview, setSelectedPreview] = useState(previewTypes.COMPILED);
+
+  // a controlled way to reset bookmarks/results
+  useEffect(() => {
+    if (id) {
+      setBookmarks([]);
+      setResults([]);
+    }
+  }, [id]);
 
   // initialize a doc instance!
   const doc = useMemo(() => {

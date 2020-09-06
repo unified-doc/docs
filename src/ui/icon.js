@@ -10,7 +10,12 @@ const icons = {
       <polyline points="8 6 2 12 8 18" />
     </>
   ),
-  back: <polyline points="15 18 9 12 15 6" />,
+  back: (
+    <>
+      <line x1="19" y1="12" x2="5" y2="12" />
+      <polyline points="12 19 5 12 12 5" />
+    </>
+  ),
   doc: (
     <>
       <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
@@ -41,6 +46,12 @@ const icons = {
       <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
     </>
   ),
+  next: (
+    <>
+      <line x1="5" y1="12" x2="19" y2="12" />
+      <polyline points="12 5 19 12 12 19" />
+    </>
+  ),
   pen: (
     <>
       <path d="M12 20h9" />
@@ -69,6 +80,7 @@ const icons = {
 
 export default function Icon({
   icon,
+  disabled = false,
   enableResponsiveLabelHide = false,
   href = undefined,
   label = undefined,
@@ -79,6 +91,7 @@ export default function Icon({
       as={onClick || href ? 'a' : 'div'}
       alignItems="center"
       color="secondary"
+      disabled={disabled}
       flex="0 0 auto"
       href={href}
       space={1}

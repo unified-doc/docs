@@ -77,27 +77,21 @@ async function renderPage(doc, options) {
   return toHtml(container, canvas);
 }
 
-export async function getPdfDoc(data) {
-  const contents = data instanceof File ? await data.arrayBuffer() : data;
-  return pdfjs.getDocument(contents).promise;
+async function getPdfDoc(content) {
+  return pdfjs.getDocument(content).promise;
 }
 
-export default async function parsePdf(file, options = {}) {
-  const { pageNumber = null, scale = 1 } = options;
+export async function getPageCount(content) {
+  const doc = await pdfjs.getDocument(content).promise;
+  return doc.numPages;
+}
 
-  const doc = await getPdfDoc(file);
-  let pages = Array.from({ length: doc.numPages }).fill('');
-
-  if (pageNumber === null) {
-    pages = await Promise.all(
-      pages.map((_, i) => {
-        return renderPage(doc, { pageNumber: i + 1, scale });
-      }),
-    );
-  } else {
-    const content = await renderPage(doc, { pageNumber, scale });
-    pages[pageNumber - 1] = content;
-  }
-
-  return pages;
+export default async function parser(pdfContent, pageNumber, options) {
+  const { scale = 1 } = options;
+  const doc = await getPdfDoc(pdfContent);
+  const content = await renderPage(doc, { pageNumber, scale });
+  return {
+    content,
+    filename: `page-${pageNumber}.html`,
+  };
 }

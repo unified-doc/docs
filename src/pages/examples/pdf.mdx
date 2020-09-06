@@ -1,11 +1,25 @@
+import { Link } from 'gatsby';
+
 import PdfExample from '~/examples/pdf';
 import { SourceCode } from '~/ui';
 
 <SourceCode source="examples/pdf" />
 
-This example converts PDF documents to HTML documents, represented by images and text nodes using [`pdf.js`][pdfjs].  With the PDF represented by a HTML document, we are now able to benefit from all `unified-doc` APIs (e.g. render, search, export, marks).
+This example uses [`pdf.js`][pdfjs] to convert PDF documents into HTML documents containing images and text nodes.  With the PDF document represented by a collection of HTML documents, we can benefit from all `unified-doc` APIs (e.g. render, search, export, marks etc).
+
+The management of a collection of `doc` instances with basic pagination support is done through the [`unified-doc-archive`][unified-doc-archive] library.
+
+### Features
+- Features from the <Link to="/examples/doc-preview">Doc preview</Link> example apply here.
+- Upload and preview any PDF file using the `DocPreview` component.
+- Pagination support.
+
+### Concepts
+- Most concepts from the <Link to="/examples/doc-preview">Doc preview</Link> example apply here.
+- `dom.fromFile()`
 
 <PdfExample />
 
 <!-- Definitions -->
 [pdfjs]: https://github.com/mozilla/pdf.js
+[unified-doc-archive]: https://github.com/unified-doc/unified-doc-archive
