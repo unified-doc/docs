@@ -2,13 +2,14 @@ import { throttle } from 'lodash';
 import React, {
   createElement,
   useCallback,
+  useEffect,
   useMemo,
   useRef,
   useState,
 } from 'react';
 import rehypeHighlight from 'rehype-highlight';
 import rehype2react from 'rehype-react';
-import { highlight, saveFile } from 'unified-doc-dom';
+import { highlight, saveFile, selectText } from 'unified-doc-dom';
 import Doc from 'unified-doc';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -50,6 +51,7 @@ export default function DocPreview({ content, filename, onBack = undefined }) {
   const [query, setQuery] = useState('');
   const [showResults, setShowResults] = useState(false);
   const [results, setResults] = useState([]);
+  const [bookmarks, setBookmarks] = useState([]);
   const [selectedPreview, setSelectedPreview] = useState(previewTypes.COMPILED);
 
   // initialize a doc instance!
@@ -58,7 +60,7 @@ export default function DocPreview({ content, filename, onBack = undefined }) {
       compiler: [[rehype2react, { createElement }]],
       content,
       filename,
-      marks: results,
+      marks: [...results, ...bookmarks],
       prePlugins: [[rehypeHighlight, { ignoreMissing: true }]],
       sanitizeSchema: null,
       searchOptions: {
@@ -66,7 +68,7 @@ export default function DocPreview({ content, filename, onBack = undefined }) {
         snippetOffsetPadding: 30,
       },
     });
-  }, [content, filename, results]);
+  }, [bookmarks, content, filename, results]);
 
   // memoize doc and file
   const docContents = useMemo(() => {
@@ -80,6 +82,50 @@ export default function DocPreview({ content, filename, onBack = undefined }) {
         return doc.compile().result;
     }
   }, [doc, selectedPreview]);
+
+  // add selectText effect
+  useEffect(() => {
+    function callback(selectedText) {
+      const { start, end, value } = selectedText;
+      if (end > start) {
+        const shouldAddBookmark = window.confirm(
+          `Do you want to add the following bookmark?
+
+        ${value}
+        `,
+        );
+        if (shouldAddBookmark) {
+          setBookmarks((previousBookmarks) => [
+            ...previousBookmarks,
+            {
+              id: uuidv4(),
+              classNames: ['bookmark'],
+              start,
+              end,
+              data: {
+                value,
+              },
+            },
+          ]);
+        }
+      }
+    }
+    return selectText(docRef.current, { callback });
+  }, []);
+
+  // implement search using doc.search()
+  const search = useCallback(
+    // @ts-ignore
+    throttle((updatedQuery) => {
+      const updatedResults = doc.search(updatedQuery).map((result) => ({
+        ...result,
+        id: uuidv4(),
+      }));
+      setResults(updatedResults);
+      setShowResults(true);
+    }, 1000),
+    [],
+  );
 
   const previewItems = Object.values(previewTypes).map((previewType) => {
     return {
@@ -102,23 +148,21 @@ export default function DocPreview({ content, filename, onBack = undefined }) {
     };
   });
 
-  // implement search using doc.search()
-  const search = useCallback(
-    // @ts-ignore
-    throttle((updatedQuery) => {
-      const updatedResults = doc.search(updatedQuery).map((result) => ({
-        ...result,
-        id: uuidv4(),
-      }));
-      setResults(updatedResults);
-      setShowResults(true);
-    }, 1000),
-    [],
-  );
-
   const docStyle =
     selectedPreview === previewTypes.COMPILED
-      ? undefined
+      ? {
+          // custom unified-doc mark styles
+          // scrollMarginTop accounts for some sticky headers and scrolls marks to the middle of the viewport height.
+          '[data-mark-id]': {
+            backgroundColor: 'primary',
+            color: 'background',
+            scrollMarginTop: '50vh',
+          },
+          '[data-mark-id].bookmark': {
+            backgroundColor: 'orange',
+            color: 'black',
+          },
+        }
       : {
           fontFamily: 'monospace',
           fontSize: 0,

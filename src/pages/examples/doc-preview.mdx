@@ -3,7 +3,7 @@ import { SourceCode } from '~/ui';
 
 <SourceCode source="examples/doc-preview" />
 
-A simple component that renders any document and supports common and useful features used in document applications.  This example applies all core `unified-doc` API methods, and is used throughout the documentation site to render documents.
+A simple component that renders any document and supports most useful features encountered in document applications.  This example applies all core `unified-doc` and `unified-doc-dom` API methods, and is used throughout the documentation site to render documents.
 
 ### Features
 - Render any document using `unified-doc`.
@@ -11,6 +11,7 @@ A simple component that renders any document and supports common and useful feat
 - Search and jump to matched results with anchor links and apply a brief highlight effect.
 - Preview document in various ways (compiled, text content, syntax tree).
 - Download document in various supported formats (source, `.html`, `.txt`).
+- Create, manage, and navigate to highlightable bookmarks that persist when `.html` version of the file is downloaded.
 
 ### Concepts
 - Apply custom `mark` CSS.
@@ -21,6 +22,8 @@ A simple component that renders any document and supports common and useful feat
 - `doc.search()`
 - `doc.textContent()`
 - `dom.highlight()`
+- `dom.registerMarks()`
+- `dom.selectText()`
 - `dom.saveFile()`
 - `options.marks`
 - `options.prePlugins`
