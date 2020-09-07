@@ -68,6 +68,8 @@ export default function DocPreview({
   const [bookmarks, setBookmarks] = useState([]);
   const [selectedPreview, setSelectedPreview] = useState(previewTypes.COMPILED);
 
+  const isCompiledPreview = selectedPreview === previewTypes.COMPILED;
+
   // a controlled way to reset bookmarks/results
   useEffect(() => {
     if (id) {
@@ -108,7 +110,7 @@ export default function DocPreview({
   useEffect(() => {
     function callback(selectedText) {
       const { start, end, value } = selectedText;
-      if (end > start) {
+      if (isCompiledPreview && end > start) {
         const shouldAddBookmark = window.confirm(
           `Do you want to add the following bookmark?
 
@@ -133,7 +135,7 @@ export default function DocPreview({
       }
     }
     return selectText(docRef.current, { callback });
-  }, []);
+  }, [isCompiledPreview]);
 
   // registerMarks
   useEffect(() => {
@@ -207,10 +209,7 @@ export default function DocPreview({
     fontSize: 0,
     whiteSpace: 'pre-wrap',
   };
-  const docStyle =
-    selectedPreview === previewTypes.COMPILED
-      ? compiledStyle
-      : nonCompiledStyle;
+  const docStyle = isCompiledPreview ? compiledStyle : nonCompiledStyle;
 
   return (
     <Card variant="doc">
