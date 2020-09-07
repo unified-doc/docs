@@ -84,7 +84,7 @@ export function getResolvedAssetIds(hast, manifest) {
   return assetIds;
 }
 
-export function attachAssets(hast, assets) {
+export function link(hast, assets, metadata) {
   const styles = Object.values(assets)
     .filter((asset) => {
       return asset.mediaType === 'text/css';

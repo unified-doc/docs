@@ -92,6 +92,7 @@
       "react/no-array-index-key": "off",
       "react/function-component-definition": "off",
       "react/prop-types": "off",
+      "unicorn/no-fn-reference-in-iterator": "off",
       "unicorn/no-reduce": "off"
     }
   }

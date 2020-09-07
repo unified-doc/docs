@@ -4,15 +4,15 @@ import JSZip from 'jszip';
 import fromXml from 'xast-util-from-xml';
 
 import {
-  attachAssets,
   getManifest,
   getMetadata,
   getPackagePath,
   getSpine,
   getResolvedAssetIds,
+  link,
 } from './utils';
 
-export default function Parser(content, options = {}) {
+export default function Parser(file) {
   const zip = new JSZip();
 
   let basePath = '';
@@ -21,7 +21,7 @@ export default function Parser(content, options = {}) {
   let spine = [];
 
   async function load() {
-    await zip.loadAsync(content);
+    await zip.loadAsync(file);
 
     const containerXml = await zip
       .file('META-INF/container.xml')
@@ -68,7 +68,7 @@ export default function Parser(content, options = {}) {
       acc[asset.href] = asset;
       return acc;
     }, {});
-    const content = attachAssets(hast, assets);
+    const content = link(hast, assets, metadata);
     return {
       content,
       // TODO: figure out how to extract content page/section title
