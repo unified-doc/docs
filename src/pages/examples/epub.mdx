@@ -5,6 +5,10 @@ import { SourceCode } from '~/ui';
 
 <SourceCode source="examples/epub" />
 
+> This is an experimental example.  The implementation and features are subject to change.
+
+This example uses a custom EPUB parser to parse the EPUB file archive into HTML pages.  With the EPUB book represented by a collection of HTML documents, we can benefit from all `unified-doc` APIs (e.g. render, search, export, marks etc).
+
 The management of a collection of `doc` instances with basic pagination support is done using the [`unified-doc-archive`][unified-doc-archive] library.
 
 ### Features
@@ -20,4 +24,5 @@ The management of a collection of `doc` instances with basic pagination support 
 <EpubExample />
 
 <!-- Definitions -->
+[jszip]: https://github.com/Stuk/jszip
 [unified-doc-archive]: https://github.com/unified-doc/unified-doc-archive
