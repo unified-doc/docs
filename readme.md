@@ -60,7 +60,7 @@ This progressive documentation is:
 - implemented with the `unified-doc` interface.
 - linted with `xo` + `prettier` + `tsc`.
 
-Monorepo scripts:
+Project scripts:
 ```sh
 # install dependencies and bootstrap with gatsby
 npm run bootstrap

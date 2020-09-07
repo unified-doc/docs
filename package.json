@@ -30,6 +30,7 @@
     "jszip": "^3.5.0",
     "jszip-utils": "^0.1.0",
     "lodash": "^4.17.20",
+    "mammoth": "^1.4.11",
     "mdx-utils": "^0.2.0",
     "microtip": "^0.2.2",
     "moment": "^2.27.0",

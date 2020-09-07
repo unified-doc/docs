@@ -93,6 +93,17 @@ export function link(hast, assets, metadata) {
 
   visit(hast, (node) => {
     if (node.tagName === 'head') {
+      Object.keys(metadata).forEach((key) => {
+        // @ts-ignore
+        node.children.push({
+          type: 'element',
+          tagName: 'meta',
+          properties: {
+            name: key.replace(':', '.'),
+            content: metadata[key],
+          },
+        });
+      });
       styles.forEach((style) => {
         // @ts-ignore
         node.children.push({
