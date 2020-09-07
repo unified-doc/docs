@@ -28,6 +28,7 @@
     "hast-util-from-parse5": "^6.0.0",
     "hast-util-to-html": "^7.1.1",
     "jszip": "^3.5.0",
+    "jszip-utils": "^0.1.0",
     "lodash": "^4.17.20",
     "mdx-utils": "^0.2.0",
     "microtip": "^0.2.2",

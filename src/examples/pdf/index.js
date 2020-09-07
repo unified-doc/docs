@@ -104,7 +104,7 @@ export default function PdfExample() {
               accept="application/pdf"
               id="update-pdf"
               label="Upload PDF"
-              onChange={(pdfFile) => updatePage(pdfFile)}
+              onChange={updatePage}
             />
             <Icon
               icon="doc"

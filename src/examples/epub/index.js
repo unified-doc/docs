@@ -1,3 +1,5 @@
+import { useStaticQuery, graphql } from 'gatsby';
+import JSZipUtils from 'jszip-utils';
 import React, { createElement, useState } from 'react';
 import rehype2react from 'rehype-react';
 import Doc from 'unified-doc';
@@ -7,17 +9,13 @@ import { Card, DocPreview, FileInput, Flex, Icon, Text } from '~/ui';
 
 import Parser from './parse-epub';
 
-const FIRST_PAGE_NUMBER = 3;
-const PAGE_SIZE = 1;
-
-async function getPageCount(content) {
-  return 5;
-}
+const FIRST_PAGE_NUMBER = 1;
 
 async function getPage({ content, pageNumber }) {
   const parser = Parser(content);
   await parser.load();
   const result = await parser.parse(pageNumber);
+  const pageCount = parser.getPageCount();
 
   const doc = Doc({
     content: result.content,
@@ -28,13 +26,22 @@ async function getPage({ content, pageNumber }) {
 
   return {
     doc,
+    pageCount,
     pageNumber,
   };
 }
 
 export default function EpubExample() {
+  const data = useStaticQuery(graphql`
+    query EpubFileQuery {
+      file(base: { eq: "doc.epub" }) {
+        publicURL
+      }
+    }
+  `);
+  const sampleEpubUrl = data.file.publicURL;
+
   const [page, setPage] = useState(null);
-  const [pageCount, setPageCount] = useState(FIRST_PAGE_NUMBER);
   const [epub, setEpub] = useState(null);
   const [id, setId] = useState(null);
 
@@ -42,15 +49,16 @@ export default function EpubExample() {
     updatedEpub,
     updatedPageNumber = FIRST_PAGE_NUMBER,
   ) {
-    const content = await updatedEpub.arrayBuffer();
-    const updatedPageCount = await getPageCount(content);
+    const content =
+      updatedEpub instanceof File
+        ? await updatedEpub.arrayBuffer()
+        : updatedEpub;
     const updatedPage = await getPage({
       content,
       pageNumber: updatedPageNumber,
     });
     setEpub(updatedEpub);
     setPage(updatedPage);
-    setPageCount(updatedPageCount);
     setId(uuidv4());
   }
 
@@ -61,7 +69,7 @@ export default function EpubExample() {
   }
 
   function nextPage() {
-    const { pageNumber } = page;
+    const { pageCount, pageNumber } = page;
     const updatedPageNumber = Math.min(pageNumber + 1, pageCount);
     updatePage(epub, updatedPageNumber);
   }
@@ -69,7 +77,7 @@ export default function EpubExample() {
   let docPreview;
   let pagination;
   if (page) {
-    const { doc, pageNumber } = page;
+    const { doc, pageCount, pageNumber } = page;
     const { content, name } = doc.file();
     docPreview = <DocPreview content={content} filename={name} id={id} />;
     pagination = (
@@ -92,13 +100,24 @@ export default function EpubExample() {
   return (
     <Flex flexDirection="column" space={3}>
       <Card>
-        <Flex alignItems="center" justifyContent="space-between" space={3}>
-          <FileInput
-            accept="application/epub+zip"
-            id="update-epub"
-            label="Upload EPUB"
-            onChange={(epubFile) => updatePage(epubFile)}
-          />
+        <Flex flexDirection="column" space={3}>
+          <Flex alignItems="center" justifyContent="space-between" space={3}>
+            <FileInput
+              accept="application/epub+zip"
+              id="update-epub"
+              label="Upload EPUB"
+              onChange={updatePage}
+            />
+            <Icon
+              icon="doc"
+              label="View Sample EPUB"
+              onClick={() => {
+                JSZipUtils.getBinaryContent(sampleEpubUrl, (_err, data) => {
+                  updatePage(new File([data], 'sample.epub'));
+                });
+              }}
+            />
+          </Flex>
           {pagination}
         </Flex>
       </Card>

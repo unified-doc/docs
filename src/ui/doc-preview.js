@@ -168,7 +168,7 @@ export default function DocPreview({
       setResults(updatedResults);
       setShowResults(true);
     }, 1000),
-    [],
+    [id],
   );
 
   const previewItems = Object.values(previewTypes).map((previewType) => {

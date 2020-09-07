@@ -76,7 +76,12 @@ export default function Parser(content, options = {}) {
     };
   }
 
+  function getPageCount() {
+    return spine.length;
+  }
+
   return {
+    getPageCount,
     load,
     parse,
   };
