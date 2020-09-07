@@ -38,19 +38,30 @@ export default function Parser(content, options = {}) {
 
   async function getAsset(id) {
     const item = manifest[id];
-    const content = await zip.file(`${basePath}${item.href}`).async('string');
-    return {
-      ...item,
-      id,
-      content,
-    };
+    const { href, mediaType } = item;
+    const path = `${basePath}${href}`;
+
+    let data;
+    switch (mediaType) {
+      case 'text/css':
+      case 'application/xhtml+xml': {
+        data = await zip.file(path).async('string');
+        break;
+      }
+      default: {
+        data = await zip.file(path).async('base64');
+        data = `data:${mediaType};base64,${data}`;
+      }
+    }
+
+    return { id, data, href, mediaType };
   }
 
   async function parse(pageNumber) {
     const contentId = spine[pageNumber - 1];
     const contentItem = await getAsset(contentId);
 
-    const hast = fromParse5(parse5.parse(contentItem.content));
+    const hast = fromParse5(parse5.parse(contentItem.data));
     const resolvedAssetIds = getResolvedAssetIds(hast, manifest);
     const resolvedAssets = await Promise.all(resolvedAssetIds.map(getAsset));
     const assets = resolvedAssets.reduce((acc, asset) => {

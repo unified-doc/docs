@@ -85,5 +85,33 @@ export function getResolvedAssetIds(hast, manifest) {
 }
 
 export function attachAssets(hast, assets) {
+  const styles = Object.values(assets)
+    .filter((asset) => {
+      return asset.mediaType === 'text/css';
+    })
+    .map((asset) => asset.data);
+
+  visit(hast, (node) => {
+    if (node.tagName === 'head') {
+      styles.forEach((style) => {
+        // @ts-ignore
+        node.children.push({
+          type: 'element',
+          tagName: 'style',
+          children: [{ type: 'text', value: style }],
+        });
+      });
+    }
+
+    // @ts-ignore
+    const { src } = node.properties || {};
+    // use inline assets
+    const srcAsset = assets[resolveAssetPath(src)];
+    if (srcAsset) {
+      // @ts-ignore
+      node.properties.src = srcAsset.data;
+    }
+  });
+
   return toHtml(hast);
 }
