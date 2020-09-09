@@ -15,7 +15,7 @@ import {
   saveFile,
   selectText,
 } from 'unified-doc-dom';
-import Doc from 'unified-doc';
+import Doc, { extensionTypes } from 'unified-doc';
 import { v4 as uuidv4 } from 'uuid';
 
 import { GITHUB_URL } from '~/constants/links';
@@ -31,20 +31,24 @@ import {
   TextInput,
 } from '~/ui';
 
-const extensionTypes = {
-  SOURCE: {
+const saveFormats = [
+  {
     extension: null,
     label: 'Original',
   },
-  HTML: {
-    extension: '.html',
-    label: 'HTML',
+  {
+    extension: extensionTypes.HTML,
+    label: 'HTML (+marks)',
   },
-  TEXT: {
-    extension: '.txt',
+  {
+    extension: extensionTypes.MARKDOWN,
+    label: 'Markdown',
+  },
+  {
+    extension: extensionTypes.TEXT,
     label: 'Text content',
   },
-};
+];
 
 const previewTypes = {
   COMPILED: 'Compiled',
@@ -184,13 +188,10 @@ export default function DocPreview({
   });
 
   // implement save/export via doc.file() method
-  const saveItems = Object.values(extensionTypes).map((extensionType) => {
-    const { extension, label } = extensionType;
-    return {
-      label,
-      onClick: () => saveFile(doc.file(extension)),
-    };
-  });
+  const saveItems = saveFormats.map((saveFormat) => ({
+    label: saveFormat.label,
+    onClick: () => saveFile(doc.file(saveFormat.extension)),
+  }));
 
   // custom unified-doc mark styles
   const compiledStyle = {
