@@ -57,7 +57,7 @@ const previewTypes = {
 };
 
 const TOOLTIP =
-  'Search and navigate to matching results.  Bookmark any selected text.  Preview or download the document in various formats (search results and bookmarks included).';
+  'Search and navigate to matching results.  Bookmark any selected text.  Preview or save the document in various formats (search results and bookmarks included).';
 
 export default function DocPreview({
   content,
@@ -239,7 +239,7 @@ export default function DocPreview({
             <IconDropdown
               enableResponsiveLabelHide
               icon="save"
-              label="Download"
+              label="Save as"
               items={saveItems}
             />
             <Box ml={2}>
