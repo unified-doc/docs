@@ -8,7 +8,7 @@ This is a progressive documentation site for the [**unified-doc**][unified-doc] 
 - [`highlightjs/highlight.js`][highlightjs]
 - [`GITenberg/Alice-s-Adventures-in-Wonderland-HTML-Edition_928`][gitenberg]
 
-Documents used in the site are rendered with `unified-doc`, and we hope you enjoy this project and its quest to improve sharing and acquisition of human knowledge.
+Documents used in the site are rendered with `unified-doc`, and we hope you enjoy this project and its approach to simplifying sharing human knowledge!
 
 ### Motivation
 
@@ -29,27 +29,22 @@ With `unified-doc`, we can easily
 
 ### Document formats
 
-`unified-doc` currently supports, and will eventually support, the following document formats (and relating [mime types][]):
+`unified-doc` supports the following document formats by implementing parsers associated with the [mime type][mime-type] of the document format:
 
-#### Non-markup formats
-Non-markup docments are trivially rendered into a code block that can be easily highlighted by JS syntax highlighting libraries e.g. `.txt`, `.json`, `.js`, `.css`, `.sh`, `.py`, `.r`, `.cpp` etc).
-
-#### Markup formats
-Markup formats are supported by implementing parsers that parse the respective source content into unified [hast][] syntax tree.  The [unified][] community is largely credited for implementation of such parsers.
+- [x] most source code supported by syntax highlighting libraries (e.g. `.txt`, `.json`, `.js`, `.css`, `.sh`, `.py`, `.r`, `.cpp`)
 - [x] `.html`
 - [x] `.md`
-- [ ] `.csv`
+- [x] `.csv`
 - [ ] `.docx`
 - [ ] `.epub`
-- [ ] `.mathml`
 - [ ] `.pdf`
+- [ ] `.mathml`
 - [ ] `.rtf`
 - [ ] `.tex`
-- [ ] `.xml`
 
 ### Roadmap
 - Finish the site!
-- Work on "unofficial" `.csv`, `docx`, `epub`, `mathml`, `pdf`, `rtf`, `tex` parsers until the `unified` ecosystem ships formal parsers for the corresponding syntax trees.
+- Work on experimental `docx`, `epub`, `mathml`, `pdf`, `rtf`, `tex` parsers until the `unified` ecosystem ships formal parsers for the corresponding syntax trees.
 - Work on `unified-doc-cli` that exposes `unified-doc` APIS conveniently in the CLI.
 - Spec the `.uni` content type (`text/uni` mime type) with the `unified` community.
 
@@ -82,7 +77,7 @@ npm run docs
 [gitenberg]: https://github.com/GITenberg/Alice-s-Adventures-in-Wonderland-HTML-Edition_928
 [hast]: https://github.com/syntax-tree/hast
 [highlightjs]: https://github.com/highlightjs/highlight.js
-[mime types]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
+[mime-type]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
 [syntax-tree]: https://github.com/syntax-tree
 [unified]: https://github.com/unifiedjs
 [unified-doc]: https://github.com/unified-doc/unified-doc

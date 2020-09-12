@@ -9,12 +9,11 @@ Parsers inform how content should be parsed into a valid [hast][] tree.  Parsers
 `unified-doc` infers the [mime type][] from the `filename` to determine which parser should be used.  `unified-doc` currently supports, and will eventually support, the following document formats (and relating mime types):
 - [x] `text/html`: HTML parser
 - [x] `text/markdown`: Markdown parser
-- [ ] `text/csv`: CSV parser
-- [ ] `text/xml`: XML parser
+- [x] `text/csv`: CSV parser
 - [ ] `application/vnd.openxmlformats-officedocument.wordprocessing`: DOCX parser
 - [ ] `application/pdf`: PDF parser
-- [ ] `application/rtf`: RTF parser
 - [ ] `application/x-latex`: LaTeX parser
+- [ ] `application/rtf`: RTF parser
 - [ ] and potentially more formats.
 
 The `filename` should be related to the `content` intending to be parsed in a natural way.  This is usually not an issue if both pieces of information are read from a common source/file/document.
@@ -37,12 +36,20 @@ function() {
     filename: 'doc.html',
   });
 
+  const csvDoc = Doc({
+    compiler: [[rehype2react, { createElement }]],
+    content: 'Column 0,Column 1,Column 2\nrow1col0,row1col1,row1col2',
+    filename: 'doc.csv',
+  });
+
   return (
     <div>
       <h4><code>doc.md</code></h4>
       {markdownDoc.compile().result}
       <h4><code>doc.html</code></h4>
       {htmlDoc.compile().result}
+      <h4><code>doc.csv</code></h4>
+      {csvDoc.compile().result}
     </div>
   );
 }
@@ -50,7 +57,7 @@ function() {
 
 ### Fallback code block parser
 
-If a parser is not supported from its inferred mime type, a fallback parser that renders content into a code block is applied.  This is useful for syntax highlighters, and will be further explored in the <Link to="/recipes/syntax-highlighting">Syntax highlighting</Link> section.  Code documents that are non-markup documents usually fall under this category.
+If a parser is not supported from its inferred mime type, a fallback parser that renders content into a code block is applied.  This is useful for syntax highlighters, and will be further explored in the <Link to="/recipes/syntax-highlighting">Syntax highlighting</Link> section.  Source code documents usually fall under this category.
 
 ```js live=true
 // import { createElement } from 'react';
