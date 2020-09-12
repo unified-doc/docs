@@ -7,48 +7,72 @@ import { DocPreview } from '~/ui';
 import FileList from './file-list';
 
 function extract(data) {
-  function createFile(blob, filename, type) {
-    const { byteSize, text: content } = blob;
-    const doc = Doc({ content, filename });
+  function createFile(file) {
+    const { byteSize, name, content } = file;
+    const doc = Doc({ content, filename: name });
     const { extension, stem } = doc.file();
     return {
       byteSize,
       content,
       extension,
-      name: filename,
+      name,
       stem,
-      type,
     };
   }
 
   const files = [];
   const {
     exampleCodeFiles,
+    exampleCsvFile,
     exampleHtmlFile,
-    exampleMarkdownFiles,
+    exampleMarkdownFile,
   } = data.githubData.data;
-  if (exampleHtmlFile.file) {
+  // add example html file
+  if (exampleHtmlFile) {
     const { byteSize, text } = exampleHtmlFile.file;
-    const filename = `alice.html`;
     const startIndex = text.indexOf('<h1');
-    const file = {
-      byteSize,
-      text: text.slice(startIndex),
-    };
-    files.push(createFile(file, filename, 'html'));
+    files.push(
+      createFile({
+        byteSize,
+        content: text.slice(startIndex),
+        name: 'doc.html',
+      }),
+    );
   }
-  exampleMarkdownFiles.edges.forEach((edge) => {
-    const { name, file } = edge.node;
-    if (file) {
-      const filename = `${name}.md`;
-      files.push(createFile(file, filename, 'md'));
-    }
-  });
+  // add example markdown file
+  if (exampleMarkdownFile) {
+    const { byteSize, text } = exampleMarkdownFile.file;
+    files.push(
+      createFile({
+        byteSize,
+        content: text,
+        name: 'doc.md',
+      }),
+    );
+  }
+  // add example csv file
+  if (exampleCsvFile) {
+    const { byteSize, text } = exampleCsvFile.file;
+    files.push(
+      createFile({
+        byteSize,
+        content: text,
+        name: 'doc.csv',
+      }),
+    );
+  }
+  // add example code files
   exampleCodeFiles.folder.languages.forEach((language) => {
     const file = (language.test.files || [])[0]?.file;
     if (file && file.text) {
-      const filename = `code.${language.name}`;
-      files.push(createFile(file, filename, 'code'));
+      const { byteSize, text } = file;
+      files.push(
+        createFile({
+          byteSize,
+          content: text,
+          name: `code.${language.name}`,
+        }),
+      );
     }
   });
   return files;
@@ -75,21 +99,22 @@ export default function FileSystemExample() {
               }
             }
           }
+          exampleCsvFile {
+            file {
+              byteSize
+              text
+            }
+          }
           exampleHtmlFile {
             file {
               byteSize
               text
             }
           }
-          exampleMarkdownFiles {
-            edges {
-              node {
-                name
-                file {
-                  byteSize
-                  text
-                }
-              }
+          exampleMarkdownFile {
+            file {
+              byteSize
+              text
             }
           }
         }

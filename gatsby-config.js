@@ -47,6 +47,14 @@ module.exports = {
                 }
               }
             }
+            exampleCsvFile: repository(name: "noodles", owner: "chrisrzhou") {
+              file: object(expression: "main:logs.csv") {
+                ... on Blob {
+                  byteSize
+                  text
+                }
+              }
+            }
             exampleHtmlFile: repository(name: "Alice-s-Adventures-in-Wonderland-HTML-Edition_928", owner: "GITenberg") {
               file: object(expression: "master:928-h/928-h.htm") {
                 ... on Blob {
@@ -55,18 +63,11 @@ module.exports = {
                 }
               }
             }
-            exampleMarkdownFiles: search(query: "user:syntax-tree", type: REPOSITORY, first: 10) {
-              edges {
-                node {
-                  ... on Repository {
-                    name
-                    file: object(expression: "main:readme.md") {
-                      ... on Blob {
-                        byteSize
-                        text
-                      }
-                    }
-                  }
+            exampleMarkdownFile: repository(name: "unist", owner: "syntax-tree") {
+              file: object(expression: "main:readme.md") {
+                ... on Blob {
+                  byteSize
+                  text
                 }
               }
             }

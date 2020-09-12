@@ -25,7 +25,7 @@ function ExtensionColumn({ children }) {
 }
 
 function ByteSizeColumn({ children }) {
-  return <Flex flex="0 0 80px">{children}</Flex>;
+  return <Flex flex="0 0 50px">{children}</Flex>;
 }
 
 export default function FileList({ files, onSelectFile }) {
@@ -37,8 +37,8 @@ export default function FileList({ files, onSelectFile }) {
       <Text color="light" variant="small">
         <a href={GITHUB_URL}>unified-doc</a> supports rendering most non-markup
         (i.e. code) formats, and the following markup formats:{' '}
-        <code>.html</code>, <code>.md</code>. All content used below are
-        openly-sourced from GitHub.
+        <code>.html</code>, <code>.md</code>, <code>.csv</code>. All content
+        used below are openly-sourced from GitHub.
       </Text>
       <Flex
         bg="background"
@@ -107,7 +107,7 @@ export default function FileList({ files, onSelectFile }) {
                     <ExtensionColumn>{extension}</ExtensionColumn>
                   )}
                   <ByteSizeColumn>
-                    {(byteSize / 1000).toFixed(2)} KB
+                    {(byteSize / 1000).toFixed(1)} KB
                   </ByteSizeColumn>
                 </Row>
               </Text>

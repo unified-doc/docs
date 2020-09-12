@@ -104,6 +104,9 @@ const styles = {
     p: {
       mb: 4,
     },
+    'td, th': {
+      outline: `1px solid ${colors.muted}`,
+    },
     textarea: {
       fontFamily: 'monospace',
       fontSize: 1,
