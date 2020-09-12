@@ -41,8 +41,10 @@ export default function Layout({ children }) {
           sx={{ maxWidth: 840, minHeight: '100vh' }}>
           <Nav />
           <NavCrumbs />
-          <Toc items={tocItems} />
-          <Box sx={{ flex: '1 1 auto' }}>{children}</Box>
+          <Box sx={{ flex: '1 1 auto' }}>
+            <Toc items={tocItems} />
+            {children}
+          </Box>
           <Footer />
         </Flex>
       </div>

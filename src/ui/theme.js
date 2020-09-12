@@ -101,9 +101,6 @@ const styles = {
     li: {
       mt: 3,
     },
-    p: {
-      mb: 4,
-    },
     'td, th': {
       outline: `1px solid ${colors.muted}`,
     },
