@@ -4,6 +4,8 @@ import rehype2react from 'rehype-react';
 import Doc from 'unified-doc';
 import visit from 'unist-util-visit';
 
+### Overview
+
 [rehype][] plugins can be used by `unified-doc` to enhance the rendered document.  `unified-doc` uses a number of private plugins to implement its core APIs.  Plugins can be applied as `prePlugins` or `postPlugins`, which correspond to whether the plugins are run before/after private plugins are applied.  Plugins should use the `PluggableList` interface e.g. `[plugin1, [plugin2, plugin2Options]]`.
 
 ### `prePlugins`

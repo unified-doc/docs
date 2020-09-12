@@ -1,3 +1,5 @@
+const remarkSlug = require('remark-slug');
+
 require('dotenv').config();
 
 module.exports = {
@@ -9,6 +11,7 @@ module.exports = {
           default: require.resolve('./src/ui/layout.js'),
         },
         extensions: ['.md', '.mdx'],
+        remarkPlugins: [remarkSlug],
       },
     },
     'gatsby-plugin-theme-ui',
