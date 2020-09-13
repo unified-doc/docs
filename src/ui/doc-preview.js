@@ -15,7 +15,7 @@ import {
   saveFile,
   selectText,
 } from 'unified-doc-dom';
-import Doc, { extensionTypes } from 'unified-doc';
+import Doc from 'unified-doc';
 import { v4 as uuidv4 } from 'uuid';
 
 import { GITHUB_URL } from '~/constants/links';
@@ -32,22 +32,11 @@ import {
 } from '~/ui';
 
 const saveFormats = [
-  {
-    extension: null,
-    label: 'Original',
-  },
-  {
-    extension: extensionTypes.HTML,
-    label: 'HTML (+marks)',
-  },
-  {
-    extension: extensionTypes.MARKDOWN,
-    label: 'Markdown',
-  },
-  {
-    extension: extensionTypes.TEXT,
-    label: 'Text content',
-  },
+  { extension: null, label: 'Original' },
+  { extension: '.html', label: 'HTML (+marks)' },
+  { extension: '.md', label: 'Markdown' },
+  { extension: '.txt', label: 'Text content' },
+  { extension: '.xml', label: 'XML' },
 ];
 
 const previewTypes = {

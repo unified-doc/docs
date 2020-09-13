@@ -121,3 +121,18 @@ function() {
   return <pre>{JSON.stringify(doc.file('.md'), null, 2)}</pre>;
 }
 ```
+
+### Export as `.xml`
+Returns the document as a html-compatible '.xml' file.
+
+```js live=true
+// import Doc from 'unified-doc';
+
+function() {
+  const doc = Doc({
+    content: '<blockquote><strong>some</strong> HTML content</blockquote>',
+    filename: 'doc.html',
+  });
+  return <pre>{JSON.stringify(doc.file('.xml'), null, 2)}</pre>;
+}
+```
